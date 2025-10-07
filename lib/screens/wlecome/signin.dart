@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_book/services/auth_service.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
@@ -12,7 +13,7 @@ class _SignInFormState extends State<SignInForm> {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -56,15 +57,16 @@ class _SignInFormState extends State<SignInForm> {
 
             // error feedback
 
-
             // submit button
             FilledButton(
               onPressed: () async {
-                if(_formKey.currentState!.validate()){
+                if (_formKey.currentState!.validate()) {
                   final email = _emailController.text.trim();
                   final password = _passwordController.text.trim();
-                  print(email);
-                  print(password);
+
+                  final user = await AuthService.signIn(email, password);
+
+                  //ToDo:error feedback
                 }
               },
               child: const Text('Sign In'),
