@@ -10,7 +10,7 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  bool isSignUpForm = true;
+  bool isSignUpForm = false;
 
   @override
   Widget build(BuildContext context) {

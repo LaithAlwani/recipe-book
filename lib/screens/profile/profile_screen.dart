@@ -11,9 +11,17 @@ class Profilescreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("User Profile"),
+        title: const Text("Profile"),
         backgroundColor: Colors.blue[500],
-        centerTitle: true,
+        actions: [
+          const Icon(Icons.settings, color: Colors.white,),
+          IconButton(
+            onPressed: () async {
+              await AuthService.signOut();
+            },
+            icon: const Icon(Icons.logout, color: Colors.white),
+          ),
+        ],
       ),
       body: Container(
         width: double.infinity,
@@ -28,12 +36,7 @@ class Profilescreen extends StatelessWidget {
             //out put user email
             Text("Welcome to profile, ${user.email}"),
             const SizedBox(height: 16),
-            FilledButton(
-              onPressed: () async {
-                await AuthService.signOut();
-              },
-              child: const Text("Logout"),
-            ),
+
           ],
         ),
       ),
