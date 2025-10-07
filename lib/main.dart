@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_book/firebase_options.dart';
+import 'package:recipe_book/screens/profile/profileScreen.dart';
 import 'package:recipe_book/screens/wlecome/welcome.dart';
 
 void main() async {
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
       ),
-      home: const WelcomeScreen(),
+      home: const profileScreen(),
     );
   }
 }

@@ -13,12 +13,15 @@ class AuthService {
         return AppUser(
           uid: credential.user!.uid,
           email: credential.user!.email!,
-          
         );
       }
       return null;
     } catch (err) {
       return null;
     }
+  }
+
+  static Future<void> signOut() async {
+    await _firebaseAuth.signOut();
   }
 }
