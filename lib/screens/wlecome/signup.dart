@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_book/services/auth_service.dart';
 
 class SignUpFrom extends StatefulWidget {
   const SignUpFrom({super.key});
@@ -62,10 +64,13 @@ class _SignUpFromState extends State<SignUpFrom> {
                 if (_formKey.currentState!.validate()) {
                   final email = _emailController.text.trim();
                   final password = _passwordController.text.trim();
-                  print(email);
-                  print(password);
+
+                  final user = await AuthService.signUp(email, password);
+                  print(user);
                 }
-                ;
+
+                //errorr feedback
+                
               },
               child: Text("Signup"),
             ),

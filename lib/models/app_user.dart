@@ -1,11 +1,6 @@
 class AppUser {
-  AppUser({
-    required this.uid, 
-    required this.email, 
-    required this.username
-    });
+  AppUser({required this.uid, required this.email});
 
   final String uid;
   final String email;
-  final String username;
 }
