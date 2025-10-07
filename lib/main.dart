@@ -1,7 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_book/firebase_options.dart';
 import 'package:recipe_book/screens/wlecome/welcome.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const MyApp());
 }
 
@@ -36,7 +41,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
- class SandBox extends StatelessWidget {
+class SandBox extends StatelessWidget {
   const SandBox({super.key});
 
   @override

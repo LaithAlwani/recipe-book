@@ -30,20 +30,45 @@ class _SignUpFromState extends State<SignUpFrom> {
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(labelText: "Email"),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "please enter your email";
+                }
+                return null;
+              },
             ),
-            const SizedBox(height: 16,),
+            const SizedBox(height: 16),
             //password
             TextFormField(
               controller: _passwordController,
               obscureText: true,
               decoration: const InputDecoration(labelText: "Password"),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "please enter a passowrd";
+                }
+                if (value.length < 8) {
+                  return "Password must be 8 characters in length";
+                }
+                return null;
+              },
             ),
             //error feedback
-            const SizedBox(height: 16,),
-
+            const SizedBox(height: 16),
 
             //submit button
-            FilledButton(onPressed: () async {}, child: Text("Signup"))
+            FilledButton(
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  final email = _emailController.text.trim();
+                  final password = _passwordController.text.trim();
+                  print(email);
+                  print(password);
+                }
+                ;
+              },
+              child: Text("Signup"),
+            ),
           ],
         ),
       ),
