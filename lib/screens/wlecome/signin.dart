@@ -14,6 +14,8 @@ class _SignInFormState extends State<SignInForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  String? _errorFeedback;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -56,17 +58,25 @@ class _SignInFormState extends State<SignInForm> {
             const SizedBox(height: 16.0),
 
             // error feedback
-
+            if (_errorFeedback != null)
+              Text(_errorFeedback!, style: const TextStyle(color: Colors.red)),
             // submit button
             FilledButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
+                  setState(() {
+                    _errorFeedback = null;
+                  });
                   final email = _emailController.text.trim();
                   final password = _passwordController.text.trim();
 
                   final user = await AuthService.signIn(email, password);
 
-                  //ToDo:error feedback
+                  if (user == null) {
+                    setState(() {
+                      _errorFeedback = "Incorrect login credentials";
+                    });
+                  }
                 }
               },
               child: const Text('Sign In'),
