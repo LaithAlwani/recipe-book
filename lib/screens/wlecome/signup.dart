@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_book/services/auth_service.dart';
 
@@ -81,7 +80,7 @@ class _SignUpFromState extends State<SignUpFrom> {
 
                 //errorr feedback
               },
-              child: Text("Signup"),
+              child: const Text("Signup"),
             ),
           ],
         ),

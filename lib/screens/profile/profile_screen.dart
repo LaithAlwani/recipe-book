@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/services/auth_service.dart';
 
-class profileScreen extends StatelessWidget {
-  const profileScreen({super.key});
+class Profilescreen extends StatelessWidget {
+  const Profilescreen({super.key, required this.user});
+
+  final AppUser user;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +26,8 @@ class profileScreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             //out put user email
+            Text("Welcome to profile, ${user.email}"),
+            const SizedBox(height: 16),
             FilledButton(
               onPressed: () async {
                 await AuthService.signOut();
