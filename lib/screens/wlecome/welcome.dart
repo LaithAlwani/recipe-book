@@ -15,26 +15,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Recipe Book'),
-        backgroundColor: Colors.blue[500],
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 16),
+      body: Padding(
+          padding: const EdgeInsets.fromLTRB(16,0,16,0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Welcome.'),
-
               // sign up screen
               if (isSignUpForm) const SignUpFrom() else const SignInForm(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    isSignUpForm ? "Have an account, " : "Don't have an account, ",
+                    isSignUpForm
+                        ? "Have an account, "
+                        : "Don't have an account, ",
                   ),
                   TextButton(
                     style: TextButton.styleFrom(
@@ -53,7 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ],
           ),
-        ),
+       
       ),
     );
   }

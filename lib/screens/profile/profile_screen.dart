@@ -5,21 +5,21 @@ import 'package:recipe_book/services/auth_service.dart';
 class Profilescreen extends StatelessWidget {
   const Profilescreen({super.key, required this.user});
 
-  final AppUser user;
+  final AppUser? user;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile"),
-        backgroundColor: Colors.blue[500],
+        centerTitle: true,
         actions: [
-          const Icon(Icons.settings, color: Colors.white,),
+          const Icon(Icons.settings),
           IconButton(
             onPressed: () async {
               await AuthService.signOut();
             },
-            icon: const Icon(Icons.logout, color: Colors.white),
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),
@@ -34,7 +34,7 @@ class Profilescreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             //out put user email
-            Text("Welcome to profile, ${user.email}"),
+            Text("Welcome to profile, ${user!.email}"),
             const SizedBox(height: 16),
 
           ],
