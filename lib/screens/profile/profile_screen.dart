@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_book/main.dart';
 import 'package:recipe_book/models/app_user.dart';
-import 'package:recipe_book/screens/wlecome/welcome.dart';
 import 'package:recipe_book/services/auth_service.dart';
 
 class Profilescreen extends StatefulWidget {

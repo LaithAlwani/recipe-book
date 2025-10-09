@@ -6,7 +6,6 @@ import 'package:recipe_book/screens/onboadring/onboadring_name.dart';
 import 'package:recipe_book/screens/onboadring/onboarding_bottom_navbar.dart';
 import 'package:recipe_book/screens/onboadring/onboarding_image.dart';
 import 'package:recipe_book/services/firestore_services.dart';
-import 'package:recipe_book/shared/image_picker_widget.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key, required this.user});

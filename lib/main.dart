@@ -4,7 +4,6 @@ import 'package:recipe_book/firebase_options.dart';
 import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/provider/auth_provider.dart';
 import 'package:recipe_book/screens/main_layout.dart';
-import 'package:recipe_book/screens/onboadring/onboarding_screen.dart';
 import 'package:recipe_book/screens/wlecome/welcome.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
