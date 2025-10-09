@@ -57,12 +57,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     try {
       await FireStoreService.createUser(user);
       // ✅ Success — navigate to main layout
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => MainLayout(user: user)),
       );
     } catch (e) {
       // ❌ Error — show a message
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text("Failed to create user: $e")));
