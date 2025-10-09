@@ -51,9 +51,9 @@ class _SignUpFromState extends State<SignUpFrom> {
                 if (value == null || value.isEmpty) {
                   return "please enter a passowrd";
                 }
-                if (value.length < 8) {
-                  return "Password must be 8 characters in length";
-                }
+                // if (value.length < 8) {
+                //   return "Password must be 8 characters in length";
+                // }
                 return null;
               },
             ),

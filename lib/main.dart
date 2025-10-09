@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           return user.when(
             data: (value) {
               if (value == null) return const WelcomeScreen();
-              return OnboardingScreen(user: value);
+              return MainLayout(user: value);
             },
             error: (error, stack) =>
                 Center(child: Text("Error loading auth status: $error")),

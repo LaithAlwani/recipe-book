@@ -5,6 +5,7 @@ import 'package:recipe_book/screens/main_layout.dart';
 import 'package:recipe_book/screens/onboadring/onboadring_name.dart';
 import 'package:recipe_book/screens/onboadring/onboarding_bottom_navbar.dart';
 import 'package:recipe_book/screens/onboadring/onboarding_image.dart';
+import 'package:recipe_book/services/firestore_services.dart';
 import 'package:recipe_book/shared/image_picker_widget.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -22,7 +23,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   int _currentPage = 0;
   final TextEditingController _nameController = TextEditingController();
   File? _selectedImageFile;
-
 
   void _nextPage() {
     if (_currentPage < _totalPages - 1) {
@@ -44,16 +44,30 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
   }
 
-  void _submitOnboarding() {
+  void _submitOnboarding() async {
     // Save user data (to Firestore, local storage, etc.)
     debugPrint("Name: ${_nameController.text}");
     debugPrint("Image: $_selectedImageFile");
+    AppUser user = AppUser(
+      uid: widget.user!.uid,
+      email: widget.user!.email,
+      displayName: _nameController.text,
+      photoUrl: _selectedImageFile.toString(),
+    );
 
-    // Navigate to home
-    // Navigator.pushReplacement(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => MainLayout(user: widget.user)),
-    // );
+    try {
+      await FireStoreService.createUser(user);
+      // ✅ Success — navigate to main layout
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => MainLayout(user: user)),
+      );
+    } catch (e) {
+      // ❌ Error — show a message
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Failed to create user: $e")));
+    }
   }
 
   @override

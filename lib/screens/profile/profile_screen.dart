@@ -46,7 +46,10 @@ class _ProfilescreenState extends State<Profilescreen> {
             const SizedBox(height: 16),
 
             //out put user email
-            Text("Welcome to profile, ${widget.user!.email}"),
+            Text("Welcome to profile, ${widget.user!.displayName}"),
+            Text("Welcome to profile, ${widget.user!.uid}"),
+            Text("Your email address is: ${widget.user!.email}"),
+            Text("Your email address is: ${widget.user!.photoUrl}"),
             const SizedBox(height: 16),
           ],
         ),
