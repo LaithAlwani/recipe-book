@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_book/screens/onboarding_screen.dart';
 import 'package:recipe_book/services/auth_service.dart';
 
 class SignInForm extends StatefulWidget {
@@ -76,10 +77,21 @@ class _SignInFormState extends State<SignInForm> {
                     setState(() {
                       _errorFeedback = "Incorrect login credentials";
                     });
-                  }
+                  } 
                 }
               },
               child: const Text('Sign In'),
+            ),
+            TextButton(
+              onPressed: () async {
+                final user = await AuthService.signInWithGoogle();
+                if (user == null) {
+                  setState(() {
+                    _errorFeedback = "Incorrect login credentials";
+                  });
+                }
+              },
+              child: const Text("Google Sign In"),
             ),
           ],
         ),
