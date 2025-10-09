@@ -10,12 +10,15 @@ class FireStoreService {
       );
 
   static Future<void> createUser(AppUser user) async {
-    print(user);
     return await ref.doc(user.uid).set(user);
   }
 
-  static Future<DocumentSnapshot<AppUser?>> getUserById(String uid) async {
-    final userDoc = ref.doc(uid);
-    return await userDoc.get();
+  static Future<AppUser?> getUserById(String uid) async {
+    final userDoc = await ref.doc(uid).get();
+    if (!userDoc.exists) {
+      // Document doesn’t exist, handle gracefully
+      return null;
+    }
+    return userDoc.data();
   }
 }

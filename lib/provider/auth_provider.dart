@@ -24,7 +24,7 @@ final authProvider = StreamProvider.autoDispose<AppUser?>((ref) {
 
     // Fetch user document from Firestore
     final snapshot = await FireStoreService.getUserById(user.uid);
-    final appUser = snapshot.data();
+    final appUser = snapshot;
 
     return appUser;
   });
