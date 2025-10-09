@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_book/screens/onboarding_screen.dart';
 import 'package:recipe_book/services/auth_service.dart';
 
 class SignUpFrom extends StatefulWidget {
@@ -75,6 +76,13 @@ class _SignUpFromState extends State<SignUpFrom> {
                     setState(() {
                       _errorFeedback = "Could not sign up";
                     });
+                  }else {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>  OnboardingScreen(user:user),
+                      ),
+                    );
                   }
                 }
 
