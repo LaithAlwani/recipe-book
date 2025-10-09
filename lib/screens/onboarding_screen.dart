@@ -64,7 +64,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     debugPrint("Image: $_selectedImageFile");
 
     // Navigate to home
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => MainLayout(user: widget.user)),
     );
