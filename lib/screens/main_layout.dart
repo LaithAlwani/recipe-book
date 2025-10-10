@@ -52,12 +52,26 @@ class _MainLayoutState extends State<MainLayout> {
       appBar: AppBar(
         title: const Text("Home Screen"),
         actions: [
-          IconButton(
-            onPressed: () {
+          InkWell(
+            onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (context)=> Profilescreen(user: widget.user)));
             },
-            icon: const Icon(Icons.manage_accounts_sharp),
+            borderRadius: BorderRadius.circular(20),
+            child: CircleAvatar(
+              backgroundImage:
+                    widget.user.photoUrl != null &&
+                        widget.user.photoUrl!.isNotEmpty
+                    ? NetworkImage(widget.user.photoUrl!)
+                    : const AssetImage('assets/images/avatar_placeholder.png')
+                          as ImageProvider,
+            ),
           ),
+          // IconButton(
+          //   onPressed: () {
+          //     Navigator.push(context, MaterialPageRoute(builder: (context)=> Profilescreen(user: widget.user)));
+          //   },
+          //   icon: const Icon(Icons.manage_accounts_sharp),
+          // ),
         ],
       ),
       body: _selectedScreen,
