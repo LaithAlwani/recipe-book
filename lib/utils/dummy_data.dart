@@ -364,7 +364,7 @@ final dummyUsers = [
     "uid": "Nn3ACXXmMKdCCPC7gUVcVp9kaQJ3",
     "displayName": "Leo",
     "email": "test@test.com",
-    "photoUrl": "https://example.com/profiles/amelia.jpg",
+    "photoUrl": "https://firebasestorage.googleapis.com/v0/b/recipe-book-e70cf.firebasestorage.app/o/user_profiles%2F1760066084695-p75y1GigXochokLkpQuZ7NwuUe42.jpg?alt=media&token=491e7a39-cb6b-4373-a9ef-a6ce0efb9eae",
     "followers": [
       "mCZveucl60OQFTU0T8F5lsoY2mJ3",
       "U93js9QhWmdpaL8z0lF6bPtq1kP4",
@@ -379,7 +379,7 @@ final dummyUsers = [
     "uid": "p75y1GigXochokLkpQuZ7NwuUe42",
     "displayName": "chef_amelia",
     "email": "amelia@recipes.com",
-    "photoUrl": "https://example.com/profiles/amelia.jpg",
+    "photoUrl": null,
     "followers": [
       "mCZveucl60OQFTU0T8F5lsoY2mJ3",
       "U93js9QhWmdpaL8z0lF6bPtq1kP4",
@@ -394,7 +394,7 @@ final dummyUsers = [
     "uid": "mCZveucl60OQFTU0T8F5lsoY2mJ3",
     "displayName": "leo_cooks",
     "email": "leo@greensense.dev",
-    "photoUrl": "https://example.com/profiles/leo.jpg",
+    "photoUrl": null,
     "followers": [
       "p75y1GigXochokLkpQuZ7NwuUe42",
       "x27sDfN1pVRzYUc6gZr8eT3q8Lm9",
@@ -412,7 +412,7 @@ final dummyUsers = [
     "uid": "U93js9QhWmdpaL8z0lF6bPtq1kP4",
     "displayName": "vegan_vibes",
     "email": "vibes@plantlover.io",
-    "photoUrl": "https://example.com/profiles/vegan_vibes.jpg",
+    "photoUrl": null,
     "followers": ["p75y1GigXochokLkpQuZ7NwuUe42"],
     "following": ["mCZveucl60OQFTU0T8F5lsoY2mJ3"],
     "favorites": ["r7", "r9"],
@@ -424,7 +424,7 @@ final dummyUsers = [
     "uid": "x27sDfN1pVRzYUc6gZr8eT3q8Lm9",
     "displayName": "bake_it_easy",
     "email": "bakeit@desserts.co",
-    "photoUrl": "https://example.com/profiles/bake_it_easy.jpg",
+    "photoUrl": null,
     "followers": ["mCZveucl60OQFTU0T8F5lsoY2mJ3"],
     "following": [
       "p75y1GigXochokLkpQuZ7NwuUe42",
@@ -439,7 +439,7 @@ final dummyUsers = [
     "uid": "rJ2qT0v7AbXGkH4xE5yZ9cDfL8mQ",
     "displayName": "grill_master",
     "email": "grill@meatlovers.net",
-    "photoUrl": "https://example.com/profiles/grill_master.jpg",
+    "photoUrl": null,
     "followers": ["x27sDfN1pVRzYUc6gZr8eT3q8Lm9"],
     "following": ["p75y1GigXochokLkpQuZ7NwuUe42"],
     "favorites": ["r1", "r6", "r4"],
