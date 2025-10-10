@@ -70,9 +70,12 @@ class _SignInFormState extends State<SignInForm> {
                   final email = _emailController.text.trim();
                   final password = _passwordController.text.trim();
 
-                  final user = await AuthService.signIn(email, password);
+                  final success = await AuthService.signIn(email, password);
 
-                  if (user == null) {
+                  if (success){
+                    //show snack bar
+                  }
+                  else {
                     setState(() {
                       _errorFeedback = "Incorrect login credentials";
                     });

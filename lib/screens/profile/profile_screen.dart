@@ -51,15 +51,15 @@ class _ProfilescreenState extends State<Profilescreen> {
               radius: 60,
               backgroundColor: Colors.transparent,
               backgroundImage:
-                  widget.user?.photoUrl != null &&
-                      widget.user!.photoUrl!.isNotEmpty
-                  ? NetworkImage(widget.user!.photoUrl!)
+                  widget.user.photoUrl != null &&
+                      widget.user.photoUrl!.isNotEmpty
+                  ? NetworkImage(widget.user.photoUrl!)
                   : const AssetImage('assets/images/avatar_placeholder.png')
                         as ImageProvider,
             ),
             //out put user email
             Text(widget.user.displayName),
-            Text(widget.user!.email),
+            Text(widget.user.email),
             const SizedBox(height: 16),
           ],
         ),
