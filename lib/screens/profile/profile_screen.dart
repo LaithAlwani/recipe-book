@@ -6,7 +6,7 @@ import 'package:recipe_book/services/auth_service.dart';
 class Profilescreen extends StatefulWidget {
   const Profilescreen({super.key, required this.user});
 
-  final AppUser? user;
+  final AppUser user;
 
   @override
   State<Profilescreen> createState() => _ProfilescreenState();
@@ -55,7 +55,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                         as ImageProvider,
             ),
             //out put user email
-            Text(widget.user!.displayName!),
+            Text(widget.user.displayName),
             Text(widget.user!.email),
             const SizedBox(height: 16),
           ],

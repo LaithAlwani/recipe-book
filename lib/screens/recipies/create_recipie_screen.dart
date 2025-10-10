@@ -5,7 +5,7 @@ import 'package:recipe_book/screens/profile/profile_screen.dart';
 class CreateRecipieScreen extends StatelessWidget {
   const CreateRecipieScreen({super.key, required this.user});
 
-  final AppUser? user;
+  final AppUser user;
 
   @override
   Widget build(BuildContext context) {

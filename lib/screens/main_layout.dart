@@ -8,7 +8,7 @@ import 'package:recipe_book/screens/recipies/recipies_screen.dart';
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key, required this.user});
 
-  final AppUser? user;
+  final AppUser user;
 
   @override
   State<MainLayout> createState() => _MainLayoutState();

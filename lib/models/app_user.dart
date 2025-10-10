@@ -4,13 +4,13 @@ class AppUser {
   AppUser({
     required this.uid,
     required this.email,
-    this.displayName,
+    required this.displayName,
     this.photoUrl,
   });
 
   final String uid;
   final String email;
-  final String? displayName;
+  final String displayName;
   final String? photoUrl;
 
   Map<String, dynamic> toFireStore() {
