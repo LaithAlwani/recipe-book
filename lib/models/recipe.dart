@@ -16,8 +16,8 @@ class Recipe {
   final List<Ingredient> ingredients;
   final List<String> imageUrls;
   final String createdBy;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final Timestamp createdAt;
+  final Timestamp updatedAt;
   final Map<String, dynamic>? nutrition; // optional
   final Map<String, int>? ratings; // optional
   final String? videoUrl; // optional
@@ -67,8 +67,8 @@ class Recipe {
           : [],
       imageUrls: List<String>.from(data['image_urls'] ?? []),
       createdBy: data['created_by'] ?? '',
-      createdAt: (data['created_at'] as Timestamp).toDate(),
-      updatedAt: (data['updated_at'] as Timestamp).toDate(),
+      createdAt: data['created_at'] ?? Timestamp.now() ,
+      updatedAt: data['updated_at'] ?? Timestamp.now(),
       nutrition: data['nutrition'],
       ratings: data['ratings'] != null
           ? Map<String, int>.from(data['ratings'])
