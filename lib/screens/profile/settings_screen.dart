@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_book/models/app_user.dart';
 
 class SettingScreen extends StatelessWidget {
-  const SettingScreen({super.key});
-
+  const SettingScreen({super.key, required this.user});
+  final AppUser user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

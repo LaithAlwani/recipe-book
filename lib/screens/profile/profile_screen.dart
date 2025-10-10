@@ -4,16 +4,11 @@ import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/screens/profile/settings_screen.dart';
 import 'package:recipe_book/services/auth_service.dart';
 
-class Profilescreen extends StatefulWidget {
+class Profilescreen extends StatelessWidget {
   const Profilescreen({super.key, required this.user});
 
   final AppUser user;
 
-  @override
-  State<Profilescreen> createState() => _ProfilescreenState();
-}
-
-class _ProfilescreenState extends State<Profilescreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +17,7 @@ class _ProfilescreenState extends State<Profilescreen> {
         centerTitle: true,
         actions: [
           IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingScreen()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>  SettingScreen(user: user)));
           }, icon: const Icon(Icons.settings)),
           IconButton(
             onPressed: () async {
@@ -51,15 +46,15 @@ class _ProfilescreenState extends State<Profilescreen> {
               radius: 60,
               backgroundColor: Colors.transparent,
               backgroundImage:
-                  widget.user.photoUrl != null &&
-                      widget.user.photoUrl!.isNotEmpty
-                  ? NetworkImage(widget.user.photoUrl!)
+                  user.photoUrl != null &&
+                      user.photoUrl!.isNotEmpty
+                  ? NetworkImage(user.photoUrl!)
                   : const AssetImage('assets/images/avatar_placeholder.png')
                         as ImageProvider,
             ),
             //out put user email
-            Text(widget.user.displayName),
-            Text(widget.user.email),
+            Text(user.displayName),
+            Text(user.email),
             const SizedBox(height: 16),
           ],
         ),
