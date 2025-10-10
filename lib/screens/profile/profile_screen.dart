@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_book/main.dart';
 import 'package:recipe_book/models/app_user.dart';
+import 'package:recipe_book/screens/profile/settings_screen.dart';
 import 'package:recipe_book/services/auth_service.dart';
 
 class Profilescreen extends StatefulWidget {
@@ -20,7 +21,9 @@ class _ProfilescreenState extends State<Profilescreen> {
         title: const Text("Profile"),
         centerTitle: true,
         actions: [
-          const Icon(Icons.settings),
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingScreen()));
+          }, icon: const Icon(Icons.settings)),
           IconButton(
             onPressed: () async {
               final nav = Navigator.of(context);
