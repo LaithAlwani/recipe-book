@@ -362,7 +362,7 @@ final dummyUsers = [
   //testin user
   {
     "uid": "Nn3ACXXmMKdCCPC7gUVcVp9kaQJ3",
-    "username": "Leo",
+    "displayName": "Leo",
     "email": "test@test.com",
     "photoUrl": "https://example.com/profiles/amelia.jpg",
     "followers": [
@@ -377,7 +377,7 @@ final dummyUsers = [
   },
   {
     "uid": "p75y1GigXochokLkpQuZ7NwuUe42",
-    "username": "chef_amelia",
+    "displayName": "chef_amelia",
     "email": "amelia@recipes.com",
     "photoUrl": "https://example.com/profiles/amelia.jpg",
     "followers": [
@@ -392,7 +392,7 @@ final dummyUsers = [
   },
   {
     "uid": "mCZveucl60OQFTU0T8F5lsoY2mJ3",
-    "username": "leo_cooks",
+    "displayName": "leo_cooks",
     "email": "leo@greensense.dev",
     "photoUrl": "https://example.com/profiles/leo.jpg",
     "followers": [
@@ -410,7 +410,7 @@ final dummyUsers = [
   },
   {
     "uid": "U93js9QhWmdpaL8z0lF6bPtq1kP4",
-    "username": "vegan_vibes",
+    "displayName": "vegan_vibes",
     "email": "vibes@plantlover.io",
     "photoUrl": "https://example.com/profiles/vegan_vibes.jpg",
     "followers": ["p75y1GigXochokLkpQuZ7NwuUe42"],
@@ -422,7 +422,7 @@ final dummyUsers = [
   },
   {
     "uid": "x27sDfN1pVRzYUc6gZr8eT3q8Lm9",
-    "username": "bake_it_easy",
+    "displayName": "bake_it_easy",
     "email": "bakeit@desserts.co",
     "photoUrl": "https://example.com/profiles/bake_it_easy.jpg",
     "followers": ["mCZveucl60OQFTU0T8F5lsoY2mJ3"],
@@ -437,7 +437,7 @@ final dummyUsers = [
   },
   {
     "uid": "rJ2qT0v7AbXGkH4xE5yZ9cDfL8mQ",
-    "username": "grill_master",
+    "displayName": "grill_master",
     "email": "grill@meatlovers.net",
     "photoUrl": "https://example.com/profiles/grill_master.jpg",
     "followers": ["x27sDfN1pVRzYUc6gZr8eT3q8Lm9"],
