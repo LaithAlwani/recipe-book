@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:recipe_book/models/app_user.dart';
 
 class StorageService {
   static final ref = FirebaseStorage.instance.ref().child("user_profiles");
