@@ -44,11 +44,19 @@ class _ProfilescreenState extends State<Profilescreen> {
             const Text("Profile"),
             const SizedBox(height: 16),
 
+            CircleAvatar(
+              radius: 60,
+              backgroundColor: Colors.transparent,
+              backgroundImage:
+                  widget.user?.photoUrl != null &&
+                      widget.user!.photoUrl!.isNotEmpty
+                  ? NetworkImage(widget.user!.photoUrl!)
+                  : const AssetImage('assets/images/avatar_placeholder.png')
+                        as ImageProvider,
+            ),
             //out put user email
-            Text("Welcome to profile, ${widget.user!.displayName}"),
-            Text("Welcome to profile, ${widget.user!.uid}"),
-            Text("Your email address is: ${widget.user!.email}"),
-            Text("Your email address is: ${widget.user!.photoUrl}"),
+            Text(widget.user!.displayName!),
+            Text(widget.user!.email),
             const SizedBox(height: 16),
           ],
         ),

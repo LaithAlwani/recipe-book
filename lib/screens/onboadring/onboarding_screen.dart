@@ -6,6 +6,7 @@ import 'package:recipe_book/screens/onboadring/onboadring_name.dart';
 import 'package:recipe_book/screens/onboadring/onboarding_bottom_navbar.dart';
 import 'package:recipe_book/screens/onboadring/onboarding_image.dart';
 import 'package:recipe_book/services/firestore_services.dart';
+import 'package:recipe_book/services/storage_service.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key, required this.user});
@@ -44,14 +45,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _submitOnboarding() async {
+    String? imageUrl;
     // Save user data (to Firestore, local storage, etc.)
     debugPrint("Name: ${_nameController.text}");
     debugPrint("Image: $_selectedImageFile");
+    if (_selectedImageFile != null) {
+      imageUrl = await StorageService.uploadImageAndGetUrl(
+        _selectedImageFile!,
+        widget.user!.uid,
+      );
+    }
     AppUser user = AppUser(
       uid: widget.user!.uid,
       email: widget.user!.email,
       displayName: _nameController.text,
-      photoUrl: _selectedImageFile.toString(),
+      photoUrl: imageUrl,
     );
 
     try {
