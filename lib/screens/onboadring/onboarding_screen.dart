@@ -65,7 +65,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
 
     try {
-      await FireStoreService.createUser(user);
+      await FirestoreService.createUser(user);
       // ✅ Success — navigate to main layout
       if (!mounted) return;
       Navigator.pushReplacement(

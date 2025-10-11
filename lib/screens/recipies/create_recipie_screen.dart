@@ -19,7 +19,7 @@ class CreateRecipieScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Profilescreen(user: user),
+                  builder: (context) => const Profilescreen(),
                 ),
               );
             },

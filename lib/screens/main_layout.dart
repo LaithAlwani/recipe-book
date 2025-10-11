@@ -54,7 +54,7 @@ class _MainLayoutState extends State<MainLayout> {
         actions: [
           InkWell(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> Profilescreen(user: widget.user)));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const Profilescreen()));
             },
             borderRadius: BorderRadius.circular(20),
             child: CircleAvatar(

@@ -80,7 +80,7 @@ class AppUser {
 
   // ---------- Serialization ----------
 
-  factory AppUser.fromFireStore(
+  factory AppUser.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
@@ -111,7 +111,7 @@ class AppUser {
     );
   }
 
-  Map<String, dynamic> toFireStore() {
+  Map<String, dynamic> toFirestore() {
     return {
       'uid': uid,
       'displayName': displayName,
