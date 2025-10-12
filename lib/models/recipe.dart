@@ -50,11 +50,14 @@ class Recipe {
     this.favoriteCount = 0,
   });
 
-  factory Recipe.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>? ?? {};
+  factory Recipe.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    final data = snapshot.data()!;
 
     return Recipe(
-      id: doc.id,
+      id: snapshot.id,
       title: data['title'] ?? '',
       description: data['description'] ?? '',
       instructions: List<String>.from(data['instructions'] ?? []),
@@ -68,7 +71,7 @@ class Recipe {
       tags: List<String>.from(data['tags'] ?? []),
       categories: List<String>.from(data['categories'] ?? []),
       ingredients: (data['ingredients'] as List<dynamic>? ?? [])
-          .map((e) => Ingredient.fromMap(Map<String, dynamic>.from(e)))
+          .map((e) => Ingredient.fromFirestore(Map<String, dynamic>.from(e)))
           .toList(),
       imageUrls: List<String>.from(data['image_urls'] ?? []),
       createdBy: data['created_by'] ?? '',

@@ -134,6 +134,7 @@ class AppUser {
   }
 
   AppUser copyWith({
+    String? uid,
     String? displayName,
     String? email,
     String? photoUrl,
@@ -151,7 +152,7 @@ class AppUser {
     Map<String, dynamic>? stats,
   }) {
     return AppUser(
-      uid: uid,
+      uid: uid ?? this.uid,
       displayName: displayName ?? this.displayName,
       email: email ?? this.email,
       photoUrl: photoUrl ?? this.photoUrl,
