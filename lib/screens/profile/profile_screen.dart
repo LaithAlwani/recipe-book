@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/main.dart';
-import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/provider/auth_provider.dart';
 import 'package:recipe_book/screens/profile/settings_screen.dart';
 import 'package:recipe_book/services/auth_service.dart';
