@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Recipie Book',
       theme: ThemeData(
-
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
       ),
       home: Consumer(

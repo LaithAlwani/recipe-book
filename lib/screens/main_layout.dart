@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/screens/home/home_screen.dart';
 import 'package:recipe_book/screens/profile/profile_screen.dart';
-import 'package:recipe_book/screens/recipies/create_recipie_screen.dart';
-import 'package:recipe_book/screens/recipies/recipies_screen.dart';
+import 'package:recipe_book/screens/recipe/create_recipie_screen.dart';
+import 'package:recipe_book/screens/recipe/recipies_screen.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key, required this.user});
@@ -36,7 +36,7 @@ class _MainLayoutState extends State<MainLayout> {
     } else if (index == 2) {
       // Recipes tab
       setState(() {
-        _selectedScreen = const RecipiesScreen();
+        _selectedScreen = const RecipesScreen();
         _selectedIndex = 2; // maps to RecipesScreen in _pages
       });
     }

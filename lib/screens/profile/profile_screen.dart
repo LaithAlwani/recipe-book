@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/main.dart';
 import 'package:recipe_book/provider/auth_provider.dart';
 import 'package:recipe_book/screens/profile/settings_screen.dart';
+import 'package:recipe_book/screens/wlecome/welcome.dart';
 import 'package:recipe_book/services/auth_service.dart';
 
 class Profilescreen extends ConsumerWidget {
@@ -36,10 +37,11 @@ class Profilescreen extends ConsumerWidget {
                 onPressed: () async {
                   final nav = Navigator.of(context);
                   await AuthService.signOut();
-                  nav.pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => const MyApp()),
-                    (route) => false,
-                  );
+                  nav.pop();
+                  // nav.pushAndRemoveUntil(
+                  //   MaterialPageRoute(builder: (context) => const MyApp()),
+                  //   (route) => false,
+                  // );
                 },
                 icon: const Icon(Icons.logout),
               ),
