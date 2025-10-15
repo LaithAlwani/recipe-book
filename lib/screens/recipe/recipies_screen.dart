@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/models/recipe.dart';
 import 'package:recipe_book/provider/auth_provider.dart';
+import 'package:recipe_book/screens/recipe/recipe_screen.dart';
 import 'package:recipe_book/viewmodels/recipe_viewmodel.dart';
 
 class RecipesScreen extends ConsumerStatefulWidget {
@@ -65,6 +66,12 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen> {
                       subtitle: Text(recipe.description),
                       trailing: Text('${recipe.viewCount} views'),
                       onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RecipeScreen(recipe: recipe),
+                          ),
+                        );
                         // Example: open detail or edit screen
                       },
                     );
