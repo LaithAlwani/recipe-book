@@ -4,11 +4,12 @@ import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/services/firestore_services.dart';
 
 final authProvider = StreamProvider.autoDispose<AppUser?>((ref) {
-  return FirebaseAuth.instance.authStateChanges().asyncExpand((user) {
-    print("Auth state changed → ${user?.uid}");
+  return FirebaseAuth.instance.authStateChanges().asyncMap((user) async {
+    print("🔔 authStateChanges emission → ${user?.uid} at ${DateTime.now()}");
     if (user == null) {
-      return Stream.value(null);
+      return null;
     }
-    return FirestoreService.streamUser(user.uid);
+    final appUser = await FirestoreService.getUserById(user.uid);
+    return appUser;
   });
 });

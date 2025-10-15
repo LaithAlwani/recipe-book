@@ -54,7 +54,7 @@ class _MainLayoutState extends State<MainLayout> {
         actions: [
           InkWell(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> const Profilescreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> Profilescreen(user: widget.user)));
             },
             borderRadius: BorderRadius.circular(20),
             child: CircleAvatar(
@@ -66,12 +66,6 @@ class _MainLayoutState extends State<MainLayout> {
                           as ImageProvider,
             ),
           ),
-          // IconButton(
-          //   onPressed: () {
-          //     Navigator.push(context, MaterialPageRoute(builder: (context)=> Profilescreen(user: widget.user)));
-          //   },
-          //   icon: const Icon(Icons.manage_accounts_sharp),
-          // ),
         ],
       ),
       body: _selectedScreen,

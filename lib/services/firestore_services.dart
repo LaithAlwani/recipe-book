@@ -71,13 +71,10 @@ class FirestoreService {
       );
 
   static Future<List<Recipe>> getRecipesByCreatedBy(String uid) async {
-    print(uid);
     final snapshot = await recipeRef
         .where('created_by', isEqualTo: uid)
         .orderBy('created_at', descending: true)
         .get();
-
-    print(snapshot.docs.isEmpty);
 
     return snapshot.docs.map((doc) => doc.data()).toList();
   }
