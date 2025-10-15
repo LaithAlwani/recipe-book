@@ -3,9 +3,8 @@ import 'package:recipe_book/models/recipe.dart';
 import 'package:recipe_book/screens/recipe/recipe_screen.dart';
 
 class RecipeCard extends StatelessWidget {
+  const RecipeCard({super.key, required this.recipe});
   final Recipe recipe;
-
-  const RecipeCard({Key? key, required this.recipe}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

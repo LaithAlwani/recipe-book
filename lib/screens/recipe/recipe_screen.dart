@@ -58,6 +58,58 @@ class RecipeScreen extends StatelessWidget {
                 Text('${recipe.cookTime.toString()} min'),
               ],
             ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(16),
+              itemCount: recipe.ingredients.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Row(
+                  children: [
+                    Text("${recipe.ingredients[index].name} - "),
+                    Text(
+                      "${recipe.ingredients[index].quantity % 1 == 0 ? recipe.ingredients[index].quantity.toInt() : recipe.ingredients[index].quantity} ",
+                    ),
+                    Text("${recipe.ingredients[index].unit}"),
+                    const Expanded(child: SizedBox()),
+                    IconButton(
+                      onPressed: () {
+                        print(
+                          "Added to shopping cart ${recipe.ingredients[index].name.toLowerCase()}",
+                        );
+                      },
+                      icon: const Icon(Icons.add_shopping_cart),
+                    ),
+                  ],
+                );
+              },
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(16),
+              itemCount: recipe.instructions.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 16,
+                      backgroundColor: Colors.amber,
+                      child: Text("${index + 1}"),
+                    ),
+                    const SizedBox(width: 12, height: 40),
+                    Expanded(
+                      child: Text(
+                        recipe.instructions[index],
+                        style: const TextStyle(fontSize: 16),
+                        softWrap: true,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
           ],
         ),
       ),
