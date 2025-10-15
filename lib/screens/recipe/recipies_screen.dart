@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/models/recipe.dart';
 import 'package:recipe_book/provider/auth_provider.dart';
+import 'package:recipe_book/screens/recipe/recipe_card.dart';
 import 'package:recipe_book/screens/recipe/recipe_screen.dart';
 import 'package:recipe_book/viewmodels/recipe_viewmodel.dart';
 
@@ -57,24 +58,19 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen> {
                       .read(recipeViewModelProvider.notifier)
                       .fetchRecipes(appUser.uid);
                 },
-                child: ListView.builder(
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(12),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, // 2 cards per row
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio:
+                        0.75, // Adjust height ratio (smaller = taller)
+                  ),
                   itemCount: recipes.length,
                   itemBuilder: (context, index) {
-                    final Recipe recipe = recipes[index];
-                    return ListTile(
-                      title: Text(recipe.title),
-                      subtitle: Text(recipe.description),
-                      trailing: Text('${recipe.viewCount} views'),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RecipeScreen(recipe: recipe),
-                          ),
-                        );
-                        // Example: open detail or edit screen
-                      },
-                    );
+                    final recipe = recipes[index];
+                    return RecipeCard(recipe: recipe);
                   },
                 ),
               );
