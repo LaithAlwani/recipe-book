@@ -12,15 +12,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  
   @override
   Widget build(BuildContext context) {
-    return  Material(child: Column(
-      children: [
-        TextButton(onPressed: (){
+    return Center(
+      child: TextButton(
+        onPressed: () {
           FirestoreSeeder.seedData();
-        }, child: const Text("Seed Datebase"))
-      ],
-    ));
+        },
+        child: const Text("Seed Datebase"),
+      ),
+    );
   }
 }

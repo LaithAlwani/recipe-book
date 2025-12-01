@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static Color primaryColor = const Color.fromRGBO(162, 29, 19, 1);
-  static Color primaryAccent = const Color.fromRGBO(120, 14, 14, 1);
+  static Color primaryColor = const Color(0xFFee6710);
+  static Color primaryAccent = const Color.fromARGB(255, 192, 96, 33);
   static Color secondaryColor = const Color.fromRGBO(45, 45, 45, 1);
   static Color secondaryAccent = const Color.fromRGBO(35, 35, 35, 1);
+  static Color backgroundColor = const Color(0xFFf8f2e9);
   static Color titleColor = const Color.fromRGBO(200, 200, 200, 1);
   static Color textColor = const Color.fromRGBO(150, 150, 150, 1);
   static Color successColor = const Color.fromRGBO(9, 149, 110, 1);
@@ -50,7 +51,7 @@ ThemeData primaryTheme = ThemeData(
     surfaceTintColor: Colors.transparent,
     shape: const RoundedRectangleBorder(),
     shadowColor: Colors.transparent,
-    margin: const EdgeInsets.only(bottom: 16)
+    margin: const EdgeInsets.only(bottom: 16),
   ),
 
   //input decoration theme
@@ -58,14 +59,10 @@ ThemeData primaryTheme = ThemeData(
     filled: true,
     fillColor: AppColors.secondaryColor.withValues(alpha: 255),
     border: InputBorder.none,
-    labelStyle: TextStyle(
-      color: AppColors.textColor
-    ),
+    labelStyle: TextStyle(color: AppColors.textColor),
     prefixIconColor: AppColors.textColor,
   ),
 
   //alert dialog theme
-  dialogTheme: DialogThemeData(
-    backgroundColor: AppColors.secondaryAccent,
-  )
+  dialogTheme: DialogThemeData(backgroundColor: AppColors.secondaryAccent),
 );

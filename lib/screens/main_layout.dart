@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/screens/home/home_screen.dart';
 import 'package:recipe_book/screens/profile/profile_screen.dart';
+import 'package:recipe_book/screens/profile/settings_screen.dart';
 import 'package:recipe_book/screens/recipe/create_recipie_screen.dart';
 import 'package:recipe_book/screens/recipe/recipies_screen.dart';
+import 'package:recipe_book/services/auth_service.dart';
+import 'package:recipe_book/theme.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key, required this.user});
@@ -16,59 +19,75 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   int _selectedIndex = 1;
-  late Widget _selectedScreen = HomeScreen(user: widget.user);
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+
+  final List<String> _titles = ["Create Recipe", "My Cook Book", "Recipes"];
 
   void _onSelectedItem(int index) {
     if (index == 0) {
-      // ➕ Create page opens as a separate route
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CreateRecipieScreen(user: widget.user),
-        ),
-      );
+      _navigatorKey.currentState!.pushNamed('/create');
     } else if (index == 1) {
-      // Home tab
-      setState(() {
-        _selectedScreen = HomeScreen(user: widget.user);
-        _selectedIndex = 1;
-      });
+      _navigatorKey.currentState!.pushNamed('/home');
     } else if (index == 2) {
-      // Recipes tab
-      setState(() {
-        _selectedScreen = const RecipesScreen();
-        _selectedIndex = 2; // maps to RecipesScreen in _pages
-      });
+      _navigatorKey.currentState!.pushNamed('/recipes');
     }
+
+    setState(() => _selectedIndex = index);
   }
 
   Color iconColor(index) {
-    return _selectedIndex == index ? Colors.amber : Colors.grey;
+    return _selectedIndex == index ? AppColors.primaryColor : Colors.grey;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        title: const Text("Home Screen"),
+        backgroundColor: AppColors.backgroundColor,
+        title: Text(_titles[_selectedIndex]),
+        centerTitle: true,
         actions: [
-          InkWell(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> Profilescreen(user: widget.user)));
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return SettingScreen(user: widget.user);
+                  },
+                ),
+              );
             },
-            borderRadius: BorderRadius.circular(20),
-            child: CircleAvatar(
-              backgroundImage:
-                    widget.user.photoUrl != null &&
-                        widget.user.photoUrl!.isNotEmpty
-                    ? NetworkImage(widget.user.photoUrl!)
-                    : const AssetImage('assets/images/avatar_placeholder.png')
-                          as ImageProvider,
-            ),
+            icon: const Icon(Icons.settings),
           ),
         ],
       ),
-      body: _selectedScreen,
+      body: Navigator(
+        key: _navigatorKey,
+        onGenerateRoute: (settings) {
+          Widget page = HomeScreen(user: widget.user);
+
+          if (settings.name == '/') {
+            page = HomeScreen(user: widget.user);
+          } else if (settings.name == '/recipes') {
+            page = const RecipesScreen();
+          } else if (settings.name == '/create') {
+            page = CreateRecipieScreen(user: widget.user);
+          } else if (settings.name == '/settings') {
+            page = SettingScreen(user: widget.user);
+          }
+          return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => ColoredBox(
+              color: AppColors.backgroundColor, // Prevent white flash
+              child: page,
+            ),
+            transitionsBuilder: (_, animation, __, child) =>
+                FadeTransition(opacity: animation, child: child),
+            transitionDuration: const Duration(milliseconds: 150),
+          );
+        },
+      ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: _onSelectedItem,
         indicatorColor: Colors.transparent,
@@ -87,8 +106,8 @@ class _MainLayoutState extends State<MainLayout> {
           ),
         ],
         height: 60,
-        backgroundColor: Colors.white,
-        shadowColor: Colors.black,
+        backgroundColor: AppColors.backgroundColor,
+        shadowColor: Colors.grey,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         selectedIndex: _selectedIndex,
       ),

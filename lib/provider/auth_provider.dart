@@ -13,3 +13,6 @@ final authProvider = StreamProvider.autoDispose<AppUser?>((ref) {
     return appUser;
   });
 });
+
+
+

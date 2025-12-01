@@ -1,16 +1,21 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:recipe_book/firebase_options.dart';
 import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/provider/auth_provider.dart';
 import 'package:recipe_book/screens/main_layout.dart';
 import 'package:recipe_book/screens/wlecome/welcome.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_book/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  //  debugPaintSizeEnabled = true;
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -23,7 +28,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Recipie Book',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
+        scaffoldBackgroundColor: AppColors.backgroundColor,
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppColors.backgroundColor,
+          foregroundColor: AppColors.primaryAccent,
+          surfaceTintColor: Colors.transparent,
+          titleTextStyle: TextStyle(
+            color: AppColors.primaryAccent,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        navigationBarTheme: NavigationBarThemeData(
+          backgroundColor: AppColors.backgroundColor,
+        ),
       ),
       home: Consumer(
         builder: (context, ref, child) {

@@ -10,56 +10,26 @@ class Profilescreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Profile"),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SettingScreen(user: user),
-                ),
-              );
-            },
-            icon: const Icon(Icons.settings),
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            radius: 60,
+            backgroundColor: Colors.transparent,
+            backgroundImage: user.photoUrl != null && user.photoUrl!.isNotEmpty
+                ? NetworkImage(user.photoUrl!)
+                : const AssetImage('assets/images/avatar_placeholder.png')
+                      as ImageProvider,
           ),
-          IconButton(
-            onPressed: () async {
-              await AuthService.signOut();
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.logout),
-          ),
+          //out put user email
+          Text(user.displayName),
+          Text(user.email),
+          const SizedBox(height: 16),
         ],
-      ),
-      body: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Profile"),
-            const SizedBox(height: 16),
-
-            CircleAvatar(
-              radius: 60,
-              backgroundColor: Colors.transparent,
-              backgroundImage:
-                  user.photoUrl != null && user.photoUrl!.isNotEmpty
-                  ? NetworkImage(user.photoUrl!)
-                  : const AssetImage('assets/images/avatar_placeholder.png')
-                        as ImageProvider,
-            ),
-            //out put user email
-            Text(user.displayName),
-            Text(user.email),
-            const SizedBox(height: 16),
-          ],
-        ),
       ),
     );
   }
