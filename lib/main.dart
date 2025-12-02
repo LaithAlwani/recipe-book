@@ -53,11 +53,7 @@ class MyApp extends ConsumerWidget {
 
   Widget _getLandingScreen(AuthState authState) {
     print(authState.status);
-    if (authState.isLoading || authState.status == AuthStatus.loading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ); // while checking current user
-    } else if (authState.isRegistering) {
+    if (authState.isRegistering) {
       return const OnboardingScreen(); // new user, onboarding
     } else if (authState.isSignedIn) {
       return const MainLayout(); // logged in and ready

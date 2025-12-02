@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/screens/onboadring/onboarding_screen.dart';
 import 'package:recipe_book/services/auth_service.dart';
 
-class SignUpFrom extends StatefulWidget {
+class SignUpFrom extends ConsumerStatefulWidget {
   const SignUpFrom({super.key});
 
   @override
-  State<SignUpFrom> createState() => _SignUpFromState();
+  ConsumerState<SignUpFrom> createState() => _SignUpFromState();
 }
 
-class _SignUpFromState extends State<SignUpFrom> {
+class _SignUpFromState extends ConsumerState<SignUpFrom> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
@@ -18,6 +20,8 @@ class _SignUpFromState extends State<SignUpFrom> {
   String? _errorFeedback;
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authNotifierProvider);
+    final authVM = ref.read(authNotifierProvider.notifier);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Form(
@@ -59,8 +63,11 @@ class _SignUpFromState extends State<SignUpFrom> {
             ),
             //error feedback
             const SizedBox(height: 16),
-            if (_errorFeedback != null)
-              Text(_errorFeedback!, style: const TextStyle(color: Colors.red)),
+            if (authState.errorMessage != null)
+              Text(
+                authState.errorMessage!,
+                style: const TextStyle(color: Colors.red),
+              ),
             //submit button
             FilledButton(
               onPressed: () async {
@@ -71,24 +78,21 @@ class _SignUpFromState extends State<SignUpFrom> {
                   final email = _emailController.text.trim();
                   final password = _passwordController.text.trim();
 
-                  final success = await AuthService.signUp(email, password);
-                  if (success) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OnboardingScreen(),
-                      ),
-                    );
-                  } else {
-                    setState(() {
-                      _errorFeedback = "Could not sign up";
-                    });
-                  }
+                  await authVM.register(email, password);
                 }
 
                 //errorr feedback
               },
-              child: const Text("Signup"),
+              child: authState.isLoading
+                  ? const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,
+                      ),
+                    )
+                  : const Text("Sign Up"),
             ),
           ],
         ),

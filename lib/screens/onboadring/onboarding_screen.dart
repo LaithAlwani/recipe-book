@@ -89,7 +89,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       data: (value) {
         if (value != null) {
           //if the provider fetchs a user data from the users collection
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const MainLayout()));
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const MainLayout()),
+          );
         }
         _currentUser = firebaseUser;
         return Scaffold(
