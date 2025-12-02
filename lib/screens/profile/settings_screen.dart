@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_book/features/auth/auth_provider.dart';
+import 'package:recipe_book/features/auth/auth_state.dart';
 import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/screens/profile/profile_screen.dart';
 import 'package:recipe_book/services/auth_service.dart';
 
-class SettingScreen extends StatelessWidget {
-  const SettingScreen({super.key, required this.user});
-  final AppUser user;
+class SettingScreen extends ConsumerWidget {
+  const SettingScreen({super.key});
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AuthState authState = ref.watch(authNotifierProvider);
+    final AppUser user = authState.appUser!;
     return Scaffold(
       appBar: AppBar(title: const Text("Settings"), centerTitle: true),
       body: Column(
@@ -18,9 +23,7 @@ class SettingScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => Profilescreen(user: user),
-                ),
+                MaterialPageRoute(builder: (context) => const Profilescreen()),
               );
             },
 

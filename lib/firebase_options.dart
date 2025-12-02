@@ -65,4 +65,7 @@ class DefaultFirebaseOptions {
     storageBucket: 'recipe-book-e70cf.firebasestorage.app',
     iosBundleId: 'com.example.recipeBook',
   );
+
+  static const String serverClientId =
+      ''; //needs changing
 }

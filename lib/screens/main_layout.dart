@@ -9,9 +9,7 @@ import 'package:recipe_book/services/auth_service.dart';
 import 'package:recipe_book/theme.dart';
 
 class MainLayout extends StatefulWidget {
-  const MainLayout({super.key, required this.user});
-
-  final AppUser user;
+  const MainLayout({super.key});
 
   @override
   State<MainLayout> createState() => _MainLayoutState();
@@ -54,7 +52,7 @@ class _MainLayoutState extends State<MainLayout> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return SettingScreen(user: widget.user);
+                    return const SettingScreen();
                   },
                 ),
               );
@@ -66,16 +64,16 @@ class _MainLayoutState extends State<MainLayout> {
       body: Navigator(
         key: _navigatorKey,
         onGenerateRoute: (settings) {
-          Widget page = HomeScreen(user: widget.user);
+          Widget page = const HomeScreen();
 
           if (settings.name == '/') {
-            page = HomeScreen(user: widget.user);
+            page = const HomeScreen();
           } else if (settings.name == '/recipes') {
             page = const RecipesScreen();
           } else if (settings.name == '/create') {
-            page = CreateRecipieScreen(user: widget.user);
+            page = const CreateRecipieScreen();
           } else if (settings.name == '/settings') {
-            page = SettingScreen(user: widget.user);
+            page = const SettingScreen();
           }
           return PageRouteBuilder(
             pageBuilder: (_, __, ___) => ColoredBox(

@@ -70,7 +70,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       if (!mounted) return;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => MainLayout(user: user)),
+        MaterialPageRoute(builder: (_) => const MainLayout()),
       );
     } catch (e) {
       // ❌ Error — show a message
@@ -89,7 +89,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       data: (value) {
         if (value != null) {
           //if the provider fetchs a user data from the users collection
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainLayout(user: value)));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const MainLayout()));
         }
         _currentUser = firebaseUser;
         return Scaffold(

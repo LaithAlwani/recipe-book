@@ -3,9 +3,7 @@ import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/utils/seed_data.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.user});
-
-  final AppUser? user;
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

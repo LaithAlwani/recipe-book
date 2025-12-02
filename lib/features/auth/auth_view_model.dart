@@ -2,19 +2,203 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:recipe_book/features/auth/auth_state.dart';
+import 'package:recipe_book/firebase_options.dart';
 import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/services/firestore_services.dart';
 
-class AuthViewModel extends AsyncNotifier<AppUser?> {
-  static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+class AuthViewModel extends Notifier<AuthState> {
+  final _auth = FirebaseAuth.instance;
 
   @override
-  FutureOr<AppUser?> build() async {
-    final firebaseUser = _firebaseAuth.currentUser;
-    if (firebaseUser == null) {
-      return null;
+  AuthState build() {
+    state = AuthState.initial();
+    _init();
+    return state;
+  }
+
+  Future<void> _init() async {
+    final user = _auth.currentUser;
+    print("auth view model init called. current user: $user");
+
+    if (user == null) {
+      state = state.copyWith(status: AuthStatus.unauthenticated);
+      return;
     }
-    final appUser = FirestoreService.getUserById(firebaseUser.uid);
-    return appUser;
+
+    state = state.copyWith(status: AuthStatus.loading, isLoading: true);
+
+    try {
+      final appUser = await FirestoreService.getUserById(user.uid);
+      print("auth view model init fetched app user: $appUser");
+      state = state.copyWith(
+        status: AuthStatus.authenticated,
+        firebaseUser: user,
+        appUser: appUser,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: e.toString(),
+      );
+      return null;
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  // ---------------------------
+  // REGISTER
+  // ---------------------------
+  Future<void> register(String email, String password) async {
+    state = state.copyWith(isLoading: true, status: AuthStatus.loading);
+
+    try {
+      final userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final User? user = userCredential.user;
+      if (user == null) throw Exception("User registration failed.");
+      final appUser = AppUser(uid: user.uid, email: email);
+
+      state = state.copyWith(
+        status: AuthStatus.authenticated,
+        firebaseUser: userCredential.user,
+        appUser: appUser,
+        isRegistering: true,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: e.toString(),
+      );
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  // ---------------------------
+  //google login
+  // ---------------------------
+  Future<void> signInWithGoogle() async {
+    state = state.copyWith(isLoading: true, status: AuthStatus.loading);
+    try {
+      await GoogleSignIn.instance.initialize(
+        serverClientId: DefaultFirebaseOptions
+            .serverClientId, //TODO:add server Client ID to firebase_options.dart
+      );
+      final GoogleSignInAccount googleUser = await GoogleSignIn.instance
+          .authenticate();
+
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+
+      final googleCredential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+      final UserCredential credential = await _auth.signInWithCredential(
+        googleCredential,
+      );
+
+      final User? user = credential.user;
+      if (user == null)
+        throw Exception("No user returned from Google Sign-In.");
+
+      final AppUser? exsistingUser = await FirestoreService.getUserById(
+        user.uid,
+      );
+
+      if (exsistingUser == null) {
+        final newUser = AppUser(
+          uid: user.uid,
+          email: user.email!,
+          displayName: user.displayName,
+          photoUrl: user.photoURL,
+        );
+        // await FirestoreService.createUser(newUser);
+        //redirect user to onboarding screen
+
+        state = state.copyWith(
+          status: AuthStatus.authenticated,
+          firebaseUser: credential.user,
+          isRegistering: true,
+          appUser: newUser,
+        );
+        return;
+      }
+      state = state.copyWith(
+        status: AuthStatus.authenticated,
+        firebaseUser: credential.user,
+        appUser: exsistingUser,
+        isSignedIn: true,
+        isRegistering: false,
+      );
+    } catch (err) {
+      state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: err.toString(),
+      );
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  // ---------------------------
+  // LOGIN
+  // ---------------------------
+
+  Future<void> signIn(String email, String password) async {
+    state = state.copyWith(isLoading: true, status: AuthStatus.loading);
+
+    try {
+      final userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final appUser = await FirestoreService.getUserById(
+        userCredential.user!.uid,
+      );
+
+      state = state.copyWith(
+        status: AuthStatus.authenticated,
+        firebaseUser: userCredential.user,
+        appUser: appUser,
+        isSignedIn: true,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: e.toString(),
+      );
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  // ---------------------------
+  // SIGNOUT
+  // ---------------------------
+
+  Future<void> signOut() async {
+    state = state.copyWith(
+      isSigingOut: true,
+      isLoading: true,
+      status: AuthStatus.loading,
+    );
+
+    try {
+      await _auth.signOut();
+      state = AuthState.initial();
+    } catch (e) {
+      state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: e.toString(),
+      );
+    } finally {
+      state = state.copyWith(isSigingOut: false, isLoading: false);
+    }
   }
 }

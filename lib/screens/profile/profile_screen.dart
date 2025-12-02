@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_book/features/auth/auth_provider.dart';
+import 'package:recipe_book/features/auth/auth_state.dart';
 import 'package:recipe_book/models/app_user.dart';
 
-class Profilescreen extends StatelessWidget {
-  const Profilescreen({super.key, required this.user});
-
-  final AppUser user;
+class Profilescreen extends ConsumerWidget {
+  const Profilescreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AuthState authState = ref.watch(authNotifierProvider);
+    final AppUser user = authState.appUser!;
     return Scaffold(
       appBar: AppBar(title: const Text("Profile"), centerTitle: true),
       body: Container(
@@ -27,7 +30,7 @@ class Profilescreen extends StatelessWidget {
                         as ImageProvider,
             ),
             //out put user email
-            Text(user.displayName),
+            Text(user.displayName ?? ""),
             Text(user.email),
             const SizedBox(height: 16),
           ],

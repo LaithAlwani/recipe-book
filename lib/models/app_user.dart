@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AppUser {
   AppUser({
     required this.uid,
-    required this.displayName,
     required this.email,
+    this.displayName,
     this.photoUrl,
     this.bio,
     this.location,
@@ -23,7 +23,7 @@ class AppUser {
   })  : createdAt = createdAt ?? Timestamp.now(),
         updatedAt = updatedAt ?? Timestamp.now();
   final String uid;
-  final String displayName;
+  final String? displayName;
   final String email;
   final String? photoUrl;
   final String? bio;
