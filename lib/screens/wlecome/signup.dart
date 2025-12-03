@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
-import 'package:recipe_book/screens/onboadring/onboarding_screen.dart';
-import 'package:recipe_book/services/auth_service.dart';
 
 class SignUpFrom extends ConsumerStatefulWidget {
   const SignUpFrom({super.key});
@@ -17,7 +15,6 @@ class _SignUpFromState extends ConsumerState<SignUpFrom> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  String? _errorFeedback;
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider);
@@ -30,7 +27,12 @@ class _SignUpFromState extends ConsumerState<SignUpFrom> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             //intro text
-            const Center(child: Text("signup for a new account")),
+            const Center(
+              child: Text(
+                "Signup for a new account",
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
             const SizedBox(height: 16),
 
             //email address
@@ -73,7 +75,7 @@ class _SignUpFromState extends ConsumerState<SignUpFrom> {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   setState(() {
-                    _errorFeedback = null;
+                    authState.copyWith(errorMessage: "Please check input");
                   });
                   final email = _emailController.text.trim();
                   final password = _passwordController.text.trim();

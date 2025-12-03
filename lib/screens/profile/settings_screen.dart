@@ -4,7 +4,6 @@ import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/auth/auth_state.dart';
 import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/screens/profile/profile_screen.dart';
-import 'package:recipe_book/services/auth_service.dart';
 
 class SettingScreen extends ConsumerWidget {
   const SettingScreen({super.key});
@@ -38,8 +37,8 @@ class SettingScreen extends ConsumerWidget {
           ),
           IconButton(
             onPressed: () async {
-              await AuthService.signOut();
-              Navigator.pop(context);
+              final homeVM = ref.read(authNotifierProvider.notifier);
+              await homeVM.signOut();
             },
             icon: const Icon(Icons.logout),
           ),

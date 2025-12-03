@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_book/services/auth_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_book/features/auth/auth_provider.dart';
 
-class SignInForm extends StatefulWidget {
+class SignInForm extends ConsumerStatefulWidget {
   const SignInForm({super.key});
 
   @override
-  State<SignInForm> createState() => _SignInFormState();
+  ConsumerState<SignInForm> createState() => _SignInFormState();
 }
 
-class _SignInFormState extends State<SignInForm> {
+class _SignInFormState extends ConsumerState<SignInForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  String? _errorFeedback;
-
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authNotifierProvider);
+    final authVM = ref.read(authNotifierProvider.notifier);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Form(
@@ -26,7 +27,12 @@ class _SignInFormState extends State<SignInForm> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // intro text
-            const Center(child: Text('Sign in to your account.')),
+            const Center(
+              child: Text(
+                'Sign in to your account.',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
             const SizedBox(height: 16.0),
 
             // email address
@@ -34,6 +40,9 @@ class _SignInFormState extends State<SignInForm> {
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(labelText: 'Email'),
+              onChanged: (_) {
+                authState.copyWith(errorMessage: null);
+              },
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "please enter a email";
@@ -48,6 +57,9 @@ class _SignInFormState extends State<SignInForm> {
               controller: _passwordController,
               obscureText: true,
               decoration: const InputDecoration(labelText: 'Password'),
+              onChanged: (_) {
+                authState.copyWith(errorMessage: null);
+              },
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "please enter a passowrd";
@@ -58,42 +70,34 @@ class _SignInFormState extends State<SignInForm> {
             const SizedBox(height: 16.0),
 
             // error feedback
-            if (_errorFeedback != null)
-              Text(_errorFeedback!, style: const TextStyle(color: Colors.red)),
+            if (authState.errorMessage != null)
+              Text(
+                authState.errorMessage!,
+                style: const TextStyle(color: Colors.red),
+              ),
             // submit button
             FilledButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   setState(() {
-                    _errorFeedback = null;
+                    authState.copyWith(errorMessage: null);
                   });
                   final email = _emailController.text.trim();
                   final password = _passwordController.text.trim();
 
-                  final success = await AuthService.signIn(email, password);
-
-                  if (success){
-                    //show snack bar
-                  }
-                  else {
-                    setState(() {
-                      _errorFeedback = "Incorrect login credentials";
-                    });
-                  } 
+                  await authVM.signIn(email, password);
                 }
               },
-              child: const Text('Sign In'),
-            ),
-            TextButton(
-              onPressed: () async {
-                final user = await AuthService.signInWithGoogle();
-                if (user == null) {
-                  setState(() {
-                    _errorFeedback = "Incorrect login credentials";
-                  });
-                }
-              },
-              child: const Text("Google Sign In"),
+              child: authState.isLoading
+                  ? const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,
+                      ),
+                    )
+                  : const Text("Sign In"),
             ),
           ],
         ),

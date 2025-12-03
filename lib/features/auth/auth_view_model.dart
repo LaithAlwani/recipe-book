@@ -161,6 +161,7 @@ class AuthViewModel extends Notifier<AuthState> {
       final appUser = await FirestoreService.getUserById(
         userCredential.user!.uid,
       );
+      state = state.copyWith(errorMessage: "user data not found");
 
       state = state.copyWith(
         status: AuthStatus.authenticated,

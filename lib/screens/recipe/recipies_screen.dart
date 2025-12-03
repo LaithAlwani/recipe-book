@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/models/recipe.dart';
 import 'package:recipe_book/provider/auth_provider.dart';
 import 'package:recipe_book/screens/recipe/recipe_card.dart';
@@ -31,48 +32,38 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authProvider);
+    final authState = ref.watch(authNotifierProvider);
     final recipeState = ref.watch(recipeViewModelProvider);
+    final appUser = authState.appUser;
 
-    return authState.when(
+    return recipeState.when(
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, _) => Center(child: Text('Auth error: $err')),
-      data: (appUser) {
-        if (appUser == null) {
-          return const Center(child: Text('Not signed in'));
+      error: (err, _) => Center(child: Text('Error: $err')),
+      data: (recipes) {
+        if (recipes.isEmpty) {
+          return const Center(child: Text('No recipes found.'));
         }
 
-        return recipeState.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (err, _) => Center(child: Text('Error: $err')),
-          data: (recipes) {
-            if (recipes.isEmpty) {
-              return const Center(child: Text('No recipes found.'));
-            }
-
-            return RefreshIndicator(
-              onRefresh: () async {
-                await ref
-                    .read(recipeViewModelProvider.notifier)
-                    .fetchRecipes(appUser.uid);
-              },
-              child: GridView.builder(
-                padding: const EdgeInsets.all(12),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // 2 cards per row
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio:
-                      0.75, // Adjust height ratio (smaller = taller)
-                ),
-                itemCount: recipes.length,
-                itemBuilder: (context, index) {
-                  final recipe = recipes[index];
-                  return RecipeCard(recipe: recipe);
-                },
-              ),
-            );
+        return RefreshIndicator(
+          onRefresh: () async {
+            await ref
+                .read(recipeViewModelProvider.notifier)
+                .fetchRecipes(appUser!.uid);
           },
+          child: GridView.builder(
+            padding: const EdgeInsets.all(12),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, // 2 cards per row
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              childAspectRatio: 0.75, // Adjust height ratio (smaller = taller)
+            ),
+            itemCount: recipes.length,
+            itemBuilder: (context, index) {
+              final recipe = recipes[index];
+              return RecipeCard(recipe: recipe);
+            },
+          ),
         );
       },
     );
