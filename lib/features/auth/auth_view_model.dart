@@ -21,7 +21,6 @@ class AuthViewModel extends Notifier<AuthState> {
 
   Future<void> _init() async {
     final user = _auth.currentUser;
-    print("auth view model init called. current user: $user");
 
     if (user == null) {
       state = state.copyWith(status: AuthStatus.unauthenticated);
@@ -117,8 +116,6 @@ class AuthViewModel extends Notifier<AuthState> {
           displayName: user.displayName,
           photoUrl: user.photoURL,
         );
-        // await FirestoreService.createUser(newUser);
-        //redirect user to onboarding screen
 
         state = state.copyWith(
           status: AuthStatus.authenticated,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/utils/seed_data.dart';
 
 class HomeScreen extends StatefulWidget {

@@ -51,7 +51,7 @@ class MyApp extends ConsumerWidget {
   }
 
   Widget _getLandingScreen(AuthState authState) {
-    if (authState.isRegistering) {
+    if (authState.isRegistering && authState.firebaseUser != null) {
       return const OnboardingScreen();
     }
 

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
-import 'package:recipe_book/models/recipe.dart';
-import 'package:recipe_book/provider/auth_provider.dart';
 import 'package:recipe_book/screens/recipe/recipe_card.dart';
-import 'package:recipe_book/screens/recipe/recipe_screen.dart';
 import 'package:recipe_book/viewmodels/recipe_viewmodel.dart';
 
 class RecipesScreen extends ConsumerStatefulWidget {
@@ -20,8 +17,8 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen> {
     super.initState();
     // Delay fetch until after the first frame so ref is available
     Future.microtask(() async {
-      final authState = ref.read(authProvider);
-      final appUser = authState.value;
+      final authState = ref.read(authNotifierProvider);
+      final appUser = authState.appUser;
       if (appUser != null) {
         await ref
             .read(recipeViewModelProvider.notifier)
