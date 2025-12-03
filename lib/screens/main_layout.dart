@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_book/screens/home/home_screen.dart';
-import 'package:recipe_book/screens/profile/settings_screen.dart';
+import 'package:recipe_book/screens/settings/settings_screen.dart';
 import 'package:recipe_book/screens/recipe/create_recipie_screen.dart';
 import 'package:recipe_book/screens/recipe/recipies_screen.dart';
 import 'package:recipe_book/theme.dart';

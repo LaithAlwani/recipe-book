@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/auth/auth_state.dart';
 import 'package:recipe_book/models/app_user.dart';
-import 'package:recipe_book/screens/profile/profile_screen.dart';
+import 'package:recipe_book/screens/settings/profile_screen.dart';
 import 'package:recipe_book/screens/wlecome/welcome.dart';
 
 class SettingScreen extends ConsumerWidget {
