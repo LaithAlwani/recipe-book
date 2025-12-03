@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class StorageService {
+  //ToDo: create this function in the firebase functions
   static final ref = FirebaseStorage.instance.ref().child("user_profiles");
 
   static Future<String> uploadImageAndGetUrl(File file, String uid) async {

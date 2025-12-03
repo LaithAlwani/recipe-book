@@ -6,11 +6,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class SocialLoginSection extends StatelessWidget {
   final VoidCallback onGoogle;
   final VoidCallback onApple;
+  final VoidCallback onPintrest;
+  final VoidCallback onFacebook;
 
   const SocialLoginSection({
     super.key,
     required this.onGoogle,
     required this.onApple,
+    required this.onFacebook,
+    required this.onPintrest,
   });
 
   @override
@@ -40,13 +44,24 @@ class SocialLoginSection extends StatelessWidget {
 
         // ---- Social Buttons ----
         Row(
+          spacing: 32,
           mainAxisAlignment: MainAxisAlignment.center,
 
           children: [
             // Google Button
             _socialButton(
+              icon: FontAwesomeIcons.facebook,
+              onTap: onFacebook,
+              color: Colors.blueAccent,
+            ),
+            _socialButton(
               icon: FontAwesomeIcons.google,
               onTap: onGoogle,
+              color: Colors.redAccent,
+            ),
+            _socialButton(
+              icon: FontAwesomeIcons.pinterest,
+              onTap: onPintrest,
               color: Colors.redAccent,
             ),
 
@@ -69,18 +84,8 @@ class SocialLoginSection extends StatelessWidget {
   }) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(40),
-      child: Container(
-        width: 55,
-        height: 55,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
-          border: Border.all(width: 1, color: Colors.grey.shade400),
-        ),
-        child: Center(
-          child: FaIcon(icon, size: 26, color: color ?? Colors.black),
-        ),
-      ),
+      // borderRadius: BorderRadius.circular(40),
+      child: FaIcon(icon, size: 48, color: color ?? Colors.black),
     );
   }
 }

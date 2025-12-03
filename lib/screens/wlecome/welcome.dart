@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/screens/wlecome/signin.dart';
 import 'package:recipe_book/screens/wlecome/signup.dart';
@@ -15,6 +16,25 @@ class WelcomeScreen extends ConsumerStatefulWidget {
 
 class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   bool isSignUpForm = false;
+
+  Future<void> _handleOtherLogins(
+    String platformName,
+    IconData icon,
+    Color color,
+  ) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            FaIcon(icon, color: color), // show the icon
+            const SizedBox(width: 10),
+            Text("$platformName sign-in is not available yet!"),
+          ],
+        ),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +86,16 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
             SocialLoginSection(
               onGoogle: authVM.signInWithGoogle,
               onApple: () {},
+              onFacebook: () => _handleOtherLogins(
+                "Facebook",
+                FontAwesomeIcons.facebook,
+                Colors.blueAccent,
+              ),
+              onPintrest: () => _handleOtherLogins(
+                "Pinterest",
+                FontAwesomeIcons.pinterest,
+                Colors.redAccent,
+              ),
             ),
           ],
         ),

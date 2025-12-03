@@ -15,6 +15,7 @@ class FirestoreService {
 
   /// Create or overwrite a user
   static Future<void> createUser(AppUser user) async {
+    //ToDo: create a firebase function call to create the new user in the back end;
     try {
       await _userRef.doc(user.uid).set(user);
     } catch (e) {
@@ -37,6 +38,7 @@ class FirestoreService {
 
   /// Update user partially
   static Future<void> updateUser(String uid, Map<String, dynamic> data) async {
+    //ToDo: create this function in the firebase functions
     try {
       await _userRef.doc(uid).update(data);
     } catch (e) {
@@ -47,20 +49,13 @@ class FirestoreService {
 
   /// Delete user document
   static Future<void> deleteUser(String uid) async {
+    //ToDo: create this function in the firebase functions
     try {
       await _userRef.doc(uid).delete();
     } catch (e) {
       print("❌ Error deleting user: $e");
       rethrow;
     }
-  }
-
-  /// Stream of user updates (for real-time profile changes)
-  static Stream<AppUser?> streamUser(String uid) {
-    return _userRef.doc(uid).snapshots().map((snapshot) {
-      if (!snapshot.exists) return null;
-      return snapshot.data();
-    });
   }
 
   static final recipeRef = FirebaseFirestore.instance
