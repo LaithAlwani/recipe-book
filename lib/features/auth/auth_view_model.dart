@@ -61,13 +61,18 @@ class AuthViewModel extends Notifier<AuthState> {
       );
 
       final User? user = userCredential.user;
-      if (user == null) throw Exception("User registration failed.");
-      final appUser = AppUser(uid: user.uid, email: email);
+      if (user == null) {
+        state = state.copyWith(
+          status: AuthStatus.error,
+          errorMessage: "User registration failed",
+        );
+      }
+      ;
 
       state = state.copyWith(
         status: AuthStatus.authenticated,
         firebaseUser: userCredential.user,
-        appUser: appUser,
+        appUser: null,
         isRegistering: true,
       );
     } catch (e) {
@@ -110,18 +115,12 @@ class AuthViewModel extends Notifier<AuthState> {
       );
 
       if (exsistingUser == null) {
-        final newUser = AppUser(
-          uid: user.uid,
-          email: user.email!,
-          displayName: user.displayName,
-          photoUrl: user.photoURL,
-        );
-
         state = state.copyWith(
           status: AuthStatus.authenticated,
           firebaseUser: credential.user,
           isRegistering: true,
-          appUser: newUser,
+          isSignedIn: true,
+          appUser: null,
         );
         return;
       }
@@ -171,6 +170,25 @@ class AuthViewModel extends Notifier<AuthState> {
       state = state.copyWith(
         status: AuthStatus.error,
         errorMessage: e.toString(),
+      );
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  //--------------
+  //create a new User
+  //-------------
+
+  Future<void> createNewUser(AppUser user) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      await FirestoreService.createUser(user);
+      state = state.copyWith(appUser: user, isRegistering: false);
+    } catch (err) {
+      state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: err.toString(),
       );
     } finally {
       state = state.copyWith(isLoading: false);

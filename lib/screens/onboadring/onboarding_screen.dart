@@ -51,6 +51,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     String? imageUrl;
     // Save user data (to Firestore, local storage, etc.)
 
+    final authVM = ref.read(authNotifierProvider.notifier);
     if (_selectedImageFile != null) {
       imageUrl = await StorageService.uploadImageAndGetUrl(
         _selectedImageFile!,
@@ -67,13 +68,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
 
     try {
-      await FirestoreService.createUser(user);
-      // ✅ Success — navigate to main layout
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const MainLayout()),
-      );
+      await authVM.createNewUser(user);
     } catch (e) {
       // ❌ Error — show a message
       if (!mounted) return;
