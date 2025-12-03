@@ -67,5 +67,5 @@ class DefaultFirebaseOptions {
   );
 
   static const String serverClientId =
-      ''; //needs changing
+      '360585949719-i4342iag1iun7r3dbhrg5d754kabk6tk.apps.googleusercontent.com'; //needs changing
 }

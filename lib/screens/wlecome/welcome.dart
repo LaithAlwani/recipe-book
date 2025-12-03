@@ -27,6 +27,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset("assets/logo.png", height: 180),
+            const SizedBox(height: 8),
             Text(
               "My Recipie Book",
               style: TextStyle(
@@ -37,6 +38,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
             ),
             // Container(height: 180, color: Colors.red),
             if (isSignUpForm) const SignUpFrom() else const SignInForm(),
+            const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -60,7 +62,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 24),
             SocialLoginSection(
               onGoogle: authVM.signInWithGoogle,
               onApple: () {},

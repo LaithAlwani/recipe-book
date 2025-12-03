@@ -20,7 +20,7 @@ class _SignInFormState extends ConsumerState<SignInForm> {
     final authState = ref.watch(authNotifierProvider);
     final authVM = ref.read(authNotifierProvider.notifier);
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Form(
         key: _formKey,
         child: Column(
@@ -30,7 +30,7 @@ class _SignInFormState extends ConsumerState<SignInForm> {
             const Center(
               child: Text(
                 'Sign in to your account.',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 16),
               ),
             ),
             const SizedBox(height: 16.0),

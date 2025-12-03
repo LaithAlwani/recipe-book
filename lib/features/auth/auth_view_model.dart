@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:recipe_book/features/auth/auth_state.dart';
@@ -87,8 +88,7 @@ class AuthViewModel extends Notifier<AuthState> {
     state = state.copyWith(isLoading: true, status: AuthStatus.loading);
     try {
       await GoogleSignIn.instance.initialize(
-        serverClientId: DefaultFirebaseOptions
-            .serverClientId, //TODO:add server Client ID to firebase_options.dart
+        serverClientId: DefaultFirebaseOptions.serverClientId,
       );
       final GoogleSignInAccount googleUser = await GoogleSignIn.instance
           .authenticate();
@@ -136,6 +136,7 @@ class AuthViewModel extends Notifier<AuthState> {
         isRegistering: false,
       );
     } catch (err) {
+      debugPrint(err.toString());
       state = state.copyWith(
         status: AuthStatus.error,
         errorMessage: err.toString(),

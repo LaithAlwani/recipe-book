@@ -20,7 +20,7 @@ class _SignUpFromState extends ConsumerState<SignUpFrom> {
     final authState = ref.watch(authNotifierProvider);
     final authVM = ref.read(authNotifierProvider.notifier);
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Form(
         key: _formKey,
         child: Column(
@@ -30,7 +30,7 @@ class _SignUpFromState extends ConsumerState<SignUpFrom> {
             const Center(
               child: Text(
                 "Signup for a new account",
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 16),
               ),
             ),
             const SizedBox(height: 16),
@@ -57,15 +57,16 @@ class _SignUpFromState extends ConsumerState<SignUpFrom> {
                 if (value == null || value.isEmpty) {
                   return "please enter a passowrd";
                 }
-                // if (value.length < 8) {
-                //   return "Password must be 8 characters in length";
-                // }
+                if (value.length < 8) {
+                  return "Password must be 8 characters in length";
+                }
                 return null;
               },
             ),
             //error feedback
             const SizedBox(height: 16),
             if (authState.errorMessage != null)
+            
               Text(
                 authState.errorMessage!,
                 style: const TextStyle(color: Colors.red),
