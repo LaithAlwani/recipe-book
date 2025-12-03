@@ -4,6 +4,7 @@ import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/auth/auth_state.dart';
 import 'package:recipe_book/models/app_user.dart';
 import 'package:recipe_book/screens/profile/profile_screen.dart';
+import 'package:recipe_book/screens/wlecome/welcome.dart';
 
 class SettingScreen extends ConsumerWidget {
   const SettingScreen({super.key});
@@ -11,6 +12,15 @@ class SettingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState authState = ref.watch(authNotifierProvider);
+    if (authState.status == AuthStatus.unauthenticated) {
+      Future.microtask(() {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+        );
+      });
+      return const SizedBox.shrink();
+    }
     final AppUser user = authState.appUser!;
     return Scaffold(
       appBar: AppBar(title: const Text("Settings"), centerTitle: true),

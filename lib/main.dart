@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/auth/auth_state.dart';
 import 'package:recipe_book/firebase_options.dart';
-import 'package:recipe_book/screens/home/home_screen.dart';
 import 'package:recipe_book/screens/main_layout.dart';
 import 'package:recipe_book/screens/onboadring/onboarding_screen.dart';
 import 'package:recipe_book/screens/wlecome/welcome.dart';
@@ -52,14 +51,15 @@ class MyApp extends ConsumerWidget {
   }
 
   Widget _getLandingScreen(AuthState authState) {
-    print(authState.status);
     if (authState.isRegistering) {
-      return const OnboardingScreen(); // new user, onboarding
-    } else if (authState.isSignedIn) {
-      return const MainLayout(); // logged in and ready
-    } else {
-      return const WelcomeScreen(); // not signed in
+      return const OnboardingScreen();
     }
+
+    if (authState.isSignedIn) {
+      return const MainLayout();
+    }
+
+    return const WelcomeScreen();
   }
 }
 
