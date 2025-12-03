@@ -1,18 +1,20 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:recipe_book/features/auth/auth_provider.dart';
 
-class ImagePickerWidget extends StatefulWidget {
+class ImagePickerWidget extends ConsumerStatefulWidget {
   const ImagePickerWidget({super.key, required this.onImageSelected});
 
   final Function(File?) onImageSelected;
 
   @override
-  State<ImagePickerWidget> createState() => _ImagePickerWidgetState();
+  ConsumerState<ImagePickerWidget> createState() => _ImagePickerWidgetState();
 }
 
-class _ImagePickerWidgetState extends State<ImagePickerWidget> {
+class _ImagePickerWidgetState extends ConsumerState<ImagePickerWidget> {
   final ImagePicker _picker = ImagePicker();
   File? _selectedImageFile;
 
@@ -64,6 +66,17 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authNotifierProvider);
+    final firebaseUser = authState.firebaseUser!;
+    final photoUrl = firebaseUser.photoURL;
+
+    ImageProvider? backgroundImage;
+    if (_selectedImageFile != null) {
+      backgroundImage = FileImage(_selectedImageFile!);
+    } else if (photoUrl != null && photoUrl.isNotEmpty) {
+      backgroundImage = NetworkImage(photoUrl);
+    }
+
     return TextButton(
       onPressed: _showImagePickerOptions,
       child: Column(
@@ -71,20 +84,11 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
           CircleAvatar(
             radius: 60,
             backgroundColor: Colors.grey[200],
-            backgroundImage: _selectedImageFile != null
-                ? FileImage(_selectedImageFile!)
-                : null,
-            child: _selectedImageFile == null
+            backgroundImage: backgroundImage,
+            child: backgroundImage == null
                 ? const Icon(Icons.add_a_photo, size: 40, color: Colors.grey)
                 : null,
           ),
-          // CircleAvatar(
-          //   radius: 50,
-          //   backgroundImage: _selectedImage,
-          //   child: _selectedImage == null
-          //       ? const Icon(Icons.add_a_photo, size: 40)
-          //       : null,
-          // ),
           const SizedBox(height: 20),
           const Text("Choose an Image"),
         ],

@@ -50,13 +50,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   void _submitOnboarding() async {
     String? imageUrl;
     // Save user data (to Firestore, local storage, etc.)
-    debugPrint("Name: ${_nameController.text}");
-    debugPrint("Image: $_selectedImageFile");
+
     if (_selectedImageFile != null) {
       imageUrl = await StorageService.uploadImageAndGetUrl(
         _selectedImageFile!,
         _currentUser!.uid,
       );
+    } else if (_currentUser?.photoURL != null) {
+      imageUrl = _currentUser?.photoURL;
     }
     AppUser user = AppUser(
       uid: _currentUser!.uid,

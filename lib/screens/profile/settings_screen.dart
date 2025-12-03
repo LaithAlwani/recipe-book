@@ -24,35 +24,38 @@ class SettingScreen extends ConsumerWidget {
     final AppUser user = authState.appUser!;
     return Scaffold(
       appBar: AppBar(title: const Text("Settings"), centerTitle: true),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Profilescreen()),
-              );
-            },
-
-            child: CircleAvatar(
-              radius: 50,
-              backgroundImage:
-                  user.photoUrl != null && user.photoUrl!.isNotEmpty
-                  ? NetworkImage(user.photoUrl!)
-                  : const AssetImage('assets/images/avatar_placeholder.png')
-                        as ImageProvider,
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Profilescreen(),
+                  ),
+                );
+              },
+              child: ClipOval(
+                child: Image.network(
+                  user.photoUrl ?? "",
+                  width: 60 * 2,
+                  height: 60 * 2,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () async {
-              final homeVM = ref.read(authNotifierProvider.notifier);
-              await homeVM.signOut();
-            },
-            icon: const Icon(Icons.logout),
-          ),
-        ],
+            IconButton(
+              onPressed: () async {
+                final homeVM = ref.read(authNotifierProvider.notifier);
+                await homeVM.signOut();
+              },
+              icon: const Icon(Icons.logout),
+            ),
+          ],
+        ),
       ),
     );
   }
