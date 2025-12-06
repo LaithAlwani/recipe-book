@@ -14,23 +14,20 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   int _selectedIndex = 1;
-  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+
+  final List<Widget> _pages = const [
+    CreateRecipieScreen(),
+    HomeScreen(),
+    RecipesScreen(),
+  ];
 
   final List<String> _titles = ["Create Recipe", "My Cook Book", "Recipes"];
 
   void _onSelectedItem(int index) {
-    if (index == 0) {
-      _navigatorKey.currentState!.pushNamed('/create');
-    } else if (index == 1) {
-      _navigatorKey.currentState!.pushNamed('/home');
-    } else if (index == 2) {
-      _navigatorKey.currentState!.pushNamed('/recipes');
-    }
-
     setState(() => _selectedIndex = index);
   }
 
-  Color iconColor(index) {
+  Color iconColor(int index) {
     return _selectedIndex == index ? AppColors.primaryColor : Colors.grey;
   }
 
@@ -45,44 +42,17 @@ class _MainLayoutState extends State<MainLayout> {
         actions: [
           IconButton(
             onPressed: () {
+              // Navigate to Settings on top of current page
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const SettingScreen();
-                  },
-                ),
+                MaterialPageRoute(builder: (_) => const SettingScreen()),
               );
             },
             icon: const Icon(Icons.settings),
           ),
         ],
       ),
-      body: Navigator(
-        key: _navigatorKey,
-        onGenerateRoute: (settings) {
-          Widget page = const HomeScreen();
-
-          if (settings.name == '/') {
-            page = const HomeScreen();
-          } else if (settings.name == '/recipes') {
-            page = const RecipesScreen();
-          } else if (settings.name == '/create') {
-            page = const CreateRecipieScreen();
-          } else if (settings.name == '/settings') {
-            page = const SettingScreen();
-          }
-          return PageRouteBuilder(
-            pageBuilder: (_, __, ___) => ColoredBox(
-              color: AppColors.backgroundColor, // Prevent white flash
-              child: page,
-            ),
-            transitionsBuilder: (_, animation, __, child) =>
-                FadeTransition(opacity: animation, child: child),
-            transitionDuration: const Duration(milliseconds: 150),
-          );
-        },
-      ),
+      body: _pages[_selectedIndex],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: _onSelectedItem,
         indicatorColor: Colors.transparent,
