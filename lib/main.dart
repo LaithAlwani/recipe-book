@@ -46,39 +46,63 @@ class MyApp extends ConsumerWidget {
           backgroundColor: AppColors.backgroundColor,
         ),
       ),
+      // navigatorObservers: [LoggingNavigatorObserver()],
       home: _getLandingScreen(authState),
     );
   }
 
   Widget _getLandingScreen(AuthState authState) {
-    print(authState);
+    print("STATUS = ${authState.status}");
+    print("SIGNED IN = ${authState.isSignedIn}");
+    print("USER = ${authState.appUser?.displayName}");
+    print("Loading = ${authState.isLoading}");
+    print("isRegistering = ${authState.isRegistering}");
 
-    if (authState.isRegistering &&
-        authState.firebaseUser != null &&
-        authState.appUser == null) {
-      return const OnboardingScreen();
+    switch (authState.status) {
+      case AuthStatus.loading:
+        return const Scaffold(
+          body: const Center(child: CircularProgressIndicator()),
+        );
+
+      case AuthStatus.unauthenticated:
+        return const WelcomeScreen();
+
+      case AuthStatus.error:
+        return const WelcomeScreen();
+
+      case AuthStatus.authenticated:
+        // If this user is new and has no appUser data → onboarding
+
+        if (authState.isRegistering) {
+          return const OnboardingScreen();
+        }
+        return const MainLayout(); // Normal signed-in user
     }
-
-    if (authState.isSignedIn) {
-      return const MainLayout();
-    }
-
-    return const WelcomeScreen();
   }
 }
 
-class SandBox extends StatelessWidget {
-  const SandBox({super.key});
+class LoggingNavigatorObserver extends NavigatorObserver {
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    print(
+      'PUSHED: ${route.settings.name}  | previous: ${previousRoute?.settings.name}',
+    );
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Sand box"),
-        centerTitle: true,
-        backgroundColor: Colors.grey,
-      ),
-      body: const Text("Sand Box"),
+  void didPop(Route route, Route? previousRoute) {
+    print(
+      'POPPED: ${route.settings.name}  | back to: ${previousRoute?.settings.name}',
     );
+  }
+
+  @override
+  void didRemove(Route route, Route? previousRoute) {
+    print('REMOVED: ${route.settings.name}');
+  }
+
+  @override
+  void didReplace({Route? newRoute, Route? oldRoute}) {
+    print('REPLACED: ${oldRoute?.settings.name} -> ${newRoute?.settings.name}');
   }
 }

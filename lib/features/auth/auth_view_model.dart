@@ -32,11 +32,19 @@ class AuthViewModel extends Notifier<AuthState> {
     try {
       final appUser = await FirestoreService.getUserById(user.uid);
       print("auth view model init fetched app user: $appUser");
-      state = state.copyWith(
-        status: AuthStatus.authenticated,
-        firebaseUser: user,
-        appUser: appUser,
-      );
+      if (appUser != null) {
+        state = state.copyWith(
+          status: AuthStatus.authenticated,
+          firebaseUser: user,
+          appUser: appUser,
+        );
+      } else {
+        state = state.copyWith(
+          status: AuthStatus.authenticated,
+          firebaseUser: user,
+          isRegistering: true,
+        );
+      }
     } catch (e) {
       state = state.copyWith(
         status: AuthStatus.error,
@@ -67,8 +75,6 @@ class AuthViewModel extends Notifier<AuthState> {
           errorMessage: "User registration failed",
         );
       }
-      ;
-
       state = state.copyWith(
         status: AuthStatus.authenticated,
         firebaseUser: userCredential.user,
@@ -113,7 +119,6 @@ class AuthViewModel extends Notifier<AuthState> {
       final AppUser? exsistingUser = await FirestoreService.getUserById(
         user.uid,
       );
-
       if (exsistingUser == null) {
         state = state.copyWith(
           status: AuthStatus.authenticated,

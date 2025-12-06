@@ -50,7 +50,11 @@ class AuthState {
     return const AuthState(
       status: AuthStatus.unauthenticated,
       isSignedIn: false,
-    );
+      appUser: null,
+      firebaseUser: null,
+      isRegistering: false,
+      isSigingOut: false,
+    );  
   }
 
   @override

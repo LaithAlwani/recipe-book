@@ -12,16 +12,17 @@ class SettingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState authState = ref.watch(authNotifierProvider);
-    if (authState.status == AuthStatus.unauthenticated) {
-      Future.microtask(() {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const WelcomeScreen()),
-        );
-      });
-      return const SizedBox.shrink();
-    }
-    final AppUser user = authState.appUser!;
+    // if (authState.status == AuthStatus.unauthenticated) {
+    //   Future.microtask(() {
+    //     Navigator.pushReplacement(
+    //       context,
+    //       MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+    //     );
+    //   });
+    //   return const SizedBox.shrink();
+    // }
+
+    final AppUser? user = authState.appUser;
     return Scaffold(
       appBar: AppBar(title: const Text("Settings"), centerTitle: true),
       body: Center(
@@ -40,7 +41,7 @@ class SettingScreen extends ConsumerWidget {
               },
               child: ClipOval(
                 child: Image.network(
-                  user.photoUrl ?? "",
+                  user?.photoUrl ?? "",
                   width: 60 * 2,
                   height: 60 * 2,
                   fit: BoxFit.cover,
@@ -51,6 +52,10 @@ class SettingScreen extends ConsumerWidget {
               onPressed: () async {
                 final homeVM = ref.read(authNotifierProvider.notifier);
                 await homeVM.signOut();
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+                  (route) => false, // remove all previous routes
+                );
               },
               icon: const Icon(Icons.logout),
             ),
