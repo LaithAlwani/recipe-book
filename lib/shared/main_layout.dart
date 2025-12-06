@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_book/features/home/ui/home_screen.dart';
+import 'package:recipe_book/features/recipe_book/recipie_book_screen.dart';
 import 'package:recipe_book/features/user/ui/settings_screen.dart';
 import 'package:recipe_book/features/recipie/ui/create_recipie_screen.dart';
 import 'package:recipe_book/features/recipie/ui/recipies_screen.dart';
@@ -18,7 +19,7 @@ class _MainLayoutState extends State<MainLayout> {
   final List<Widget> _pages = const [
     CreateRecipieScreen(),
     HomeScreen(),
-    RecipesScreen(),
+    RecipieBookScreen(),
   ];
 
   final List<String> _titles = ["Create Recipe", "My Cook Book", "Recipes"];
