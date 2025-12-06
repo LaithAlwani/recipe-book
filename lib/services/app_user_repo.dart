@@ -57,21 +57,4 @@ class AppUserRepo {
       rethrow;
     }
   }
-
-  static final recipeRef = FirebaseFirestore.instance
-      .collection("recipes")
-      .withConverter(
-        fromFirestore: Recipe.fromFirestore,
-        toFirestore: (Recipe recipe, _) => recipe.toMap(),
-      );
-
-  static Future<List<Recipe>> getRecipesByCreatedBy(String uid) async {
-    print(uid);
-    final snapshot = await recipeRef
-        .where('created_by', isEqualTo: uid)
-        .orderBy('created_at', descending: true)
-        .get();
-
-    return snapshot.docs.map((doc) => doc.data()).toList();
-  }
 }
