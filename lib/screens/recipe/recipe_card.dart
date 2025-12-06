@@ -10,10 +10,13 @@ class RecipeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => RecipeScreen(recipe: recipe)),
+        Navigator.of(context, rootNavigator: true).push(
+          MaterialPageRoute(builder: (context) => RecipeScreen(recipe: recipe)),
         );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => RecipeScreen(recipe: recipe)),
+        // );
       },
       child: Card(
         elevation: 3,
