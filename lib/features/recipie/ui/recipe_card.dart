@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_book/models/recipe.dart';
-import 'package:recipe_book/screens/recipe/recipe_screen.dart';
+import 'package:recipe_book/features/recipie/recipe.dart';
+import 'package:recipe_book/features/recipie/ui/recipe_screen.dart';
 
 class RecipeCard extends StatelessWidget {
   const RecipeCard({super.key, required this.recipe});

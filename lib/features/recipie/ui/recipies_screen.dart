@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
-import 'package:recipe_book/screens/recipe/recipe_card.dart';
-import 'package:recipe_book/features/recipies/recipe_viewmodel.dart';
+import 'package:recipe_book/features/recipie/ui/recipe_card.dart';
+import 'package:recipe_book/features/recipie/recipe_viewmodel.dart';
 
 class RecipesScreen extends ConsumerStatefulWidget {
   const RecipesScreen({super.key});

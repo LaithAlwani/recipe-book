@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/auth/auth_state.dart';
-import 'package:recipe_book/models/app_user.dart';
-import 'package:recipe_book/screens/settings/profile_screen.dart';
-import 'package:recipe_book/screens/wlecome/welcome.dart';
+import 'package:recipe_book/features/user/user_model.dart';
+import 'package:recipe_book/features/user/ui/profile_screen.dart';
+import 'package:recipe_book/features/auth/ui/welcome.dart';
 
 class SettingScreen extends ConsumerWidget {
   const SettingScreen({super.key});

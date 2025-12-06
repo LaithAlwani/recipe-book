@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:recipe_book/models/recipe.dart';
-import 'package:recipe_book/services/firestore_services.dart';
+
+import 'package:recipe_book/features/recipie/recipe_repo.dart';
+import 'package:recipe_book/features/recipie/recipe.dart';
 
 class RecipeViewModel extends StateNotifier<AsyncValue<List<Recipe>>> {
   RecipeViewModel() : super(const AsyncValue.data([]));
@@ -11,7 +12,7 @@ class RecipeViewModel extends StateNotifier<AsyncValue<List<Recipe>>> {
     // state = [];
     state = const AsyncValue.loading();
     try {
-      final recipes = await FirestoreService.getRecipesByCreatedBy(uid);
+      final recipes = await RecipeRepo.getRecipesByCreatedBy(uid);
       print(recipes);
       state = AsyncValue.data(
         recipes,

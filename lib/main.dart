@@ -4,9 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/auth/auth_state.dart';
 import 'package:recipe_book/firebase_options.dart';
-import 'package:recipe_book/screens/main_layout.dart';
-import 'package:recipe_book/screens/onboadring/onboarding_screen.dart';
-import 'package:recipe_book/screens/wlecome/welcome.dart';
+import 'package:recipe_book/shared/main_layout.dart';
+import 'package:recipe_book/features/onboadrding/ui/onboarding_screen.dart';
+import 'package:recipe_book/features/auth/ui/welcome.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/theme.dart';
 

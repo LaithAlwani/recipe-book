@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/auth/auth_state.dart';
-import 'package:recipe_book/screens/wlecome/signin.dart';
-import 'package:recipe_book/screens/wlecome/signup.dart';
+import 'package:recipe_book/features/auth/ui/signin.dart';
+import 'package:recipe_book/features/auth/ui/signup.dart';
 import 'package:recipe_book/shared/social_logins.dart';
 import 'package:recipe_book/theme.dart';
 

@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:recipe_book/features/auth/auth_state.dart';
 import 'package:recipe_book/firebase_options.dart';
-import 'package:recipe_book/models/app_user.dart';
-import 'package:recipe_book/services/firestore_services.dart';
+import 'package:recipe_book/features/user/user_model.dart';
+import 'package:recipe_book/features/user/app_user_repo.dart';
 
 class AuthViewModel extends Notifier<AuthState> {
   final _auth = FirebaseAuth.instance;
@@ -30,7 +30,7 @@ class AuthViewModel extends Notifier<AuthState> {
     state = state.copyWith(status: AuthStatus.loading, isLoading: true);
 
     try {
-      final appUser = await FirestoreService.getUserById(user.uid);
+      final appUser = await AppUserRepo.getUserById(user.uid);
       print("auth view model init fetched app user: $appUser");
       if (appUser != null) {
         state = state.copyWith(
@@ -116,9 +116,7 @@ class AuthViewModel extends Notifier<AuthState> {
       if (user == null)
         throw Exception("No user returned from Google Sign-In.");
 
-      final AppUser? exsistingUser = await FirestoreService.getUserById(
-        user.uid,
-      );
+      final AppUser? exsistingUser = await AppUserRepo.getUserById(user.uid);
       if (exsistingUser == null) {
         state = state.copyWith(
           status: AuthStatus.authenticated,
@@ -160,9 +158,7 @@ class AuthViewModel extends Notifier<AuthState> {
         password: password,
       );
 
-      final appUser = await FirestoreService.getUserById(
-        userCredential.user!.uid,
-      );
+      final appUser = await AppUserRepo.getUserById(userCredential.user!.uid);
       state = state.copyWith(errorMessage: "user data not found");
 
       state = state.copyWith(
@@ -188,7 +184,7 @@ class AuthViewModel extends Notifier<AuthState> {
   Future<void> createNewUser(AppUser user) async {
     state = state.copyWith(isLoading: true);
     try {
-      await FirestoreService.createUser(user);
+      await AppUserRepo.createUser(user);
       state = state.copyWith(appUser: user, isRegistering: false);
     } catch (err) {
       state = state.copyWith(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_book/screens/home/home_screen.dart';
-import 'package:recipe_book/screens/settings/settings_screen.dart';
-import 'package:recipe_book/screens/recipe/create_recipie_screen.dart';
-import 'package:recipe_book/screens/recipe/recipies_screen.dart';
+import 'package:recipe_book/features/home/ui/home_screen.dart';
+import 'package:recipe_book/features/user/ui/settings_screen.dart';
+import 'package:recipe_book/features/recipie/ui/create_recipie_screen.dart';
+import 'package:recipe_book/features/recipie/ui/recipies_screen.dart';
 import 'package:recipe_book/theme.dart';
 
 class MainLayout extends StatefulWidget {

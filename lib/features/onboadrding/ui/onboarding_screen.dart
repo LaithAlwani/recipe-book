@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/auth/auth_state.dart';
-import 'package:recipe_book/models/app_user.dart';
-import 'package:recipe_book/screens/onboadring/onboadring_name.dart';
-import 'package:recipe_book/screens/onboadring/onboarding_bottom_navbar.dart';
-import 'package:recipe_book/screens/onboadring/onboarding_image.dart';
+import 'package:recipe_book/features/user/user_model.dart';
+import 'package:recipe_book/features/onboadrding/ui/onboadring_name.dart';
+import 'package:recipe_book/features/onboadrding/ui/onboarding_bottom_navbar.dart';
+import 'package:recipe_book/features/onboadrding/ui/onboarding_image.dart';
 import 'package:recipe_book/services/storage_service.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {

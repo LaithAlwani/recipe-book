@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:recipe_book/models/ingredient.dart';
+import 'package:recipe_book/features/ingredient/ingredient.dart';
 
 class ShoppingList {
   final String id;

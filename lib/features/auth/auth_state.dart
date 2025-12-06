@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:recipe_book/models/app_user.dart';
+import 'package:recipe_book/features/user/user_model.dart';
 
 enum AuthStatus { loading, authenticated, unauthenticated, error }
 
