@@ -6,7 +6,7 @@
  *
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
-
+/* eslint-disable */ 
 const {setGlobalOptions} = require("firebase-functions");
 // const {onRequest} = require("firebase-functions/https");
 // const logger = require("firebase-functions/logger");
@@ -30,3 +30,81 @@ setGlobalOptions({maxInstances: 10});
 //   logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
+
+
+const {onCall, HttpsError} = require("firebase-functions/v2/https");
+const {initializeApp} = require("firebase-admin/app");
+const { getFirestore, FieldValue } = require("firebase-admin/firestore");
+const {getStorage} = require("firebase-admin/storage")
+
+initializeApp();
+
+const db = getFirestore();
+const bucket = getStorage();
+
+exports.createUser = onCall(async (req) => {
+  const {uid, displayName, email, photoUrl} = req.data;
+  const userRef = db.collection("users").doc(uid);
+    if (!uid || !displayName || !email) {
+      throw new HttpsError(
+        "invalid-argument",
+        "Missing required user fields: uid, name, email",
+    );
+  }
+  try {
+    //  check if user exsists
+    const doc = await userRef.get();
+    if (doc.exists) {
+      throw new HttpsError(
+          "already-exists",
+          "User already exists",
+      );
+    }
+    //  create new user
+    await userRef.set({
+      uid: uid,
+      displayName: displayName,
+      email: email,
+      photoUrl: photoUrl,
+      createdAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
+      recipies: [],
+      favorites: [],
+      followers: [],
+      following: [],
+      role: "user",
+      bio: "",
+      isVarified: "",
+      location: null,
+    });
+  } catch (err) {
+    console.error("Error creating user:", err);
+    throw new HttpsError("internal", err.message);
+  }
+});
+
+exports.uploadUserImage = onCall(async (req) => {
+  const { uid, imageBase64, fileName } = req.data;
+
+  if (!request.auth || request.auth.uid !== uid) {
+    throw new Error("unauthenticated or invalid UID");
+  }
+
+  if (!imageBase64 || !fileName) {
+    throw new Error("Missing image data or file name");
+  }
+
+   const buffer = Buffer.from(imageBase64, "base64");
+
+  const file = bucket.file(`users/${uid}/${fileName}`);
+
+  await file.save(buffer, {
+    metadata: { contentType: "image/jpeg" }, // adjust if PNG etc.
+  });
+  const [url] = await file.getSignedUrl({
+    action: "read",
+    expires: "03-01-2500",
+  });
+  return { url };
+})
+

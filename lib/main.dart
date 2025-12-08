@@ -1,4 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
@@ -17,6 +22,18 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  if (kDebugMode) {
+    const emulatorHost = '192.168.86.29';
+    try {
+      FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
+      await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
+      FirebaseStorage.instance.useStorageEmulator(emulatorHost, 9199);
+      final functions = FirebaseFunctions.instanceFor(app: Firebase.app());
+      functions.useFunctionsEmulator(emulatorHost, 5001);
+    } catch (err) {
+      debugPrint("erro in firebase emulator $err");
+    }
+  }
   runApp(const ProviderScope(child: MyApp()));
 }
 

@@ -3,6 +3,7 @@ import 'package:recipe_book/features/recipie/recipe.dart';
 
 class RecipeBook {
   final String id;
+  final String ownerId;
   final String title;
   final List<Recipe> recipies;
   final Timestamp createdAt;
@@ -11,6 +12,7 @@ class RecipeBook {
 
   RecipeBook({
     required this.id,
+    required this.ownerId,
     required this.title,
     required this.recipies,
     required this.createdAt,
@@ -25,6 +27,7 @@ class RecipeBook {
     final data = snapshot.data()!;
     return RecipeBook(
       id: snapshot.id,
+      ownerId: data['ownerId'] ?? "",
       title: data["title"] ?? '',
       recipies: (data['recipies'] as List<dynamic>? ?? [])
           .map((doc) => Recipe.fromFirestore(doc, null))
@@ -40,6 +43,7 @@ class RecipeBook {
 
   Map<String, dynamic> toFirestore() {
     return {
+      'ownerId':ownerId,
       'title': title,
       'recipies': recipies.map((element) => element.toMap()),
       'thumbnailUrl': thumbnailUrl,
@@ -57,6 +61,7 @@ class RecipeBook {
   }) {
     return RecipeBook(
       id: id,
+      ownerId: ownerId,
       title: title ?? this.title,
       recipies: recipies ?? this.recipies,
       createdAt: createdAt ?? this.createdAt,
