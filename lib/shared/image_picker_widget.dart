@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 
@@ -19,16 +21,30 @@ class _ImagePickerWidgetState extends ConsumerState<ImagePickerWidget> {
   File? _selectedImageFile;
 
   Future<void> _pickImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(
-      source: source,
-      imageQuality: 75,
+    final pickedFile = await _picker.pickImage(source: source);
+    if (pickedFile == null) return;
+    final originalBytes = await pickedFile.readAsBytes();
+
+    img.Image? decodedImage = img.decodeImage(originalBytes);
+    if (decodedImage == null) return;
+
+    // Resize the image to about 300px width (great for avatars)
+    img.Image resized = img.copyResize(decodedImage, width: 300);
+
+    final resizedBytes = Uint8List.fromList(
+      img.encodeJpg(resized, quality: 80),
     );
-    if (pickedFile != null) {
-      widget.onImageSelected(File(pickedFile.path));
-      setState(() {
-        _selectedImageFile = File(pickedFile.path);
-      });
-    }
+
+    final tempDir = Directory.systemTemp;
+    final resizedFile = File(
+      '${tempDir.path}/resized_${DateTime.now().millisecondsSinceEpoch}.jpg',
+    );
+
+    await resizedFile.writeAsBytes(resizedBytes);
+    widget.onImageSelected(resizedFile);
+    setState(() {
+      _selectedImageFile = resizedFile;
+    });
   }
 
   void _showImagePickerOptions() {
