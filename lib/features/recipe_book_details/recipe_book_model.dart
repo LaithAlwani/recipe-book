@@ -29,6 +29,7 @@ class RecipeBook {
       id: snapshot.id,
       ownerId: data['ownerId'] ?? "",
       title: data["title"] ?? '',
+      thumbnailUrl: data['thumbnailUrl'] ?? '',
       recipies: (data['recipies'] as List<dynamic>? ?? [])
           .map((doc) => Recipe.fromFirestore(doc, null))
           .toList(),
@@ -43,7 +44,7 @@ class RecipeBook {
 
   Map<String, dynamic> toFirestore() {
     return {
-      'ownerId':ownerId,
+      'ownerId': ownerId,
       'title': title,
       'recipies': recipies.map((element) => element.toMap()),
       'thumbnailUrl': thumbnailUrl,
@@ -65,8 +66,15 @@ class RecipeBook {
       title: title ?? this.title,
       recipies: recipies ?? this.recipies,
       createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
     );
+  }
+
+  @override
+  String toString() {
+    return 'RecipeBook(id: $id, ownerId: $ownerId, title: $title, '
+        'recipesCount: ${recipies.length}, createdAt: $createdAt, '
+        'updatedAt: $updatedAt, thumbnailUrl: $thumbnailUrl)';
   }
 }
