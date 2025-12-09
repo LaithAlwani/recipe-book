@@ -35,12 +35,11 @@ setGlobalOptions({maxInstances: 10});
 const {onCall, HttpsError} = require("firebase-functions/v2/https");
 const {initializeApp} = require("firebase-admin/app");
 const { getFirestore, FieldValue } = require("firebase-admin/firestore");
-const {getStorage} = require("firebase-admin/storage")
 
 initializeApp();
 
 const db = getFirestore();
-const bucket = getStorage();
+
 
 exports.createUser = onCall(async (req) => {
   const {uid, displayName, email, photoUrl} = req.data;
@@ -60,6 +59,32 @@ exports.createUser = onCall(async (req) => {
           "User already exists",
       );
     }
+
+    const recipeBookRef = db.collection("recipeBooks");
+
+    const myRecipesRef = recipeBookRef.doc();
+    const myFavoritsRef = recipeBookRef.doc();
+
+    const myRecipeBook = {
+      id: myRecipesRef.id,
+      ownerId: uid,
+      title: "My Recipes",
+      createdAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
+    }
+    const favoritsBook = {
+      id: myFavoritsRef.id,
+      ownerId: uid,
+      title: "Favorits",
+      createdAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
+    }
+
+    await Promise.all([
+      myRecipesRef.set(myRecipeBook),
+      myFavoritsRef.set(favoritsBook)
+    ])
+
     //  create new user
     await userRef.set({
       uid: uid,
