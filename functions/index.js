@@ -83,28 +83,25 @@ exports.createUser = onCall(async (req) => {
   }
 });
 
-exports.uploadUserImage = onCall(async (req) => {
-  const { uid, imageBase64, fileName } = req.data;
+exports.updateUserProfile = onCall(async (req) => {
+  const { uid, displayName, email, photoUrl } = request.data;
 
   if (!request.auth || request.auth.uid !== uid) {
     throw new Error("unauthenticated or invalid UID");
   }
 
-  if (!imageBase64 || !fileName) {
-    throw new Error("Missing image data or file name");
+  if (!uid) {
+    throw new Error("Missing user UID");
   }
 
-   const buffer = Buffer.from(imageBase64, "base64");
-
-  const file = bucket.file(`users/${uid}/${fileName}`);
-
-  await file.save(buffer, {
-    metadata: { contentType: "image/jpeg" }, // adjust if PNG etc.
-  });
-  const [url] = await file.getSignedUrl({
-    action: "read",
-    expires: "03-01-2500",
-  });
-  return { url };
-})
+  const userRef = db.collection("users").doc(uid);
+  const updateData = {
+    updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+  };
+  if (displayName) updateData.displayName = displayName;
+  if (email) updateData.email = email;
+  if (photoUrl) updateData.photoUrl = photoUrl;
+  userRef.update(updateData);
+  return { success: true };
+});
 
