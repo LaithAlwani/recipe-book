@@ -182,7 +182,6 @@ class AuthViewModel extends Notifier<AuthState> {
   //-------------
 
   Future<void> createNewUser(AppUser user) async {
-    debugPrint("Signed in UID: ${FirebaseAuth.instance.currentUser?.uid}");
     state = state.copyWith(isLoading: true);
     try {
       await AppUserRepo.createUser(user);
