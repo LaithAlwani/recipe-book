@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_book/theme.dart';
 
 class OnboardingBottomNavbar extends StatelessWidget {
   const OnboardingBottomNavbar({
@@ -7,12 +8,14 @@ class OnboardingBottomNavbar extends StatelessWidget {
     required this.currentPage,
     required this.perviousPage,
     required this.onNextPage,
+    required this.isLoading,
   });
 
   final int totalPages;
   final int currentPage;
   final VoidCallback perviousPage;
   final VoidCallback onNextPage;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +32,37 @@ class OnboardingBottomNavbar extends StatelessWidget {
             child: const Text("Back"),
           ),
 
-          ElevatedButton(
-            onPressed: onNextPage,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.amber,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+          SizedBox(
+            width: 120,
+            height: 48,
+            child: ElevatedButton(
+              onPressed: onNextPage,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primaryAccent,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 14,
+                ),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+              child: isLoading
+                  ? const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,
+                      ),
+                    )
+                  : Text(
+                      currentPage == totalPages - 1 ? "Submit" : "Next",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+              // child: Text(currentPage == totalPages - 1 ? "Finish" : "Next"),
             ),
-            child: Text(currentPage == totalPages - 1 ? "Finish" : "Next"),
           ),
         ],
       ),

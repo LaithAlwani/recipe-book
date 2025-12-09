@@ -9,6 +9,7 @@ import 'package:recipe_book/features/onboadrding/ui/onboadring_name.dart';
 import 'package:recipe_book/features/onboadrding/ui/onboarding_bottom_navbar.dart';
 import 'package:recipe_book/features/onboadrding/ui/onboarding_image.dart';
 import 'package:recipe_book/services/storage_service.dart';
+import 'package:recipe_book/theme.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
@@ -24,6 +25,22 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   int _currentPage = 0;
   final TextEditingController _nameController = TextEditingController();
   File? _selectedImageFile;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _nameController.addListener(() {
+      setState(() {}); // rebuilds UI including the bottom navbar
+    });
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
 
   void _nextPage() {
     if (_currentPage < _totalPages - 1) {
@@ -46,6 +63,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   void _submitOnboarding() async {
+    setState(() {
+      isLoading = true;
+    });
     String? imageUrl;
     // Save user data (to Firestore, local storage, etc.)
 
@@ -73,6 +93,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text("Failed to create user: $e")));
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -83,7 +107,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
     _currentUser = firebaseUser;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -102,11 +126,17 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 ],
               ),
             ),
-            OnboardingBottomNavbar(
-              totalPages: _totalPages,
-              currentPage: _currentPage,
-              perviousPage: _previousPage,
-              onNextPage: _nextPage,
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              child: _nameController.text.length >= 3
+                  ? OnboardingBottomNavbar(
+                      totalPages: _totalPages,
+                      currentPage: _currentPage,
+                      perviousPage: _previousPage,
+                      onNextPage: _nextPage,
+                      isLoading: isLoading,
+                    )
+                  : const SizedBox.shrink(),
             ),
           ],
         ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class OnboadringName extends StatelessWidget {
@@ -18,7 +17,6 @@ class OnboadringName extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           TextField(
-            
             controller: nameController,
             decoration: const InputDecoration(
               labelText: "Display Name",
