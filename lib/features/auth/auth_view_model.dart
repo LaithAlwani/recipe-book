@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -183,8 +184,24 @@ class AuthViewModel extends Notifier<AuthState> {
 
   Future<void> createNewUser(AppUser user) async {
     state = state.copyWith(isLoading: true);
+    final FirebaseFunctions functions = FirebaseFunctions.instance;
+
+    final HttpsCallable callable = functions.httpsCallable('createUser');
+
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser == null) {
+      print("❌ User is not signed in");
+    } else {
+      print("✅ Signed in as ${firebaseUser.uid}");
+    }
     try {
-      await AppUserRepo.createUser(user);
+      await callable.call({
+        'uid': user.uid,
+        'displayName': user.displayName,
+        'email': user.email,
+        'photoUrl': user.photoUrl,
+      });
+
       state = state.copyWith(appUser: user, isRegistering: false);
     } catch (err) {
       state = state.copyWith(
