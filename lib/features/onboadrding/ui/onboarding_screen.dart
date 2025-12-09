@@ -87,12 +87,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
     try {
       await authVM.createNewUser(user);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("✅ User Created Successfuly")),
+      );
     } catch (e) {
       // ❌ Error — show a message
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("Failed to create user: $e")));
+      ).showSnackBar(SnackBar(content: Text("❌ Failed to create user: $e")));
     } finally {
       setState(() {
         isLoading = false;
