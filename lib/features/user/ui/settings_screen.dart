@@ -48,17 +48,7 @@ class SettingScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            IconButton(
-              onPressed: () async {
-                final homeVM = ref.read(authNotifierProvider.notifier);
-                await homeVM.signOut();
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (_) => const WelcomeScreen()),
-                  (route) => false, // remove all previous routes
-                );
-              },
-              icon: const Icon(Icons.logout),
-            ),
+            
           ],
         ),
       ),
