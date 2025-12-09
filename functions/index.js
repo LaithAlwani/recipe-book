@@ -60,7 +60,7 @@ exports.createUser = onCall(async (req) => {
       );
     }
 
-    const recipeBookRef = db.collection("recipeBooks");
+    const recipeBookRef = db.collection("recipe_books");
 
     const myRecipesRef = recipeBookRef.doc();
     const myFavoritsRef = recipeBookRef.doc();
@@ -69,6 +69,7 @@ exports.createUser = onCall(async (req) => {
       id: myRecipesRef.id,
       ownerId: uid,
       title: "My Recipes",
+      thumbnailUrl:"https://thumbs.dreamstime.com/b/classic-italian-favorite-spaghetti-rich-meat-sauce-evokes-comfort-warmth-perfect-family-meals-culinary-bolognese-418514637.jpg",
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     }
@@ -76,6 +77,7 @@ exports.createUser = onCall(async (req) => {
       id: myFavoritsRef.id,
       ownerId: uid,
       title: "Favorits",
+      thumbnailUrl:"https://thumbs.dreamstime.com/b/classic-italian-favorite-spaghetti-rich-meat-sauce-evokes-comfort-warmth-perfect-family-meals-culinary-bolognese-418514637.jpg",
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     }
