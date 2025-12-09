@@ -22,7 +22,8 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  if (kDebugMode) {
+  const bool useEmulator = true;
+  if (kDebugMode && useEmulator) {
     const emulatorHost = '192.168.86.29';
     try {
       FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
@@ -69,12 +70,6 @@ class MyApp extends ConsumerWidget {
   }
 
   Widget _getLandingScreen(AuthState authState) {
-    print("STATUS = ${authState.status}");
-    print("SIGNED IN = ${authState.isSignedIn}");
-    print("USER = ${authState.appUser?.displayName}");
-    print("Loading = ${authState.isLoading}");
-    print("isRegistering = ${authState.isRegistering}");
-
     switch (authState.status) {
       case AuthStatus.loading:
         return const Scaffold(
@@ -95,31 +90,5 @@ class MyApp extends ConsumerWidget {
         }
         return const MainLayout(); // Normal signed-in user
     }
-  }
-}
-
-class LoggingNavigatorObserver extends NavigatorObserver {
-  @override
-  void didPush(Route route, Route? previousRoute) {
-    print(
-      'PUSHED: ${route.settings.name}  | previous: ${previousRoute?.settings.name}',
-    );
-  }
-
-  @override
-  void didPop(Route route, Route? previousRoute) {
-    print(
-      'POPPED: ${route.settings.name}  | back to: ${previousRoute?.settings.name}',
-    );
-  }
-
-  @override
-  void didRemove(Route route, Route? previousRoute) {
-    print('REMOVED: ${route.settings.name}');
-  }
-
-  @override
-  void didReplace({Route? newRoute, Route? oldRoute}) {
-    print('REPLACED: ${oldRoute?.settings.name} -> ${newRoute?.settings.name}');
   }
 }
