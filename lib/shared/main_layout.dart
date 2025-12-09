@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/home/ui/home_screen.dart';
 import 'package:recipe_book/features/recipe_book/recipie_book_screen.dart';
 import 'package:recipe_book/features/user/ui/settings_screen.dart';
@@ -6,14 +8,14 @@ import 'package:recipe_book/features/recipie/ui/create_recipie_screen.dart';
 import 'package:recipe_book/features/recipie/ui/recipies_screen.dart';
 import 'package:recipe_book/theme.dart';
 
-class MainLayout extends StatefulWidget {
+class MainLayout extends ConsumerStatefulWidget {
   const MainLayout({super.key});
 
   @override
-  State<MainLayout> createState() => _MainLayoutState();
+  ConsumerState<MainLayout> createState() => _MainLayoutState();
 }
 
-class _MainLayoutState extends State<MainLayout> {
+class _MainLayoutState extends ConsumerState<MainLayout> {
   int _selectedIndex = 1;
 
   final List<Widget> _pages = const [
@@ -38,18 +40,29 @@ class _MainLayoutState extends State<MainLayout> {
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         backgroundColor: AppColors.backgroundColor,
+        leading: IconButton(
+          onPressed: () {
+            // Navigate to Settings on top of current page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SettingScreen()),
+            );
+          },
+          icon: const Icon(Icons.settings),
+        ),
         title: Text(_titles[_selectedIndex]),
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {
-              // Navigate to Settings on top of current page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const SettingScreen()),
-              );
+            onPressed: () async {
+              final homeVM = ref.read(authNotifierProvider.notifier);
+              await homeVM.signOut();
+              // Navigator.of(context).pushAndRemoveUntil(
+              //   MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+              //   (route) => false, // remove all previous routes
+              // );
             },
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),
