@@ -57,10 +57,13 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
             onPressed: () async {
               final homeVM = ref.read(authNotifierProvider.notifier);
               await homeVM.signOut();
-              // Navigator.of(context).pushAndRemoveUntil(
-              //   MaterialPageRoute(builder: (_) => const WelcomeScreen()),
-              //   (route) => false, // remove all previous routes
-              // );
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("✅ Logout succesfully, See you later!"),
+                  ),
+                );
+              }
             },
             icon: const Icon(Icons.logout),
           ),
