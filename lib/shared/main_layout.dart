@@ -5,7 +5,6 @@ import 'package:recipe_book/features/home/ui/home_screen.dart';
 import 'package:recipe_book/features/recipe_books/recipie_book_screen.dart';
 import 'package:recipe_book/features/user/ui/settings_screen.dart';
 import 'package:recipe_book/features/recipie/ui/create_recipie_screen.dart';
-import 'package:recipe_book/features/recipe_book_details/recipe_book_details_screen.dart';
 import 'package:recipe_book/theme.dart';
 
 class MainLayout extends ConsumerStatefulWidget {
