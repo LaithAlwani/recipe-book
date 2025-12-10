@@ -10,26 +10,23 @@ class RecipeBookDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bookDetailState = ref.watch(recipeBookDetailProvider);
-    final bookDetailVM = ref.watch(recipeBookDetailProvider.notifier);
-    final bookId = ref.watch(recipeBooksNotifierProvider).currentBookId;
-    final bookTitle = ref.watch(recipeBooksNotifierProvider).currentBookTitle;
+    final bookId = ref.watch(recipeBooksNotifierProvider).currentBookId!;
+    final bookTitle =
+        ref.watch(recipeBooksNotifierProvider).currentBookTitle ?? "Book Title";
+    final bookDetailState = ref.watch(recipeBookDetailProvider(bookId));
+    final bookDetailVM = ref.watch(recipeBookDetailProvider(bookId).notifier);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (bookDetailState.status == RecipeBookDetailStatus.initial) {
-        if (bookId != null) {
-          await bookDetailVM.loadRecipes(bookId);
-        }
+        await bookDetailVM.loadRecipes(bookId);
       }
     });
 
     return Scaffold(
-      appBar: AppBar(title: Text(bookTitle ?? ""), centerTitle: true),
+      appBar: AppBar(title: Text(bookTitle), centerTitle: true),
       body: RefreshIndicator(
         onRefresh: () async {
-          if (bookId != null) {
-            await bookDetailVM.loadRecipes(bookId);
-          }
+          await bookDetailVM.loadRecipes(bookId);
         },
         child: GridView.builder(
           padding: const EdgeInsets.all(12),
