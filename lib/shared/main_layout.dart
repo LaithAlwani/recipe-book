@@ -23,7 +23,11 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
     RecipieBookScreen(),
   ];
 
-  final List<String> _titles = ["Create Recipe", "My Cook Book", "Recipes"];
+  final List<String> _titles = [
+    "Create Recipe",
+    "My Kitchen Recipes",
+    "Recipe Books",
+  ];
 
   void _onSelectedItem(int index) {
     setState(() => _selectedIndex = index);
