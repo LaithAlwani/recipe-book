@@ -50,7 +50,7 @@ class RecipieBookScreen extends ConsumerWidget {
                           )
                         : const Icon(Icons.book),
                     title: Text(book.title),
-                    subtitle: Text("${book.recipes.length} recipes"),
+                    subtitle: Text("${book.recipesCount} recipes"),
                   ),
                 );
         },

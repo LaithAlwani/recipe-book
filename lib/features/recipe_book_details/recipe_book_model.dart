@@ -6,6 +6,7 @@ class RecipeBook {
   final String ownerId;
   final String title;
   final List<Recipe> recipes;
+  final int recipesCount;
   final Timestamp createdAt;
   final Timestamp updatedAt;
   final String? thumbnailUrl;
@@ -18,6 +19,7 @@ class RecipeBook {
     required this.createdAt,
     required this.updatedAt,
     this.thumbnailUrl,
+    this.recipesCount = 0,
   });
 
   factory RecipeBook.fromFirestore(
@@ -33,6 +35,7 @@ class RecipeBook {
       recipes: (data['recipes'] as List<dynamic>? ?? [])
           .map((doc) => Recipe.fromFirestore(doc, null))
           .toList(),
+      recipesCount: (data["recipesCount"] ?? 0) as int,
       createdAt: data['created_at'] is Timestamp
           ? data['created_at']
           : Timestamp.now(),
@@ -47,6 +50,7 @@ class RecipeBook {
       'ownerId': ownerId,
       'title': title,
       'recipes': recipes.map((element) => element.toFirestore()),
+      'recipesCount': recipesCount,
       'thumbnailUrl': thumbnailUrl,
       'created_at': createdAt,
       'updated_at': updatedAt,
@@ -56,6 +60,7 @@ class RecipeBook {
   RecipeBook copyWith({
     String? title,
     List<Recipe>? recipes,
+    int? recipesCount,
     Timestamp? createdAt,
     Timestamp? updatedAt,
     String? thumbnailUrl,
@@ -65,6 +70,7 @@ class RecipeBook {
       ownerId: ownerId,
       title: title ?? this.title,
       recipes: recipes ?? this.recipes,
+      recipesCount: recipesCount ?? this.recipesCount,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
@@ -74,7 +80,7 @@ class RecipeBook {
   @override
   String toString() {
     return 'RecipeBook(id: $id, ownerId: $ownerId, title: $title, '
-        'recipesCount: ${recipes.length}, createdAt: $createdAt, '
+        'recipesCount: $recipesCount, createdAt: $createdAt, '
         'updatedAt: $updatedAt, thumbnailUrl: $thumbnailUrl)';
   }
 }
