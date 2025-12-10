@@ -4,14 +4,16 @@ import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/recipie/ui/recipe_card.dart';
 import 'package:recipe_book/features/recipie/recipe_viewmodel.dart';
 
-class RecipesScreen extends ConsumerStatefulWidget {
-  const RecipesScreen({super.key});
+class RecipeBookDetailsScreen extends ConsumerStatefulWidget {
+  const RecipeBookDetailsScreen({super.key});
 
   @override
-  ConsumerState<RecipesScreen> createState() => _RecipesScreenState();
+  ConsumerState<RecipeBookDetailsScreen> createState() =>
+      _RecipeBookDetailsScreenState();
 }
 
-class _RecipesScreenState extends ConsumerState<RecipesScreen> {
+class _RecipeBookDetailsScreenState
+    extends ConsumerState<RecipeBookDetailsScreen> {
   @override
   void initState() {
     super.initState();
@@ -38,7 +40,7 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen> {
       error: (err, _) => Center(child: Text('Error: $err')),
       data: (recipes) {
         if (recipes.isEmpty) {
-          return const Center(child: Text('No recipes found.'));
+          return const Scaffold(body: Center(child: Text('No recipes found.')));
         }
 
         return RefreshIndicator(

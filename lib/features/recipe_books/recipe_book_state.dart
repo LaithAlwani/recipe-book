@@ -21,7 +21,6 @@ class RecipeBooksState {
   RecipeBooksState copyWith({
     RecipeBooksStatus? status,
     List<RecipeBook>? books,
-    List<Recipe>? recipes,
     bool? isLoadingBooks,
     bool? isUpdating,
     String? errorMessage,

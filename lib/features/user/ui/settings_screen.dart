@@ -12,15 +12,7 @@ class SettingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState authState = ref.watch(authNotifierProvider);
-    // if (authState.status == AuthStatus.unauthenticated) {
-    //   Future.microtask(() {
-    //     Navigator.pushReplacement(
-    //       context,
-    //       MaterialPageRoute(builder: (_) => const WelcomeScreen()),
-    //     );
-    //   });
-    //   return const SizedBox.shrink();
-    // }
+    
 
     final AppUser? user = authState.appUser;
     return Scaffold(
