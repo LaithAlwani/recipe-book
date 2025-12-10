@@ -29,7 +29,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _nameController.addListener(() {
       setState(() {}); // rebuilds UI including the bottom navbar
