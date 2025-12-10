@@ -1,70 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipe_book/features/auth/auth_provider.dart';
+import 'package:recipe_book/features/recipe_book_details/recipe_book_detail_provider.dart';
+import 'package:recipe_book/features/recipe_book_details/recipe_book_detail_state.dart';
+import 'package:recipe_book/features/recipe_books/recipe_book_provider.dart';
 import 'package:recipe_book/features/recipie/ui/recipe_card.dart';
-import 'package:recipe_book/features/recipie/recipe_viewmodel.dart';
 
-class RecipeBookDetailsScreen extends ConsumerStatefulWidget {
+class RecipeBookDetailsScreen extends ConsumerWidget {
   const RecipeBookDetailsScreen({super.key});
 
   @override
-  ConsumerState<RecipeBookDetailsScreen> createState() =>
-      _RecipeBookDetailsScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bookDetailState = ref.watch(recipeBookDetailProvider);
+    final bookDetailVM = ref.watch(recipeBookDetailProvider.notifier);
+    final bookId = ref.watch(recipeBooksNotifierProvider).currentBookId;
 
-class _RecipeBookDetailsScreenState
-    extends ConsumerState<RecipeBookDetailsScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // Delay fetch until after the first frame so ref is available
-    Future.microtask(() async {
-      final authState = ref.read(authNotifierProvider);
-      final appUser = authState.appUser;
-      if (appUser != null) {
-        await ref
-            .read(recipeViewModelProvider.notifier)
-            .fetchRecipes(appUser.uid);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (bookDetailState.status == RecipeBookDetailStatus.initial) {
+        if (bookId != null) {
+          await bookDetailVM.loadRecipes(bookId);
+        }
       }
     });
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    final authState = ref.watch(authNotifierProvider);
-    final recipeState = ref.watch(recipeViewModelProvider);
-    final appUser = authState.appUser;
-
-    return recipeState.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, _) => Center(child: Text('Error: $err')),
-      data: (recipes) {
-        if (recipes.isEmpty) {
-          return const Scaffold(body: Center(child: Text('No recipes found.')));
+    return RefreshIndicator(
+      onRefresh: () async {
+        if (bookId != null) {
+          await bookDetailVM.loadRecipes(bookId);
         }
-
-        return RefreshIndicator(
-          onRefresh: () async {
-            await ref
-                .read(recipeViewModelProvider.notifier)
-                .fetchRecipes(appUser!.uid);
-          },
-          child: GridView.builder(
-            padding: const EdgeInsets.all(12),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // 2 cards per row
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 0.75, // Adjust height ratio (smaller = taller)
-            ),
-            itemCount: recipes.length,
-            itemBuilder: (context, index) {
-              final recipe = recipes[index];
-              return RecipeCard(recipe: recipe);
-            },
-          ),
-        );
       },
+      child: GridView.builder(
+        padding: const EdgeInsets.all(12),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // 2 cards per row
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 0.75, // Adjust height ratio (smaller = taller)
+        ),
+        itemCount: bookDetailState.recipes.length,
+        itemBuilder: (context, index) {
+          final recipe = bookDetailState.recipes[index];
+          return RecipeCard(recipe: recipe);
+        },
+      ),
     );
   }
 }

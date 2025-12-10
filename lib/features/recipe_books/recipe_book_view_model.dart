@@ -10,6 +10,10 @@ class RecipeBookViewModel extends Notifier<RecipeBooksState> {
     return state;
   }
 
+  void setCurrentBook(String id) {
+    state = state.copyWith(currentBookId: id);
+  }
+
   Future<void> loadBooks(String ownerId) async {
     state = state.copyWith(status: RecipeBooksStatus.loading);
 

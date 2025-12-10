@@ -4,7 +4,6 @@ import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/recipe_book_details/recipe_book_details_screen.dart';
 import 'package:recipe_book/features/recipe_books/recipe_book_provider.dart';
 import 'package:recipe_book/features/recipe_books/recipe_book_state.dart';
-import 'package:recipe_book/features/recipie/ui/recipe_screen.dart';
 
 class RecipieBookScreen extends ConsumerWidget {
   const RecipieBookScreen({super.key});
@@ -31,6 +30,7 @@ class RecipieBookScreen extends ConsumerWidget {
               ? const Center(child: CircularProgressIndicator())
               : GestureDetector(
                   onTap: () {
+                    bookVM.setCurrentBook(book.id);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
