@@ -59,7 +59,7 @@ class OnboardingBottomNavbar extends StatelessWidget {
                     )
                   : Text(
                       currentPage == totalPages - 1 ? "Submit" : "Next",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
               // child: Text(currentPage == totalPages - 1 ? "Finish" : "Next"),
             ),
