@@ -4,14 +4,16 @@ import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/recipe_book_details/recipe_book_details_screen.dart';
 import 'package:recipe_book/features/recipe_books/recipe_book_provider.dart';
 import 'package:recipe_book/features/recipe_books/recipe_book_state.dart';
+import 'package:recipe_book/features/user/user_model.dart';
 
 class RecipieBookScreen extends ConsumerWidget {
   const RecipieBookScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final booksState = ref.watch(recipeBooksNotifierProvider);
-    final bookVM = ref.read(recipeBooksNotifierProvider.notifier);
+    final appUser = ref.watch(authNotifierProvider).appUser!;
+    final booksState = ref.watch(recipeBooksNotifierProvider(appUser.uid));
+    final bookVM = ref.read(recipeBooksNotifierProvider(appUser.uid).notifier);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (booksState.status == RecipeBooksStatus.initial) {

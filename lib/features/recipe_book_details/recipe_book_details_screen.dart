@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/recipe_book_details/recipe_book_detail_provider.dart';
 import 'package:recipe_book/features/recipe_book_details/recipe_book_detail_state.dart';
 import 'package:recipe_book/features/recipe_books/recipe_book_provider.dart';
@@ -10,9 +11,13 @@ class RecipeBookDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bookId = ref.watch(recipeBooksNotifierProvider).currentBookId!;
+    final appUser = ref.watch(authNotifierProvider).appUser!;
+    final bookId = ref
+        .watch(recipeBooksNotifierProvider(appUser.uid))
+        .currentBookId!;
     final bookTitle =
-        ref.watch(recipeBooksNotifierProvider).currentBookTitle ?? "Book Title";
+        ref.watch(recipeBooksNotifierProvider(appUser.uid)).currentBookTitle ??
+        "Book Title";
     final bookDetailState = ref.watch(recipeBookDetailProvider(bookId));
     final bookDetailVM = ref.watch(recipeBookDetailProvider(bookId).notifier);
 
@@ -28,20 +33,25 @@ class RecipeBookDetailsScreen extends ConsumerWidget {
         onRefresh: () async {
           await bookDetailVM.loadRecipes(bookId);
         },
-        child: GridView.builder(
-          padding: const EdgeInsets.all(12),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // 2 cards per row
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 0.75, // Adjust height ratio (smaller = taller)
-          ),
-          itemCount: bookDetailState.recipes.length,
-          itemBuilder: (context, index) {
-            final recipe = bookDetailState.recipes[index];
-            return RecipeCard(recipe: recipe);
-          },
-        ),
+        child: bookDetailState.isLoadingRecipes
+            ? const Center(child: CircularProgressIndicator())
+            : bookDetailState.recipes.isEmpty
+            ? const Center(child: Text("Start adding recipes"))
+            : GridView.builder(
+                padding: const EdgeInsets.all(12),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // 2 cards per row
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio:
+                      0.75, // Adjust height ratio (smaller = taller)
+                ),
+                itemCount: bookDetailState.recipes.length,
+                itemBuilder: (context, index) {
+                  final recipe = bookDetailState.recipes[index];
+                  return RecipeCard(recipe: recipe);
+                },
+              ),
       ),
     );
   }
