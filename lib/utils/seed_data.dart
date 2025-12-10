@@ -21,6 +21,13 @@ class FirestoreSeeder {
           .collection('recipes')
           .doc(recipe['id'] as String)
           .set(recipe);
+      print("BookId: ${recipe["bookId"]}");
+      await firestore
+          .collection("recipe_books")
+          .doc(recipe["bookId"] as String)
+          .update({
+            "recipesCount": FieldValue.increment(1), // or -1
+          });
     }
     await recipeBatch.commit();
     print('✅ Recipes seeded!');

@@ -291,6 +291,8 @@ final dummyRecipes = [
   {
     "id": "r8",
     "title": "Chocolate Chip Cookies",
+    "bookId": "quJyfDdood35iKnzT3jH",
+    "ownerId": "Zw6wiZ7sNUnSzOzYpStu23AsA7xt",
     "description": "Classic chewy chocolate chip cookies with a golden crust.",
     "instructions": [
       "Preheat oven to 180°C.",
@@ -360,6 +362,8 @@ final dummyRecipes = [
   {
     "id": "r10",
     "title": "Mushroom Risotto",
+    "bookId": "quJyfDdood35iKnzT3jH",
+    "ownerId": "Zw6wiZ7sNUnSzOzYpStu23AsA7xt",
     "description": "Creamy risotto with mushrooms, garlic, and parmesan.",
     "instructions": [
       "Sauté mushrooms and garlic in olive oil.",
