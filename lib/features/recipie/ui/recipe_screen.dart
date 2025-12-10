@@ -18,6 +18,12 @@ class RecipeScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 3,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stack) {
+                    return Container(
+                      color: Colors.grey.shade300,
+                      child: const Icon(Icons.broken_image, size: 400),
+                    );
+                  },
                 ),
                 Positioned(
                   top: 40.0, // Adjust as needed for desired padding
