@@ -5,9 +5,7 @@ import 'package:recipe_book/features/recipe_book_details/recipe_book_detail_stat
 class RecipeBookDetailViewModel extends Notifier<RecipeBookDetailState> {
   @override
   RecipeBookDetailState build() {
-    state = RecipeBookDetailState.initial();
-
-    return state;
+    return RecipeBookDetailState.initial();
   }
 
   Future<void> loadRecipes(String bookId) async {

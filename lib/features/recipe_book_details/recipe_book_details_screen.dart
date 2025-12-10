@@ -13,6 +13,7 @@ class RecipeBookDetailsScreen extends ConsumerWidget {
     final bookDetailState = ref.watch(recipeBookDetailProvider);
     final bookDetailVM = ref.watch(recipeBookDetailProvider.notifier);
     final bookId = ref.watch(recipeBooksNotifierProvider).currentBookId;
+    final bookTitle = ref.watch(recipeBooksNotifierProvider).currentBookTitle;
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (bookDetailState.status == RecipeBookDetailStatus.initial) {
@@ -22,25 +23,28 @@ class RecipeBookDetailsScreen extends ConsumerWidget {
       }
     });
 
-    return RefreshIndicator(
-      onRefresh: () async {
-        if (bookId != null) {
-          await bookDetailVM.loadRecipes(bookId);
-        }
-      },
-      child: GridView.builder(
-        padding: const EdgeInsets.all(12),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // 2 cards per row
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          childAspectRatio: 0.75, // Adjust height ratio (smaller = taller)
-        ),
-        itemCount: bookDetailState.recipes.length,
-        itemBuilder: (context, index) {
-          final recipe = bookDetailState.recipes[index];
-          return RecipeCard(recipe: recipe);
+    return Scaffold(
+      appBar: AppBar(title: Text(bookTitle ?? ""), centerTitle: true),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          if (bookId != null) {
+            await bookDetailVM.loadRecipes(bookId);
+          }
         },
+        child: GridView.builder(
+          padding: const EdgeInsets.all(12),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // 2 cards per row
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: 0.75, // Adjust height ratio (smaller = taller)
+          ),
+          itemCount: bookDetailState.recipes.length,
+          itemBuilder: (context, index) {
+            final recipe = bookDetailState.recipes[index];
+            return RecipeCard(recipe: recipe);
+          },
+        ),
       ),
     );
   }

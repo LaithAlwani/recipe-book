@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final dummyRecipes = [
   {
     "id": "r1",
+    "bookId": "NGTEtntN1Y4Tlez8QYIx",
+    "ownerId": "Zw6wiZ7sNUnSzOzYpStu23AsA7xt",
     "title": "Classic Spaghetti Bolognese",
     "description":
         "A hearty Italian pasta dish with rich tomato and beef sauce.",
@@ -45,6 +47,8 @@ final dummyRecipes = [
   },
   {
     "id": "r2",
+    "bookId": "NGTEtntN1Y4Tlez8QYIx",
+    "ownerId": "Zw6wiZ7sNUnSzOzYpStu23AsA7xt",
     "title": "Avocado Toast with Egg",
     "description": "Quick, creamy avocado toast topped with poached eggs.",
     "instructions": [
@@ -75,6 +79,8 @@ final dummyRecipes = [
   },
   {
     "id": "r3",
+    "bookId": "NGTEtntN1Y4Tlez8QYIx",
+    "ownerId": "Zw6wiZ7sNUnSzOzYpStu23AsA7xt",
     "title": "Chicken Caesar Salad",
     "description":
         "Crisp romaine lettuce, grilled chicken, and creamy Caesar dressing.",
@@ -121,6 +127,8 @@ final dummyRecipes = [
   },
   {
     "id": "r4",
+    "bookId": "NGTEtntN1Y4Tlez8QYIx",
+    "ownerId": "Zw6wiZ7sNUnSzOzYpStu23AsA7xt",
     "title": "Beef Tacos",
     "description": "Spicy beef tacos with fresh toppings and soft tortillas.",
     "instructions": [
@@ -164,6 +172,8 @@ final dummyRecipes = [
   },
   {
     "id": "r5",
+    "bookId": "quJyfDdood35iKnzT3jH",
+    "ownerId": "Zw6wiZ7sNUnSzOzYpStu23AsA7xt",
     "title": "Fluffy Pancakes",
     "description": "Soft, fluffy pancakes perfect for breakfast.",
     "instructions": [
@@ -203,6 +213,8 @@ final dummyRecipes = [
   },
   {
     "id": "r6",
+    "bookId": "quJyfDdood35iKnzT3jH",
+    "ownerId": "Zw6wiZ7sNUnSzOzYpStu23AsA7xt",
     "title": "Grilled Salmon",
     "description": "Perfectly grilled salmon fillets with lemon and herbs.",
     "instructions": [
@@ -244,6 +256,8 @@ final dummyRecipes = [
   },
   {
     "id": "r7",
+    "bookId": "quJyfDdood35iKnzT3jH",
+    "ownerId": "Zw6wiZ7sNUnSzOzYpStu23AsA7xt",
     "title": "Vegetable Stir-Fry",
     "description": "Quick and healthy stir-fried vegetables with soy sauce.",
     "instructions": [
@@ -313,6 +327,8 @@ final dummyRecipes = [
   },
   {
     "id": "r9",
+    "bookId": "quJyfDdood35iKnzT3jH",
+    "ownerId": "Zw6wiZ7sNUnSzOzYpStu23AsA7xt",
     "title": "Mango Smoothie",
     "description": "Refreshing mango smoothie, perfect for breakfast or snack.",
     "instructions": [

@@ -25,16 +25,32 @@ class RecipeCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Top: Image (half height)
-            Expanded(
-              flex: 1,
+            // Top: Image (fixed height)
+            SizedBox(
+              height: 120, // adjust to taste
+              width: double.infinity,
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(12),
                 ),
                 child: Image.network(
                   recipe.imageUrls[0],
-                  width: double.infinity,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stack) {
+                    return Container(
+                      color: Colors.grey.shade300,
+                      child: const Icon(Icons.broken_image, size: 40),
+                    );
+                  },
+                  loadingBuilder: (context, child, progress) {
+                    if (progress == null) return child;
+                    return Container(
+                      color: Colors.grey.shade200,
+                      child: const Center(
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

@@ -30,7 +30,7 @@ class RecipieBookScreen extends ConsumerWidget {
               ? const Center(child: CircularProgressIndicator())
               : GestureDetector(
                   onTap: () {
-                    bookVM.setCurrentBook(book.id);
+                    bookVM.setCurrentBook(book.id, book.title);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
