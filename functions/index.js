@@ -95,7 +95,7 @@ exports.createUser = onCall(async (req) => {
       photoUrl: photoUrl,
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
-      recipies: [],
+      recipes: [],
       favorites: [],
       followers: [],
       following: [],

@@ -19,7 +19,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
   int _selectedIndex = 1;
 
   final List<Widget> _pages = const [
-    CreateRecipieScreen(),
+    CreateRecipeScreen(),
     HomeScreen(),
     RecipieBookScreen(),
   ];
@@ -84,7 +84,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
           ),
           NavigationDestination(
             icon: Icon(Icons.menu_book, color: iconColor(2)),
-            label: 'Recipies',
+            label: 'Recipes',
           ),
         ],
         height: 60,

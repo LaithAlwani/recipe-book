@@ -6,7 +6,7 @@ class RecipeRepo {
       .collection("recipes")
       .withConverter(
         fromFirestore: Recipe.fromFirestore,
-        toFirestore: (Recipe recipe, _) => recipe.toMap(),
+        toFirestore: (Recipe recipe, _) => recipe.toFirestore(),
       );
 
   static Future<List<Recipe>> getRecipesByCreatedBy(String uid) async {

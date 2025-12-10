@@ -5,7 +5,7 @@ class RecipeBook {
   final String id;
   final String ownerId;
   final String title;
-  final List<Recipe> recipies;
+  final List<Recipe> recipes;
   final Timestamp createdAt;
   final Timestamp updatedAt;
   final String? thumbnailUrl;
@@ -14,7 +14,7 @@ class RecipeBook {
     required this.id,
     required this.ownerId,
     required this.title,
-    required this.recipies,
+    required this.recipes,
     required this.createdAt,
     required this.updatedAt,
     this.thumbnailUrl,
@@ -30,7 +30,7 @@ class RecipeBook {
       ownerId: data['ownerId'] ?? "",
       title: data["title"] ?? '',
       thumbnailUrl: data['thumbnailUrl'] ?? '',
-      recipies: (data['recipies'] as List<dynamic>? ?? [])
+      recipes: (data['recipes'] as List<dynamic>? ?? [])
           .map((doc) => Recipe.fromFirestore(doc, null))
           .toList(),
       createdAt: data['created_at'] is Timestamp
@@ -46,7 +46,7 @@ class RecipeBook {
     return {
       'ownerId': ownerId,
       'title': title,
-      'recipies': recipies.map((element) => element.toMap()),
+      'recipes': recipes.map((element) => element.toFirestore()),
       'thumbnailUrl': thumbnailUrl,
       'created_at': createdAt,
       'updated_at': updatedAt,
@@ -55,7 +55,7 @@ class RecipeBook {
 
   RecipeBook copyWith({
     String? title,
-    List<Recipe>? recipies,
+    List<Recipe>? recipes,
     Timestamp? createdAt,
     Timestamp? updatedAt,
     String? thumbnailUrl,
@@ -64,7 +64,7 @@ class RecipeBook {
       id: id,
       ownerId: ownerId,
       title: title ?? this.title,
-      recipies: recipies ?? this.recipies,
+      recipes: recipes ?? this.recipes,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
@@ -74,7 +74,7 @@ class RecipeBook {
   @override
   String toString() {
     return 'RecipeBook(id: $id, ownerId: $ownerId, title: $title, '
-        'recipesCount: ${recipies.length}, createdAt: $createdAt, '
+        'recipesCount: ${recipes.length}, createdAt: $createdAt, '
         'updatedAt: $updatedAt, thumbnailUrl: $thumbnailUrl)';
   }
 }

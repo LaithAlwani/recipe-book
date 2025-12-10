@@ -4,15 +4,15 @@ enum RecipeBookDetailStatus { initial, loading, loaded, error }
 
 class RecipeBookDetailState {
   final RecipeBookDetailStatus status;
-  final List<Recipe> recipies; // The collection itself // Or just recipes
-  final bool isLoadingRecipies;
+  final List<Recipe> recipes; // The collection itself // Or just recipes
+  final bool isLoadingRecipes;
   final bool isUpdating;
   final String? errorMessage;
 
   const RecipeBookDetailState({
     this.status = RecipeBookDetailStatus.initial,
-    this.recipies = const [],
-    this.isLoadingRecipies = false,
+    this.recipes = const [],
+    this.isLoadingRecipes = false,
     this.isUpdating = false,
     this.errorMessage,
   });
@@ -20,14 +20,14 @@ class RecipeBookDetailState {
   RecipeBookDetailState copyWith({
     RecipeBookDetailStatus? status,
     List<Recipe>? recipes,
-    bool? isLoadingRecipies,
+    bool? isLoadingRecipes,
     bool? isUpdating,
     String? errorMessage,
   }) {
     return RecipeBookDetailState(
       status: status ?? this.status,
-      recipies: recipes ?? this.recipies,
-      isLoadingRecipies: isLoadingRecipies ?? this.isLoadingRecipies,
+      recipes: recipes ?? this.recipes,
+      isLoadingRecipes: isLoadingRecipes ?? this.isLoadingRecipes,
       isUpdating: isUpdating ?? this.isUpdating,
       errorMessage: errorMessage ?? this.errorMessage,
     );
@@ -36,8 +36,8 @@ class RecipeBookDetailState {
   factory RecipeBookDetailState.initial() => const RecipeBookDetailState(
     status: RecipeBookDetailStatus
         .initial, // custom enum, e.g., initial/loading/loaded/error
-    recipies: [],
-    isLoadingRecipies: false,
+    recipes: [],
+    isLoadingRecipes: false,
     isUpdating: false,
     errorMessage: null,
   );

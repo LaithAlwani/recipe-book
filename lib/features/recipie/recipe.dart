@@ -3,6 +3,8 @@ import 'package:recipe_book/features/ingredient/ingredient.dart';
 
 class Recipe {
   final String id;
+  final String ownerId;
+  final String bookId;
   final String title;
   final String description;
   final List<String> instructions;
@@ -27,6 +29,8 @@ class Recipe {
 
   Recipe({
     required this.id,
+    required this.ownerId,
+    required this.bookId,
     required this.title,
     required this.description,
     required this.instructions,
@@ -58,6 +62,8 @@ class Recipe {
 
     return Recipe(
       id: snapshot.id,
+      ownerId: data['ownerId'],
+      bookId: data['bookId'],
       title: data['title'] ?? '',
       description: data['description'] ?? '',
       instructions: List<String>.from(data['instructions'] ?? []),
@@ -94,7 +100,7 @@ class Recipe {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toFirestore() {
     return {
       'title': title,
       'description': description,
@@ -145,6 +151,8 @@ class Recipe {
   }) {
     return Recipe(
       id: id,
+      ownerId: ownerId,
+      bookId: bookId,
       title: title ?? this.title,
       description: description ?? this.description,
       instructions: instructions ?? this.instructions,
