@@ -11,6 +11,7 @@ class Recipe {
   final int prepTime;
   final int cookTime;
   final int totalTime;
+  final double rating;
   final String difficulty;
   final int servings;
   final List<String> tags;
@@ -37,6 +38,7 @@ class Recipe {
     required this.prepTime,
     required this.cookTime,
     required this.totalTime,
+    this.rating = 0,
     required this.difficulty,
     required this.servings,
     required this.tags,
@@ -70,6 +72,7 @@ class Recipe {
       prepTime: (data['prep_time'] ?? 0) as int,
       cookTime: (data['cook_time'] ?? 0) as int,
       totalTime: (data['total_time'] ?? 0) as int,
+      rating: (data['rating'] ?? 0.0) as double,
       viewCount: (data['view_count'] ?? 0) as int,
       favoriteCount: (data['favorite_count'] ?? 0) as int,
       difficulty: data['difficulty'] ?? 'Medium',
@@ -108,6 +111,7 @@ class Recipe {
       'prep_time': prepTime,
       'cook_time': cookTime,
       'total_time': totalTime,
+      'rating': rating,
       'difficulty': difficulty,
       'servings': servings,
       'tags': tags,
@@ -133,6 +137,7 @@ class Recipe {
     int? prepTime,
     int? cookTime,
     int? totalTime,
+    double? rating,
     int? viewCount,
     int? favoriteCount,
     String? difficulty,
@@ -159,6 +164,7 @@ class Recipe {
       prepTime: prepTime ?? this.prepTime,
       cookTime: cookTime ?? this.cookTime,
       totalTime: totalTime ?? this.totalTime,
+      rating: rating ?? this.rating,
       viewCount: viewCount ?? this.viewCount,
       favoriteCount: favoriteCount ?? this.favoriteCount,
       difficulty: difficulty ?? this.difficulty,
