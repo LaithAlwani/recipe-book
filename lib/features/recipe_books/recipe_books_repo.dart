@@ -31,13 +31,12 @@ class RecipeBooksRepo {
         return [];
       }
 
-      final books = querySnapshot.docs.map((doc) {
+      final recipes = querySnapshot.docs.map((doc) {
         print("Doc ID: ${doc.id} | Data: ${doc.data()}");
         return doc.data();
       }).toList();
 
-      print("Total recipe books parsed: ${books[1].thumbnailUrl}");
-      return books;
+      return recipes;
     } catch (e, stacktrace) {
       debugPrint("Failed to fetch recipe books: $e");
       debugPrint(stacktrace.toString());

@@ -32,7 +32,6 @@ class AuthViewModel extends Notifier<AuthState> {
 
     try {
       final appUser = await AppUserRepo.getUserById(user.uid);
-      print("auth view model init fetched app user: $appUser");
       if (appUser != null) {
         state = state.copyWith(
           status: AuthStatus.authenticated,
