@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
+import 'package:recipe_book/features/recipe_list/recipe_list_provider.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_screen.dart';
 import 'package:recipe_book/features/recipe_book/recipe_book_provider.dart';
 import 'package:recipe_book/features/recipe_book/recipe_book_state.dart';
-import 'package:recipe_book/features/user/user_model.dart';
 
 class RecipieBookScreen extends ConsumerWidget {
   const RecipieBookScreen({super.key});
@@ -32,11 +32,10 @@ class RecipieBookScreen extends ConsumerWidget {
               ? const Center(child: CircularProgressIndicator())
               : GestureDetector(
                   onTap: () {
-                    bookVM.setCurrentBook(book.id, book.title);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RecipeListScreen(),
+                        builder: (context) =>  RecipeListScreen(title:book.title, query: RecipeListQuery(bookId: book.id),),
                       ),
                     );
                   },

@@ -1,41 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_provider.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_state.dart';
-import 'package:recipe_book/features/recipe_book/recipe_book_provider.dart';
 import 'package:recipe_book/features/recipie/ui/recipe_card.dart';
 
 class RecipeListScreen extends ConsumerWidget {
-  const RecipeListScreen({super.key});
+  final RecipeListQuery query;
+  final String title;
+
+  const RecipeListScreen({super.key, required this.query, required this.title});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appUser = ref.watch(authNotifierProvider).appUser!;
-    final bookId = ref
-        .watch(recipeBooksNotifierProvider(appUser.uid))
-        .currentBookId!;
-    final bookTitle =
-        ref.watch(recipeBooksNotifierProvider(appUser.uid)).currentBookTitle ??
-        "Book Title";
-    final bookDetailState = ref.watch(recipeListProvider(bookId));
-    final bookDetailVM = ref.watch(recipeListProvider(bookId).notifier);
+    final state = ref.watch(recipeListProvider(query));
+    final viewmodel = ref.read(recipeListProvider(query).notifier);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (bookDetailState.status == RecipeBookDetailStatus.initial) {
-        await bookDetailVM.loadRecipesByBook(bookId);
+      if (state.status == RecipeListStatus.initial) {
+        await viewmodel.loadRecipes(query);
       }
     });
 
     return Scaffold(
-      appBar: AppBar(title: Text(bookTitle), centerTitle: true),
+      // appBar: AppBar(title: Text(title), centerTitle: true),
       body: RefreshIndicator(
         onRefresh: () async {
-          await bookDetailVM.loadRecipesByBook(bookId);
+          await viewmodel.loadRecipes(query);
         },
-        child: bookDetailState.isLoadingRecipes
+        child: state.status == RecipeListStatus.loading
             ? const Center(child: CircularProgressIndicator())
-            : bookDetailState.recipes.isEmpty
+            : state.recipes.isEmpty
             ? const Center(child: Text("Start adding recipes"))
             : GridView.builder(
                 padding: const EdgeInsets.all(12),
@@ -46,9 +40,9 @@ class RecipeListScreen extends ConsumerWidget {
                   childAspectRatio:
                       0.75, // Adjust height ratio (smaller = taller)
                 ),
-                itemCount: bookDetailState.recipes.length,
+                itemCount: state.recipes.length,
                 itemBuilder: (context, index) {
-                  final recipe = bookDetailState.recipes[index];
+                  final recipe = state.recipes[index];
                   return RecipeCard(recipe: recipe);
                 },
               ),

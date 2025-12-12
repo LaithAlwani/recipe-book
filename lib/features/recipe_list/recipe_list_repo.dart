@@ -33,4 +33,26 @@ class RecipeListRepo {
       return [];
     }
   }
+
+  static Future<List<Recipe>> fetchRecipesByOwner(String ownerId) async {
+    try {
+      final querySnapshot = await _recipeBookDetailRef
+          .where('ownerId', isEqualTo: ownerId)
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        print("No recipe books found for ownerId: $ownerId");
+        return [];
+      }
+      final recipes = querySnapshot.docs.map((doc) {
+        print("Doc ID: ${doc.id} | Data: ${doc.data()}");
+        return doc.data();
+      }).toList();
+      return recipes;
+    } catch (err, stacktrace) {
+      debugPrint("Failed to fetch recipe books: $err");
+      debugPrint(stacktrace.toString());
+      return [];
+    }
+  }
 }

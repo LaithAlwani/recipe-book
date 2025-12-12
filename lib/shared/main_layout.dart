@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/home/ui/home_screen.dart';
 import 'package:recipe_book/features/recipe_book/recipie_book_screen.dart';
+import 'package:recipe_book/features/recipe_list/recipe_list_provider.dart';
+import 'package:recipe_book/features/recipe_list/recipe_list_screen.dart';
 import 'package:recipe_book/features/user/ui/settings_screen.dart';
 import 'package:recipe_book/features/recipie/ui/create_recipie_screen.dart';
 import 'package:recipe_book/theme.dart';
@@ -17,16 +19,10 @@ class MainLayout extends ConsumerStatefulWidget {
 class _MainLayoutState extends ConsumerState<MainLayout> {
   int _selectedIndex = 1;
 
-  final List<Widget> _pages = const [
-    CreateRecipeScreen(),
-    HomeScreen(),
-    RecipieBookScreen(),
-  ];
-
   final List<String> _titles = [
     "Create Recipe",
     "My Kitchen Recipes",
-    "Recipe Books",
+    "Recipes",
   ];
 
   void _onSelectedItem(int index) {
@@ -39,6 +35,18 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
+    final homeVM = ref.read(authNotifierProvider.notifier);
+    final authState = ref.watch(authNotifierProvider);
+    final ownerId = authState.appUser?.uid; // or .id depending on your model
+
+    final List<Widget> _pages = [
+      const CreateRecipeScreen(),
+      const HomeScreen(),
+      RecipeListScreen(
+        title: "Recipes",
+        query: RecipeListQuery(ownerId: ownerId),
+      ),
+    ];
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
@@ -58,7 +66,6 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
         actions: [
           IconButton(
             onPressed: () async {
-              final homeVM = ref.read(authNotifierProvider.notifier);
               await homeVM.signOut();
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
