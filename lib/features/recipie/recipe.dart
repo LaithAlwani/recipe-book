@@ -4,7 +4,7 @@ import 'package:recipe_book/features/ingredient/ingredient.dart';
 class Recipe {
   final String id;
   final String ownerId;
-  final String bookId;
+  final List<String> bookIds;
   final String title;
   final String description;
   final List<String> instructions;
@@ -31,7 +31,7 @@ class Recipe {
   Recipe({
     required this.id,
     required this.ownerId,
-    required this.bookId,
+    this.bookIds = const [],
     required this.title,
     required this.description,
     required this.instructions,
@@ -65,7 +65,7 @@ class Recipe {
     return Recipe(
       id: snapshot.id,
       ownerId: data['ownerId'],
-      bookId: data['bookId'],
+      bookIds: List<String>.from(data['book_ids'] ?? []),
       title: data['title'] ?? '',
       description: data['description'] ?? '',
       instructions: List<String>.from(data['instructions'] ?? []),
@@ -105,6 +105,7 @@ class Recipe {
 
   Map<String, dynamic> toFirestore() {
     return {
+      'book_ids': bookIds,
       'title': title,
       'description': description,
       'instructions': instructions,
@@ -131,6 +132,7 @@ class Recipe {
   }
 
   Recipe copyWith({
+    List<String>? bookIds,
     String? title,
     String? description,
     List<String>? instructions,
@@ -157,7 +159,7 @@ class Recipe {
     return Recipe(
       id: id,
       ownerId: ownerId,
-      bookId: bookId,
+      bookIds: bookIds ?? this.bookIds,
       title: title ?? this.title,
       description: description ?? this.description,
       instructions: instructions ?? this.instructions,
