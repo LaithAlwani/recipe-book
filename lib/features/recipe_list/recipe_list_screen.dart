@@ -6,8 +6,8 @@ import 'package:recipe_book/features/recipe_list/recipe_list_state.dart';
 import 'package:recipe_book/features/recipe_book/recipe_book_provider.dart';
 import 'package:recipe_book/features/recipie/ui/recipe_card.dart';
 
-class RecipeBookDetailsScreen extends ConsumerWidget {
-  const RecipeBookDetailsScreen({super.key});
+class RecipeListScreen extends ConsumerWidget {
+  const RecipeListScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

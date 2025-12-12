@@ -36,7 +36,7 @@ class RecipieBookScreen extends ConsumerWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RecipeBookDetailsScreen(),
+                        builder: (context) => const RecipeListScreen(),
                       ),
                     );
                   },

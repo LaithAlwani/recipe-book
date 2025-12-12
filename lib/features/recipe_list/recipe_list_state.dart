@@ -2,14 +2,14 @@ import 'package:recipe_book/features/recipie/recipe.dart';
 
 enum RecipeBookDetailStatus { initial, loading, loaded, error }
 
-class RecipeBookDetailState {
+class RecipeListState {
   final RecipeBookDetailStatus status;
   final List<Recipe> recipes; // The collection itself // Or just recipes
   final bool isLoadingRecipes;
   final bool isUpdating;
   final String? errorMessage;
 
-  const RecipeBookDetailState({
+  const RecipeListState({
     this.status = RecipeBookDetailStatus.initial,
     this.recipes = const [],
     this.isLoadingRecipes = false,
@@ -17,14 +17,14 @@ class RecipeBookDetailState {
     this.errorMessage,
   });
 
-  RecipeBookDetailState copyWith({
+  RecipeListState copyWith({
     RecipeBookDetailStatus? status,
     List<Recipe>? recipes,
     bool? isLoadingRecipes,
     bool? isUpdating,
     String? errorMessage,
   }) {
-    return RecipeBookDetailState(
+    return RecipeListState(
       status: status ?? this.status,
       recipes: recipes ?? this.recipes,
       isLoadingRecipes: isLoadingRecipes ?? this.isLoadingRecipes,
@@ -33,7 +33,7 @@ class RecipeBookDetailState {
     );
   }
 
-  factory RecipeBookDetailState.initial() => const RecipeBookDetailState(
+  factory RecipeListState.initial() => const RecipeListState(
     status: RecipeBookDetailStatus
         .initial, // custom enum, e.g., initial/loading/loaded/error
     recipes: [],

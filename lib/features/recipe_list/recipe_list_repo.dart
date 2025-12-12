@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:recipe_book/features/recipie/recipe.dart';
 
-class RecipeBookDetailRepo {
+class RecipeListRepo {
   static final _firestore = FirebaseFirestore.instance;
 
   static final _recipeBookDetailRef = _firestore
