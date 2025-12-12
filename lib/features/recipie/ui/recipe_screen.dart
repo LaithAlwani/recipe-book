@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:recipe_book/features/recipie/recipe.dart';
 import 'package:recipe_book/theme.dart';
 
-class RecipeScreen extends StatelessWidget {
+class RecipeScreen extends StatefulWidget {
   const RecipeScreen({super.key, required this.recipe});
 
   final Recipe recipe;
 
+  @override
+  State<RecipeScreen> createState() => _RecipeScreenState();
+}
+
+class _RecipeScreenState extends State<RecipeScreen> {
+  int multiplier = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +24,7 @@ class RecipeScreen extends StatelessWidget {
             Stack(
               children: [
                 Image.network(
-                  recipe.imageUrls[0],
+                  widget.recipe.imageUrls[0],
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 3,
                   fit: BoxFit.cover,
@@ -55,13 +61,13 @@ class RecipeScreen extends StatelessWidget {
 
             // ------------------ MAIN CONTENT (With one Padding) ------------------
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // ---------- Title ----------
                   Text(
-                    recipe.title,
+                    widget.recipe.title,
                     style: TextStyle(
                       color: AppColors.primaryColor,
                       fontSize: 22,
@@ -73,7 +79,7 @@ class RecipeScreen extends StatelessWidget {
 
                   // ---------- Description ----------
                   Text(
-                    recipe.description,
+                    widget.recipe.description,
                     style: TextStyle(
                       color: AppColors.secondaryColor,
                       fontSize: 16,
@@ -83,10 +89,7 @@ class RecipeScreen extends StatelessWidget {
 
                   const SizedBox(height: 32),
 
-                  // ---------- Metadata Row ----------
                   // ------------------ Metadata Grid ------------------
-                  const SizedBox(height: 16),
-
                   const Text(
                     "Recipe Details",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -103,36 +106,42 @@ class RecipeScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(0),
                         physics: const NeverScrollableScrollPhysics(),
                         crossAxisCount: columns,
-                        childAspectRatio: 3.2,
+                        childAspectRatio: 2.75,
                         crossAxisSpacing: 12,
                         mainAxisSpacing: 12,
                         children: [
                           _metaItem(
                             Icons.timer_outlined,
                             "Prep Time",
-                            "${recipe.prepTime} min",
-                          ),
-                          _metaItem(
-                            Icons.local_fire_department,
-                            "Cook Time",
-                            "${recipe.cookTime} min",
-                          ),
-                          _metaItem(
-                            Icons.av_timer,
-                            "Total Time",
-                            "${recipe.prepTime + recipe.cookTime} min",
-                          ),
-                          _difficultyTag(recipe.difficulty),
-                          _metaItem(
-                            Icons.person,
-                            "Servings",
-                            "${recipe.servings}",
+                            "${widget.recipe.prepTime} min",
                           ),
                           _metaItem(
                             Icons.star,
                             "Rating",
-                            recipe.rating?.toStringAsFixed(1) ?? "N/A",
+                            widget.recipe.rating != 0.0
+                                ? widget.recipe.rating.toStringAsFixed(1)
+                                : 'N/A',
+                            iconColor: Colors.amber.shade300,
                           ),
+
+                          _metaItem(
+                            Icons.av_timer,
+                            "Total Time",
+                            "${widget.recipe.prepTime + widget.recipe.cookTime} min",
+                          ),
+
+                          _metaItem(
+                            Icons.person,
+                            "Servings",
+                            "${widget.recipe.servings * multiplier}",
+                          ),
+                          _metaItem(
+                            Icons.local_fire_department,
+                            "Cook Time",
+                            "${widget.recipe.cookTime} min",
+                            iconColor: Colors.amber.shade900,
+                          ),
+                          _difficultyTag(widget.recipe.difficulty),
                         ],
                       );
                     },
@@ -151,7 +160,7 @@ class RecipeScreen extends StatelessWidget {
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: recipe.tags.map((tag) {
+                    children: widget.recipe.tags.map((tag) {
                       return Chip(
                         label: Text(tag),
                         backgroundColor: Colors.grey.shade200,
@@ -164,10 +173,50 @@ class RecipeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
 
-                  // ---------- Ingredients ----------
-                  const Text(
-                    "Ingredients:",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  // ----------Ingredients and  Multiplier Selector ----------
+                  Row(
+                    children: [
+                      const Text(
+                        "Ingredients:",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Expanded(child: SizedBox()),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          right: 8,
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            if (multiplier > 1)
+                              setState(() {
+                                multiplier -= 1;
+                              });
+                          },
+                          child: const Icon(Icons.remove),
+                        ),
+                      ),
+                      Text(multiplier.toString()),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                          left: 8,
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              multiplier += 1;
+                            });
+                          },
+                          child: const Icon(Icons.add),
+                        ),
+                      ),
+                    ],
                   ),
 
                   const SizedBox(height: 8),
@@ -176,21 +225,30 @@ class RecipeScreen extends StatelessWidget {
                     shrinkWrap: true,
                     padding: const EdgeInsets.all(0),
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: recipe.ingredients.length,
+                    itemCount: widget.recipe.ingredients.length,
                     itemBuilder: (_, index) {
-                      final item = recipe.ingredients[index];
+                      final item = widget.recipe.ingredients[index];
 
-                      return Row(
-                        children: [
-                          Text("${item.name} - ${item.quantity} ${item.unit}"),
-                          const Spacer(),
-                          IconButton(
-                            onPressed: () {
-                              print("Added ${item.name} to shopping cart");
-                            },
-                            icon: const Icon(Icons.add_shopping_cart),
-                          ),
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Row(
+                          children: [
+                            Text("${item.name}"),
+                            const Expanded(child: SizedBox()),
+                            Text(
+                              formatQuantity(
+                                item.quantity * multiplier,
+                                item.unit ?? "",
+                              ),
+                            ),
+                            // IconButton(
+                            //   onPressed: () {
+                            //     print("Added ${item.name} to shopping cart");
+                            //   },
+                            //   icon: const Icon(Icons.add_shopping_cart),
+                            // ),
+                          ],
+                        ),
                       );
                     },
                   ),
@@ -206,7 +264,7 @@ class RecipeScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(0),
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: recipe.instructions.length,
+                    itemCount: widget.recipe.instructions.length,
                     itemBuilder: (_, index) {
                       return Container(
                         height: 48,
@@ -221,7 +279,7 @@ class RecipeScreen extends StatelessWidget {
                             const SizedBox(width: 12),
                             Expanded(
                               child: Text(
-                                recipe.instructions[index],
+                                widget.recipe.instructions[index],
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ),
@@ -248,7 +306,7 @@ Widget _metaItem(
   Color? iconColor,
 }) {
   return Container(
-    padding: const EdgeInsets.all(6),
+    padding: const EdgeInsets.all(10),
     decoration: BoxDecoration(
       color: color ?? Colors.grey.shade100,
       borderRadius: BorderRadius.circular(12),
@@ -256,7 +314,7 @@ Widget _metaItem(
     ),
     child: Row(
       children: [
-        Icon(icon, color: iconColor ?? Colors.grey.shade700),
+        Icon(icon, color: iconColor ?? Colors.grey.shade700, size: 32),
         const SizedBox(width: 8),
         Expanded(
           child: Column(
@@ -305,4 +363,25 @@ Widget _difficultyTag(String difficulty) {
     ),
     child: _metaItem(Icons.tune, "Difficulty", difficulty, color: color),
   );
+}
+
+String formatQuantity(double quantity, String unit) {
+  double displayQty = quantity;
+  String displayUnit = unit;
+
+  // Convert ml → L and g → kg if >= 1000
+  if ((unit == "ml" || unit == "g") && quantity >= 1000) {
+    displayQty = quantity / 1000;
+    displayUnit = unit == "ml" ? "L" : "kg";
+  }
+
+  // Show as integer if whole number, else show 1 or 2 decimals
+  String qtyString;
+  if (displayQty % 1 == 0) {
+    qtyString = displayQty.toInt().toString();
+  } else {
+    qtyString = displayQty.toStringAsFixed(2);
+  }
+
+  return "$qtyString $displayUnit";
 }
