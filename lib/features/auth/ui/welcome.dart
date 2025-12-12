@@ -47,7 +47,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset("assets/logo.png", height: 180),
-            const SizedBox(height: 8),
+            const SizedBox(height: 24),
             Text(
               "My Recipie Book",
               style: TextStyle(
