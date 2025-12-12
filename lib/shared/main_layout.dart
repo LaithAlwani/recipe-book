@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/home/ui/home_screen.dart';
-import 'package:recipe_book/features/recipe_book/recipie_book_screen.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_provider.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_screen.dart';
+import 'package:recipe_book/features/recipie/ui/create/create_recipe_screen.dart';
 import 'package:recipe_book/features/user/ui/settings_screen.dart';
-import 'package:recipe_book/features/recipie/ui/create_recipie_screen.dart';
 import 'package:recipe_book/theme.dart';
 
 class MainLayout extends ConsumerStatefulWidget {
