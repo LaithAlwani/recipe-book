@@ -8,7 +8,7 @@ class RecipeBookDetailViewModel extends Notifier<RecipeBookDetailState> {
     return RecipeBookDetailState.initial();
   }
 
-  Future<void> loadRecipes(String bookId) async {
+  Future<void> loadRecipesByBook(String bookId) async {
     state = state.copyWith(status: RecipeBookDetailStatus.loading);
 
     try {

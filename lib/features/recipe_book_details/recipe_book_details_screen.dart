@@ -23,7 +23,7 @@ class RecipeBookDetailsScreen extends ConsumerWidget {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (bookDetailState.status == RecipeBookDetailStatus.initial) {
-        await bookDetailVM.loadRecipes(bookId);
+        await bookDetailVM.loadRecipesByBook(bookId);
       }
     });
 
@@ -31,7 +31,7 @@ class RecipeBookDetailsScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(bookTitle), centerTitle: true),
       body: RefreshIndicator(
         onRefresh: () async {
-          await bookDetailVM.loadRecipes(bookId);
+          await bookDetailVM.loadRecipesByBook(bookId);
         },
         child: bookDetailState.isLoadingRecipes
             ? const Center(child: CircularProgressIndicator())
