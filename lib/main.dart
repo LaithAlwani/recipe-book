@@ -24,7 +24,7 @@ void main() async {
   ]);
   const bool useEmulator = true;
   if (kDebugMode && useEmulator) {
-    const emulatorHost = '192.168.86.29';
+    const emulatorHost = '192.168.86.29'; //192.168.2.137
     try {
       FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
       await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
@@ -32,7 +32,7 @@ void main() async {
       final functions = FirebaseFunctions.instanceFor(app: Firebase.app());
       functions.useFunctionsEmulator(emulatorHost, 5001);
     } catch (err) {
-      debugPrint("erro in firebase emulator $err");
+      debugPrint("error in firebase emulator $err");
     }
   }
   runApp(const ProviderScope(child: MyApp()));
