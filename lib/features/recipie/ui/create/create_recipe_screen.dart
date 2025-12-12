@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/shared/chips_input.dart';
 import 'package:recipe_book/shared/list_input.dart';
+import 'package:recipe_book/theme.dart';
 import 'create_recipe_provider.dart';
 import 'package:recipe_book/features/ingredient/ingredient.dart';
 
@@ -154,10 +155,11 @@ class CreateRecipeScreen extends ConsumerWidget {
                             labelText: 'Prep Time',
                           ),
                           keyboardType: TextInputType.number,
-                          onChanged: (v) =>
-                              vm.setPrepTime(int.tryParse(v) ?? 0),
+                          onChanged: vm.setPrepTime,
                           controller: vm.prepTimeController,
-                           onSubmitted: (_) => FocusScope.of(context).requestFocus(vm.cookTimeFocus)
+                          onSubmitted: (_) => FocusScope.of(
+                            context,
+                          ).requestFocus(vm.cookTimeFocus),
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -168,23 +170,23 @@ class CreateRecipeScreen extends ConsumerWidget {
                             labelText: 'Cook Time',
                           ),
                           keyboardType: TextInputType.number,
-                          onChanged: (v) =>
-                              vm.setCookTime(int.tryParse(v) ?? 0),
+
+                          onChanged: vm.setCookTime,
                           controller: vm.cookTimeController,
-                           onSubmitted: (_) => FocusScope.of(context).requestFocus(vm.totalTimeFocus)
+                          onSubmitted: (_) => FocusScope.of(
+                            context,
+                          ).requestFocus(vm.totalTimeFocus),
                         ),
                       ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: TextField(
-                          focusNode: vm.totalTimeFocus,
+                          controller: vm.totalTimeController,
                           decoration: const InputDecoration(
                             labelText: 'Total Time',
                           ),
                           keyboardType: TextInputType.number,
-                          onChanged: (v) =>
-                              vm.setTotalTime(int.tryParse(v) ?? 0),
-                          controller: vm.totalTimeController,
+                          readOnly: true, // prevents manual editing
                         ),
                       ),
                     ],
@@ -239,12 +241,24 @@ class CreateRecipeScreen extends ConsumerWidget {
                     controller: vm.videoUrlController,
                   ),
                   const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () => vm.saveRecipe(ref),
-                    child: Text(
-                      state.editingRecipe != null
-                          ? 'Update Recipe'
-                          : 'Create Recipe',
+
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(
+                          AppColors.primaryColor,
+                        ),
+                        foregroundColor: const WidgetStatePropertyAll(
+                          Colors.white,
+                        ),
+                      ),
+                      onPressed: () => vm.saveRecipe(ref),
+                      child: Text(
+                        state.editingRecipe != null
+                            ? 'Update Recipe'
+                            : 'Create Recipe',
+                      ),
                     ),
                   ),
                 ],

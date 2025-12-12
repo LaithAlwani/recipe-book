@@ -81,9 +81,21 @@ class CreateRecipeNotifier extends Notifier<CreateRecipeState> {
       state = state.copyWith(instructions: value);
   void setImageUrls(List<String> value) =>
       state = state.copyWith(imageUrls: value);
-  void setPrepTime(int value) => state = state.copyWith(prepTime: value);
-  void setCookTime(int value) => state = state.copyWith(cookTime: value);
-  void setTotalTime(int value) => state = state.copyWith(totalTime: value);
+  void setPrepTime(String value) {
+    final prep = int.tryParse(value) ?? 0;
+    state = state.copyWith(prepTime: prep, totalTime: prep + state.cookTime);
+    prepTimeController.text = prep.toString();
+    totalTimeController.text = (prep + state.cookTime).toString();
+  }
+
+  void setCookTime(String value) {
+    final cook = int.tryParse(value) ?? 0;
+    state = state.copyWith(cookTime: cook, totalTime: state.prepTime + cook);
+    cookTimeController.text = cook.toString();
+    totalTimeController.text = (state.prepTime + cook).toString();
+  }
+
+  // void setTotalTime(int value) => state = state.copyWith(totalTime: value);
   void setDifficulty(String? value) =>
       state = state.copyWith(difficulty: value);
   void setServings(int value) => state = state.copyWith(servings: value);
