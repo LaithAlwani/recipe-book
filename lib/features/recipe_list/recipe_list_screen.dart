@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
-import 'package:recipe_book/features/recipe_book_details/recipe_book_detail_provider.dart';
-import 'package:recipe_book/features/recipe_book_details/recipe_book_detail_state.dart';
-import 'package:recipe_book/features/recipe_books/recipe_book_provider.dart';
+import 'package:recipe_book/features/recipe_list/recipe_list_provider.dart';
+import 'package:recipe_book/features/recipe_list/recipe_list_state.dart';
+import 'package:recipe_book/features/recipe_book/recipe_book_provider.dart';
 import 'package:recipe_book/features/recipie/ui/recipe_card.dart';
 
 class RecipeBookDetailsScreen extends ConsumerWidget {
@@ -18,8 +18,8 @@ class RecipeBookDetailsScreen extends ConsumerWidget {
     final bookTitle =
         ref.watch(recipeBooksNotifierProvider(appUser.uid)).currentBookTitle ??
         "Book Title";
-    final bookDetailState = ref.watch(recipeBookDetailProvider(bookId));
-    final bookDetailVM = ref.watch(recipeBookDetailProvider(bookId).notifier);
+    final bookDetailState = ref.watch(recipeListProvider(bookId));
+    final bookDetailVM = ref.watch(recipeListProvider(bookId).notifier);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (bookDetailState.status == RecipeBookDetailStatus.initial) {

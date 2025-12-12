@@ -1,4 +1,4 @@
-import 'package:recipe_book/features/recipe_book_details/recipe_book_model.dart';
+import 'package:recipe_book/features/recipe_book/recipe_book_model.dart';
 
 enum RecipeBooksStatus { initial, loading, loaded, error }
 

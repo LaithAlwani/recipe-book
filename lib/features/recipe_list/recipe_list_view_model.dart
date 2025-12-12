@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipe_book/features/recipe_book_details/recipe_book_detail_repo.dart';
-import 'package:recipe_book/features/recipe_book_details/recipe_book_detail_state.dart';
+import 'package:recipe_book/features/recipe_list/recipe_list_repo.dart';
+import 'package:recipe_book/features/recipe_list/recipe_list_state.dart';
 
 class RecipeBookDetailViewModel extends Notifier<RecipeBookDetailState> {
   @override

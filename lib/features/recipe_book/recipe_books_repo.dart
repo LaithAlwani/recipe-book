@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:recipe_book/features/recipe_book_details/recipe_book_model.dart';
+import 'package:recipe_book/features/recipe_book/recipe_book_model.dart';
 
 class RecipeBooksRepo {
   static final _firestore = FirebaseFirestore.instance;
