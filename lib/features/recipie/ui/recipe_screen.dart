@@ -40,7 +40,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                   left: 10,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.amber[300],
+                      color: AppColors.primaryColor,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
@@ -51,7 +51,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                       ],
                     ),
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.black),
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
