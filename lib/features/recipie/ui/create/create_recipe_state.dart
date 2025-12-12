@@ -3,6 +3,7 @@ import 'package:recipe_book/features/recipie/recipe.dart';
 
 class CreateRecipeState {
   final String title;
+  final String discription;
   final List<Ingredient> ingredients;
   final List<String> instructions;
   final List<String> imageUrls;
@@ -29,6 +30,7 @@ class CreateRecipeState {
 
   const CreateRecipeState({
     this.title = '',
+    this.discription = '',
     this.ingredients = const [],
     this.instructions = const [],
     this.imageUrls = const [],
@@ -48,6 +50,7 @@ class CreateRecipeState {
 
   CreateRecipeState copyWith({
     String? title,
+    String? discription,
     List<Ingredient>? ingredients,
     List<String>? instructions,
     List<String>? imageUrls,
@@ -66,6 +69,7 @@ class CreateRecipeState {
   }) {
     return CreateRecipeState(
       title: title ?? this.title,
+      discription:discription?? this.discription,
       ingredients: ingredients ?? this.ingredients,
       instructions: instructions ?? this.instructions,
       imageUrls: imageUrls ?? this.imageUrls,

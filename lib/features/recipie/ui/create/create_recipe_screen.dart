@@ -32,25 +32,92 @@ class CreateRecipeScreen extends ConsumerWidget {
                       style: const TextStyle(color: Colors.red),
                     ),
                   TextField(
+                    focusNode: vm.titleFocus,
                     decoration: const InputDecoration(labelText: 'Title'),
+                    controller: vm.titleController,
                     onChanged: vm.setTitle,
-                    controller: TextEditingController(text: state.title),
+                    onSubmitted: (_) => FocusScope.of(
+                      context,
+                    ).requestFocus(vm.descriptionFocus),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    focusNode: vm.descriptionFocus,
+                    decoration: const InputDecoration(labelText: 'Description'),
+                    controller: vm.descriptionController,
+                    onChanged: vm.setDiscription,
                   ),
                   const SizedBox(height: 16),
                   ListInput<Ingredient>(
                     label: 'Ingredients',
                     items: state.ingredients,
                     onChanged: vm.setIngredients,
-                    itemBuilder: (item, onRemove) => ListTile(
+                    itemBuilder: (item, remove) => ListTile(
                       title: Text(
-                        "${item.name} - ${item.quantity} ${item.unit}",
+                        '${item.name} - ${item.quantity} ${item.unit}',
                       ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete),
-                        onPressed: onRemove,
+                        onPressed: remove,
                       ),
                     ),
+                    itemCreator: (context) async {
+                      String name = '';
+                      double quantity = 0;
+                      String unit = '';
+                      // show dialog to input these values and return an Ingredient
+                      final result = await showDialog<Ingredient>(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: const Text('Add Ingredient'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextField(
+                                decoration: const InputDecoration(
+                                  labelText: 'Name',
+                                ),
+                                onChanged: (v) => name = v,
+                              ),
+                              TextField(
+                                decoration: const InputDecoration(
+                                  labelText: 'Quantity',
+                                ),
+                                keyboardType: TextInputType.number,
+                                onChanged: (v) =>
+                                    quantity = double.tryParse(v) ?? 0,
+                              ),
+                              TextField(
+                                decoration: const InputDecoration(
+                                  labelText: 'Unit',
+                                ),
+                                onChanged: (v) => unit = v,
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(
+                                context,
+                                Ingredient(
+                                  name: name,
+                                  quantity: quantity,
+                                  unit: unit,
+                                ),
+                              ),
+                              child: const Text('Add'),
+                            ),
+                          ],
+                        ),
+                      );
+                      return result;
+                    },
                   ),
+
                   const SizedBox(height: 16),
                   ListInput<String>(
                     label: 'Instructions',
@@ -82,43 +149,42 @@ class CreateRecipeScreen extends ConsumerWidget {
                     children: [
                       Expanded(
                         child: TextField(
+                          focusNode: vm.prepTimeFocus,
                           decoration: const InputDecoration(
                             labelText: 'Prep Time',
                           ),
                           keyboardType: TextInputType.number,
                           onChanged: (v) =>
                               vm.setPrepTime(int.tryParse(v) ?? 0),
-                          controller: TextEditingController(
-                            text: state.prepTime.toString(),
-                          ),
+                          controller: vm.prepTimeController,
+                           onSubmitted: (_) => FocusScope.of(context).requestFocus(vm.cookTimeFocus)
                         ),
                       ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: TextField(
+                          focusNode: vm.cookTimeFocus,
                           decoration: const InputDecoration(
                             labelText: 'Cook Time',
                           ),
                           keyboardType: TextInputType.number,
                           onChanged: (v) =>
                               vm.setCookTime(int.tryParse(v) ?? 0),
-                          controller: TextEditingController(
-                            text: state.cookTime.toString(),
-                          ),
+                          controller: vm.cookTimeController,
+                           onSubmitted: (_) => FocusScope.of(context).requestFocus(vm.totalTimeFocus)
                         ),
                       ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: TextField(
+                          focusNode: vm.totalTimeFocus,
                           decoration: const InputDecoration(
                             labelText: 'Total Time',
                           ),
                           keyboardType: TextInputType.number,
                           onChanged: (v) =>
                               vm.setTotalTime(int.tryParse(v) ?? 0),
-                          controller: TextEditingController(
-                            text: state.totalTime.toString(),
-                          ),
+                          controller: vm.totalTimeController,
                         ),
                       ),
                     ],
@@ -137,9 +203,7 @@ class CreateRecipeScreen extends ConsumerWidget {
                     decoration: const InputDecoration(labelText: 'Servings'),
                     keyboardType: TextInputType.number,
                     onChanged: (v) => vm.setServings(int.tryParse(v) ?? 1),
-                    controller: TextEditingController(
-                      text: state.servings.toString(),
-                    ),
+                    controller: vm.servingsController,
                   ),
                   const SizedBox(height: 16),
                   ChipsInput(
@@ -167,13 +231,12 @@ class CreateRecipeScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   TextField(
+                    focusNode: vm.videoUrlFocus,
                     decoration: const InputDecoration(
                       labelText: 'Video URL (Optional)',
                     ),
                     onChanged: vm.setVideoUrl,
-                    controller: TextEditingController(
-                      text: state.videoUrl ?? '',
-                    ),
+                    controller: vm.videoUrlController,
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(

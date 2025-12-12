@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 typedef ItemWidgetBuilder<T> = Widget Function(T item, VoidCallback onRemove);
+typedef ItemCreator<T> = Future<T?> Function(BuildContext context);
 
 class ListInput<T> extends StatelessWidget {
   final String label;
   final List<T> items;
   final ValueChanged<List<T>> onChanged;
   final ItemWidgetBuilder<T> itemBuilder;
+  final ItemCreator<T>? itemCreator; // optional for custom types
 
   const ListInput({
     super.key,
@@ -14,13 +16,13 @@ class ListInput<T> extends StatelessWidget {
     required this.items,
     required this.onChanged,
     required this.itemBuilder,
+    this.itemCreator,
   });
 
-  void _addNewItem(BuildContext context) {
-    // Simple text input for strings; for custom objects, pass via itemBuilder or handle outside
+  void _addNewItem(BuildContext context) async {
     if (T == String) {
       final controller = TextEditingController();
-      showDialog(
+      final value = await showDialog<String>(
         context: context,
         builder: (_) => AlertDialog(
           title: Text('Add $label'),
@@ -35,18 +37,21 @@ class ListInput<T> extends StatelessWidget {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () {
-                final value = controller.text.trim();
-                if (value.isNotEmpty) {
-                  onChanged([...items, value as T]);
-                }
-                Navigator.pop(context);
-              },
+              onPressed: () => Navigator.pop(context, controller.text.trim()),
               child: const Text('Add'),
             ),
           ],
         ),
       );
+      if (value != null && value.isNotEmpty) {
+        onChanged([...items, value as T]);
+      }
+    } else if (itemCreator != null) {
+      final newItem = await itemCreator!(context);
+      if (newItem != null) onChanged([...items, newItem]);
+    } else {
+      // fallback: do nothing
+      print('Cannot add new item for type $T without itemCreator');
     }
   }
 
