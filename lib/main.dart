@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/auth/auth_state.dart';
+import 'package:recipe_book/features/settings/settings_provider.dart';
 import 'package:recipe_book/firebase_options.dart';
 import 'package:recipe_book/l10n/app_localizations.dart';
 import 'package:recipe_book/shared/main_layout.dart';
@@ -48,26 +49,30 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState authState = ref.watch(authNotifierProvider);
+    final settingsState = ref.watch(settingsProvider);
     return MaterialApp(
       title: 'Recipie Book',
       // darkTheme: ThemeData.dark(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
-        scaffoldBackgroundColor: AppColors.backgroundColor,
+        scaffoldBackgroundColor: settingsState.backgroundColor,
         appBarTheme: AppBarTheme(
-          backgroundColor: AppColors.backgroundColor,
-          foregroundColor: AppColors.primaryAccent,
+          backgroundColor: settingsState.backgroundColor,
+          foregroundColor: settingsState.fontColor,
           surfaceTintColor: Colors.transparent,
           titleTextStyle: TextStyle(
-            color: AppColors.primaryAccent,
+            color: settingsState.fontColor,
+            fontFamily: settingsState.fontFamily,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
+        //Bottom Navigation
         navigationBarTheme: NavigationBarThemeData(
-          backgroundColor: AppColors.backgroundColor,
+          backgroundColor: settingsState.backgroundColor,
         ),
       ),
+      locale: settingsState.locale,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [
         AppLocalizations.delegate,

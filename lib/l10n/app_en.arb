@@ -14,7 +14,7 @@
   "auth_password_error": "please enter a password",
   "auth_no_account": "Don't have an account?",
   "auth_account": "Have an account?",
-  "auth_login_social": "or sign int with",
+  "auth_login_social": "or sign in with",
   "auth_password_length":"Password must be 8 characters in length",
   "auth_check_input":"Please check input",
 

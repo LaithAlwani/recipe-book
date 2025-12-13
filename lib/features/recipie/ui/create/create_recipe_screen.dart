@@ -16,8 +16,9 @@ class CreateRecipeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          state.editingRecipe != null ? 'Edit Recipe' : 'Create Recipe',
+        title: Visibility(
+          visible: state.editingRecipe != null,
+          child: const Text('Edit Recipe'),
         ),
       ),
       body: state.isLoading

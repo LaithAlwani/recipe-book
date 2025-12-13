@@ -109,7 +109,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
     _currentUser = firebaseUser;
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Column(
           children: [

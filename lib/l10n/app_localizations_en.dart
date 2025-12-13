@@ -48,7 +48,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get auth_account => 'Have an account?';
 
   @override
-  String get auth_login_social => 'or sign int with';
+  String get auth_login_social => 'or sign in with';
 
   @override
   String get auth_password_length => 'Password must be 8 characters in length';

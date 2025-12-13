@@ -5,7 +5,7 @@ import 'package:recipe_book/features/home/ui/home_screen.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_provider.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_screen.dart';
 import 'package:recipe_book/features/recipie/ui/create/create_recipe_screen.dart';
-import 'package:recipe_book/features/user/ui/settings_screen.dart';
+import 'package:recipe_book/features/settings/settings_screen.dart';
 import 'package:recipe_book/theme.dart';
 
 class MainLayout extends ConsumerStatefulWidget {
@@ -47,9 +47,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
       ),
     ];
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors.backgroundColor,
         leading: IconButton(
           onPressed: () {
             // Navigate to Settings on top of current page
@@ -97,7 +95,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
           ),
         ],
         height: 60,
-        backgroundColor: AppColors.backgroundColor,
+        // backgroundColor: AppColors.backgroundColor,
         shadowColor: Colors.grey,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         selectedIndex: _selectedIndex,

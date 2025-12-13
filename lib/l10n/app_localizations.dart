@@ -176,7 +176,7 @@ abstract class AppLocalizations {
   /// No description provided for @auth_login_social.
   ///
   /// In en, this message translates to:
-  /// **'or sign int with'**
+  /// **'or sign in with'**
   String get auth_login_social;
 
   /// No description provided for @auth_password_length.
