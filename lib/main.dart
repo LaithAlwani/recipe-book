@@ -9,11 +9,13 @@ import 'package:flutter/services.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/auth/auth_state.dart';
 import 'package:recipe_book/firebase_options.dart';
+import 'package:recipe_book/l10n/app_localizations.dart';
 import 'package:recipe_book/shared/main_layout.dart';
 import 'package:recipe_book/features/onboadrding/ui/onboarding_screen.dart';
 import 'package:recipe_book/features/auth/ui/welcome.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/theme.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,8 +26,8 @@ void main() async {
   ]);
   const bool useEmulator = true;
   if (kDebugMode && useEmulator) {
-    // const emulatorHost = '192.168.86.29'; //192.168.2.137
-    const emulatorHost = '192.168.2.137'; //192.168.2.137
+    const emulatorHost = '192.168.86.29'; //192.168.2.137
+    // const emulatorHost = '192.168.2.137'; //192.168.2.137
     try {
       FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
       await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
@@ -48,6 +50,7 @@ class MyApp extends ConsumerWidget {
     final AuthState authState = ref.watch(authNotifierProvider);
     return MaterialApp(
       title: 'Recipie Book',
+      // darkTheme: ThemeData.dark(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
         scaffoldBackgroundColor: AppColors.backgroundColor,
@@ -65,6 +68,14 @@ class MyApp extends ConsumerWidget {
           backgroundColor: AppColors.backgroundColor,
         ),
       ),
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+
       // navigatorObservers: [LoggingNavigatorObserver()],
       home: _getLandingScreen(authState),
     );
