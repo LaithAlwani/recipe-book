@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
+import 'package:recipe_book/l10n/app_localizations.dart';
 
 class SignInForm extends ConsumerStatefulWidget {
   const SignInForm({super.key});
@@ -19,6 +20,7 @@ class _SignInFormState extends ConsumerState<SignInForm> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider);
     final authVM = ref.read(authNotifierProvider.notifier);
+    final appLocal = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Form(
@@ -27,10 +29,10 @@ class _SignInFormState extends ConsumerState<SignInForm> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // intro text
-            const Center(
+            Center(
               child: Text(
-                'Sign in to your account.',
-                style: TextStyle(fontSize: 16),
+                appLocal.auth_login_title,
+                style: const TextStyle(fontSize: 16),
               ),
             ),
             const SizedBox(height: 16.0),
@@ -39,13 +41,13 @@ class _SignInFormState extends ConsumerState<SignInForm> {
             TextFormField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(labelText: appLocal.auth_email_label),
               onChanged: (_) {
                 authState.copyWith(errorMessage: null);
               },
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "please enter a email";
+                  return appLocal.auth_email_error;
                 }
                 return null;
               },
@@ -56,13 +58,15 @@ class _SignInFormState extends ConsumerState<SignInForm> {
             TextFormField(
               controller: _passwordController,
               obscureText: true,
-              decoration: const InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(
+                labelText: appLocal.auth_password_lable,
+              ),
               onChanged: (_) {
                 authState.copyWith(errorMessage: null);
               },
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "please enter a passowrd";
+                  return appLocal.auth_password_error;
                 }
                 return null;
               },
@@ -97,7 +101,7 @@ class _SignInFormState extends ConsumerState<SignInForm> {
                         strokeWidth: 2,
                       ),
                     )
-                  : const Text("Sign In"),
+                  : Text(appLocal.auth_login),
             ),
           ],
         ),

@@ -40,6 +40,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     final authVM = ref.read(authNotifierProvider.notifier);
+    final appLocal = AppLocalizations.of(context)!;
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 130, 16, 80),
@@ -50,7 +51,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
             Image.asset("assets/logo.png", height: 180),
             const SizedBox(height: 24),
             Text(
-              AppLocalizations.of(context)!.hello,
+              appLocal.auth_title,
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
@@ -65,9 +66,10 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
               children: [
                 Text(
                   isSignUpForm
-                      ? "Have an account? "
-                      : "Don't have an account? ",
+                      ? appLocal.auth_account
+                      : appLocal.auth_no_account,
                 ),
+                const SizedBox(width: 6),
                 TextButton(
                   style: TextButton.styleFrom(
                     padding: const EdgeInsets.all(0),
@@ -79,7 +81,9 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                       isSignUpForm = !isSignUpForm;
                     });
                   },
-                  child: Text(isSignUpForm ? "Login" : "Register"),
+                  child: Text(
+                    isSignUpForm ? appLocal.auth_login : appLocal.auth_register,
+                  ),
                 ),
               ],
             ),

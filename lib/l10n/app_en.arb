@@ -1,6 +1,26 @@
 {
-  "app_title":"Hungry",
-  "hello": "Hello",
-  "settings": "Settings",
-  "change_language": "Change Language"
+  "common_ok": "OK",
+  "common_cancel": "Cancel",
+
+
+  "auth_title": "Hungry",
+  "auth_login": "Login",
+  "auth_register": "SignUp",
+  "auth_login_title": "Sign in to your account",
+  "auth_signup_title": "Sign up for a new account",
+  "auth_email_label": "Email",
+  "auth_email_error": "please enter your email",
+  "auth_password_lable": "Password",
+  "auth_password_error": "please enter a password",
+  "auth_no_account": "Don't have an account?",
+  "auth_account": "Have an account?",
+  "auth_login_social": "or sign int with",
+  "auth_password_length":"Password must be 8 characters in length",
+  "auth_check_input":"Please check input",
+
+
+  "recipe_title": "Recipes",
+  "recipe_add": "Add Recipe",
+  "settings_title": "Settings",
+  "settings_language": "Language"
 }

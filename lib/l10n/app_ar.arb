@@ -1,5 +1,26 @@
 {
-  "hello": "مرحبا",
-  "settings": "الإعدادات",
-  "change_language": "تغيير اللغة"
+  "common_ok": "موافق",
+  "common_cancel": "إلغاء",
+
+
+  "auth_title": "جوعان",
+  "auth_login": "تسجيل الدخول",
+  "auth_register": "إنشاء حساب",
+  "auth_login_title": "تسجيل الدخول إلى حسابك",
+  "auth_signup_title": "سجّل للحصول على حساب جديد",
+  "auth_email_label": "البريد الإلكتروني",
+  "auth_email_error": "يرجى إدخال البريد الإلكتروني",
+  "auth_password_lable": "كلمة المرور",
+  "auth_password_error": "يرجى إدخال كلمة المرور",
+  "auth_no_account": "ليس لديك حساب؟",
+  "auth_account": "هل لديك حساب؟",
+  "auth_login_social": "أو تسجيل الدخول باستخدام",
+  "auth_password_length": "يجب أن تكون كلمة المرور ٨ أحرف على الأقل",
+  "auth_check_input": "يرجى التحقق من الإدخال",
+
+
+  "recipe_title": "الوصفات",
+  "recipe_add": "إضافة وصفة",
+  "settings_title": "الإعدادات",
+  "settings_language": "اللغة"
 }

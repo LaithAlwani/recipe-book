@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
+import 'package:recipe_book/l10n/app_localizations.dart';
 
 class SignUpFrom extends ConsumerStatefulWidget {
   const SignUpFrom({super.key});
@@ -19,6 +20,7 @@ class _SignUpFromState extends ConsumerState<SignUpFrom> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider);
     final authVM = ref.read(authNotifierProvider.notifier);
+    final appLocal = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Form(
@@ -27,10 +29,10 @@ class _SignUpFromState extends ConsumerState<SignUpFrom> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             //intro text
-            const Center(
+            Center(
               child: Text(
-                "Signup for a new account",
-                style: TextStyle(fontSize: 16),
+                appLocal.auth_signup_title,
+                style: const TextStyle(fontSize: 16),
               ),
             ),
             const SizedBox(height: 16),
@@ -39,10 +41,10 @@ class _SignUpFromState extends ConsumerState<SignUpFrom> {
             TextFormField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(labelText: "Email"),
+              decoration: InputDecoration(labelText: appLocal.auth_email_label),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "please enter your email";
+                  return appLocal.auth_email_error;
                 }
                 return null;
               },
@@ -52,13 +54,15 @@ class _SignUpFromState extends ConsumerState<SignUpFrom> {
             TextFormField(
               controller: _passwordController,
               obscureText: true,
-              decoration: const InputDecoration(labelText: "Password"),
+              decoration: InputDecoration(
+                labelText: appLocal.auth_password_lable,
+              ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "please enter a passowrd";
+                  return appLocal.auth_password_error;
                 }
                 if (value.length < 8) {
-                  return "Password must be 8 characters in length";
+                  return appLocal.auth_password_length;
                 }
                 return null;
               },
@@ -66,7 +70,6 @@ class _SignUpFromState extends ConsumerState<SignUpFrom> {
             //error feedback
             const SizedBox(height: 16),
             if (authState.errorMessage != null)
-            
               Text(
                 authState.errorMessage!,
                 style: const TextStyle(color: Colors.red),
@@ -76,7 +79,7 @@ class _SignUpFromState extends ConsumerState<SignUpFrom> {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   setState(() {
-                    authState.copyWith(errorMessage: "Please check input");
+                    authState.copyWith(errorMessage: appLocal.auth_check_input);
                   });
                   final email = _emailController.text.trim();
                   final password = _passwordController.text.trim();
@@ -95,7 +98,7 @@ class _SignUpFromState extends ConsumerState<SignUpFrom> {
                         strokeWidth: 2,
                       ),
                     )
-                  : const Text("Sign Up"),
+                  : Text(appLocal.auth_register),
             ),
           ],
         ),

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:recipe_book/l10n/app_localizations.dart';
 
 class SocialLoginSection extends StatelessWidget {
   final VoidCallback onGoogle;
@@ -28,7 +29,7 @@ class SocialLoginSection extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                "or sign in with",
+                AppLocalizations.of(context)!.auth_login_social,
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey[800],
