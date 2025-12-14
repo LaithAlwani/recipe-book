@@ -20,11 +20,13 @@ class OnboardingImage extends StatelessWidget {
           const SizedBox(height: 24),
           const SizedBox(height: 12),
           ImagePickerWidget(
-            onImageSelected: (file) {
-              selectedImage(file);
+            maxImages: 1,
+            onImagesSelected: (images) {
+              selectedImage(images.firstOrNull);
             },
           ),
         ],
       ),
     );
-}}
+  }
+}

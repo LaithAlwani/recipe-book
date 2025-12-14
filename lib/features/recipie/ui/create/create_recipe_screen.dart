@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/shared/chips_input.dart';
+import 'package:recipe_book/shared/image_picker_widget.dart';
 import 'package:recipe_book/shared/list_input.dart';
 import 'package:recipe_book/theme.dart';
 import 'create_recipe_provider.dart';
@@ -134,18 +135,24 @@ class CreateRecipeScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  ListInput<String>(
-                    label: 'Images',
-                    items: state.imageUrls,
-                    onChanged: vm.setImageUrls,
-                    itemBuilder: (item, onRemove) => ListTile(
-                      title: Text(item),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: onRemove,
-                      ),
-                    ),
+                  ImagePickerWidget(
+                    maxImages: 5,
+                    onImagesSelected: (images) {
+                      // vm.setImageUrls(images.firstOrNull);
+                    },
                   ),
+                  // ListInput<String>(
+                  //   label: 'Images',
+                  //   items: state.imageUrls,
+                  //   onChanged: vm.setImageUrls,
+                  //   itemBuilder: (item, onRemove) => ListTile(
+                  //     title: Text(item),
+                  //     trailing: IconButton(
+                  //       icon: const Icon(Icons.delete),
+                  //       onPressed: onRemove,
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(height: 16),
                   Row(
                     children: [

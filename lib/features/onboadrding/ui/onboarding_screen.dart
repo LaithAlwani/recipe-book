@@ -9,7 +9,6 @@ import 'package:recipe_book/features/onboadrding/ui/onboadring_name.dart';
 import 'package:recipe_book/features/onboadrding/ui/onboarding_bottom_navbar.dart';
 import 'package:recipe_book/features/onboadrding/ui/onboarding_image.dart';
 import 'package:recipe_book/services/storage_service.dart';
-import 'package:recipe_book/theme.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});

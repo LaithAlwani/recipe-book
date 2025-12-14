@@ -5,12 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
-import 'package:recipe_book/features/auth/auth_provider.dart';
 
 class ImagePickerWidget extends ConsumerStatefulWidget {
-  const ImagePickerWidget({super.key, required this.onImageSelected});
+  const ImagePickerWidget({
+    super.key,
+    required this.onImagesSelected,
+    this.maxImages = 1,
+    this.initialImages = const [],
+  });
 
-  final Function(File?) onImageSelected;
+  final int maxImages;
+  final List<File> initialImages;
+  final Function(List<File>) onImagesSelected;
 
   @override
   ConsumerState<ImagePickerWidget> createState() => _ImagePickerWidgetState();
@@ -18,95 +24,158 @@ class ImagePickerWidget extends ConsumerStatefulWidget {
 
 class _ImagePickerWidgetState extends ConsumerState<ImagePickerWidget> {
   final ImagePicker _picker = ImagePicker();
-  File? _selectedImageFile;
+  late List<File> _selectedImages;
 
-  Future<void> _pickImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(source: source);
-    if (pickedFile == null) return;
+  @override
+  void initState() {
+    super.initState();
+    _selectedImages = List.from(widget.initialImages);
+  }
+
+  Future<File?> _processImage(XFile pickedFile) async {
     final originalBytes = await pickedFile.readAsBytes();
 
-    img.Image? decodedImage = img.decodeImage(originalBytes);
-    if (decodedImage == null) return;
+    final decoded = img.decodeImage(originalBytes);
+    if (decoded == null) return null;
 
-    // Resize the image to about 300px width (great for avatars)
-    img.Image resized = img.copyResize(decodedImage, width: 300);
-
+    final resized = img.copyResize(decoded, width: 500);
     final resizedBytes = Uint8List.fromList(
       img.encodeJpg(resized, quality: 80),
     );
 
     final tempDir = Directory.systemTemp;
-    final resizedFile = File(
-      '${tempDir.path}/resized_${DateTime.now().millisecondsSinceEpoch}.jpg',
+    final file = File(
+      '${tempDir.path}/img_${DateTime.now().millisecondsSinceEpoch}.jpg',
     );
 
-    await resizedFile.writeAsBytes(resizedBytes);
-    widget.onImageSelected(resizedFile);
-    setState(() {
-      _selectedImageFile = resizedFile;
-    });
+    await file.writeAsBytes(resizedBytes);
+    return file;
   }
 
-  void _showImagePickerOptions() {
+  Future<void> _pickImages(ImageSource source) async {
+    if (widget.maxImages > 1 && source == ImageSource.gallery) {
+      final picked = await _picker.pickMultiImage();
+      for (final xFile in picked) {
+        if (_selectedImages.length >= widget.maxImages) break;
+        final file = await _processImage(xFile);
+        if (file != null) _selectedImages.add(file);
+      }
+    } else {
+      final picked = await _picker.pickImage(source: source);
+      if (picked == null) return;
+      final file = await _processImage(picked);
+      if (file != null) {
+        _selectedImages
+          ..clear()
+          ..add(file);
+      }
+    }
+
+    setState(() {});
+    widget.onImagesSelected(_selectedImages);
+  }
+
+  void _showPicker() {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
-      builder: (context) {
-        return SafeArea(
-          child: Wrap(
-            children: [
-              ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Choose from Gallery'),
-                onTap: () {
-                  Navigator.pop(context);
-                  _pickImage(ImageSource.gallery);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.camera_alt),
-                title: const Text('Take a Photo'),
-                onTap: () {
-                  Navigator.pop(context);
-                  _pickImage(ImageSource.camera);
-                },
-              ),
-            ],
-          ),
-        );
-      },
+      builder: (_) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Choose from Gallery'),
+              onTap: () {
+                Navigator.pop(context);
+                _pickImages(ImageSource.gallery);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Take a Photo'),
+              onTap: () {
+                Navigator.pop(context);
+                _pickImages(ImageSource.camera);
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authNotifierProvider);
-    final firebaseUser = authState.firebaseUser!;
-    final photoUrl = firebaseUser.photoURL;
-
-    ImageProvider? backgroundImage;
-    if (_selectedImageFile != null) {
-      backgroundImage = FileImage(_selectedImageFile!);
-    } else if (photoUrl != null && photoUrl.isNotEmpty) {
-      backgroundImage = NetworkImage(photoUrl);
-    }
-
-    return TextButton(
-      onPressed: _showImagePickerOptions,
-      child: Column(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            radius: 60,
-            backgroundColor: Colors.grey[200],
-            backgroundImage: backgroundImage,
-            child: backgroundImage == null
-                ? const Icon(Icons.add_a_photo, size: 40, color: Colors.grey)
-                : null,
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              if (_selectedImages.length < widget.maxImages)
+                InkWell(
+                  onTap: _showPicker,
+                  child: Container(
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.grey[200],
+                    ),
+                    child: const Icon(Icons.add_a_photo),
+                  ),
+                ),
+              ..._selectedImages.map(
+                (file) => Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.file(
+                        file,
+                        width: 120,
+                        height: 120,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 5,
+                      child: Container(
+                        width: 32,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color.fromARGB(50, 0, 0, 0),
+                        ),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.close,
+                            size: 24,
+                            color: Colors.white,
+                          ),
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(
+                            minWidth: 16,
+                            minHeight: 16,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _selectedImages.remove(file);
+                            });
+                            widget.onImagesSelected(_selectedImages);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 20),
-          const Text("Choose an Image"),
         ],
       ),
     );
