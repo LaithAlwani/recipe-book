@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -73,14 +75,18 @@ class CreateRecipeNotifier extends Notifier<CreateRecipeState> {
   }
 
   void setTitle(String value) => state = state.copyWith(title: value);
-  void setDiscription(String value) =>
-      state = state.copyWith(discription: value);
+  void setDescription(String value) =>
+      state = state.copyWith(description: value);
   void setIngredients(List<Ingredient> value) =>
       state = state.copyWith(ingredients: value);
   void setInstructions(List<String> value) =>
       state = state.copyWith(instructions: value);
   void setImageUrls(List<String> value) =>
       state = state.copyWith(imageUrls: value);
+  void setSelectedImages(List<File> images) {
+    state = state.copyWith(selectedImages: List.unmodifiable(images));
+  }
+
   void setPrepTime(String value) {
     final prep = int.tryParse(value) ?? 0;
     state = state.copyWith(prepTime: prep, totalTime: prep + state.cookTime);
@@ -113,9 +119,10 @@ class CreateRecipeNotifier extends Notifier<CreateRecipeState> {
 
   bool _validate() {
     if (state.title.isEmpty ||
+        state.description.isEmpty ||
         state.ingredients.isEmpty ||
         state.instructions.isEmpty ||
-        state.imageUrls.isEmpty ||
+        state.selectedImages.isEmpty ||
         state.prepTime <= 0 ||
         state.cookTime < 0 ||
         state.totalTime <= 0 ||
@@ -130,7 +137,14 @@ class CreateRecipeNotifier extends Notifier<CreateRecipeState> {
     return true;
   }
 
-  Future<void> saveRecipe(WidgetRef ref) async {
+  //check all mandetory fields
+  bool get canSubmit =>
+      state.title.isNotEmpty &&
+      state.ingredients.isNotEmpty &&
+      state.selectedImages.isNotEmpty &&
+      !state.isSubmitting;
+
+  Future<void> submitRecipe(WidgetRef ref) async {
     if (!_validate()) return;
 
     setLoading(true);
@@ -143,7 +157,7 @@ class CreateRecipeNotifier extends Notifier<CreateRecipeState> {
         ownerId: appUser.uid, // ownerId from current user
         bookIds: [], // will be set later
         title: state.title,
-        description: state.editingRecipe?.description ?? '',
+        description: state.description,
         instructions: state.instructions,
         prepTime: state.prepTime,
         cookTime: state.cookTime,
@@ -160,8 +174,9 @@ class CreateRecipeNotifier extends Notifier<CreateRecipeState> {
         nutrition: state.nutrition,
         videoUrl: state.videoUrl,
       );
+      print(recipe);
 
-      await _saveRecipeToFirestore(recipe);
+      // await _saveRecipeToFirestore(recipe);
     } catch (e) {
       setError(e.toString());
     }

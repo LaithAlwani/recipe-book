@@ -1,12 +1,15 @@
+import 'dart:io';
+
 import 'package:recipe_book/features/ingredient/ingredient.dart';
 import 'package:recipe_book/features/recipie/recipe.dart';
 
 class CreateRecipeState {
   final String title;
-  final String discription;
+  final String description;
   final List<Ingredient> ingredients;
   final List<String> instructions;
   final List<String> imageUrls;
+  final List<File> selectedImages;
 
   // Mandatory
   final int prepTime;
@@ -23,6 +26,8 @@ class CreateRecipeState {
 
   // UI
   final bool isLoading;
+  final bool isSubmitting;
+  final bool canSubmit;
   final String? errorMessage;
 
   // Edit mode
@@ -30,10 +35,11 @@ class CreateRecipeState {
 
   const CreateRecipeState({
     this.title = '',
-    this.discription = '',
+    this.description = '',
     this.ingredients = const [],
     this.instructions = const [],
     this.imageUrls = const [],
+    this.selectedImages = const [],
     this.prepTime = 0,
     this.cookTime = 0,
     this.totalTime = 0,
@@ -44,16 +50,19 @@ class CreateRecipeState {
     this.nutrition,
     this.videoUrl,
     this.isLoading = false,
+    this.isSubmitting = false,
+    this.canSubmit = false,
     this.errorMessage,
     this.editingRecipe,
   });
 
   CreateRecipeState copyWith({
     String? title,
-    String? discription,
+    String? description,
     List<Ingredient>? ingredients,
     List<String>? instructions,
     List<String>? imageUrls,
+    List<File>? selectedImages,
     int? prepTime,
     int? cookTime,
     int? totalTime,
@@ -64,15 +73,18 @@ class CreateRecipeState {
     Map<String, dynamic>? nutrition,
     String? videoUrl,
     bool? isLoading,
+    bool? isSubmitting,
+    bool? canSubmit,
     String? errorMessage,
     Recipe? editingRecipe,
   }) {
     return CreateRecipeState(
       title: title ?? this.title,
-      discription:discription?? this.discription,
+      description: description ?? this.description,
       ingredients: ingredients ?? this.ingredients,
       instructions: instructions ?? this.instructions,
       imageUrls: imageUrls ?? this.imageUrls,
+      selectedImages: selectedImages ?? this.selectedImages,
       prepTime: prepTime ?? this.prepTime,
       cookTime: cookTime ?? this.cookTime,
       totalTime: totalTime ?? this.totalTime,
@@ -83,6 +95,8 @@ class CreateRecipeState {
       nutrition: nutrition ?? this.nutrition,
       videoUrl: videoUrl ?? this.videoUrl,
       isLoading: isLoading ?? this.isLoading,
+      isSubmitting: isSubmitting ?? this.isSubmitting,
+      canSubmit: canSubmit ?? this.canSubmit,
       errorMessage: errorMessage ?? this.errorMessage,
       editingRecipe: editingRecipe ?? this.editingRecipe,
     );

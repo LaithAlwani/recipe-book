@@ -184,4 +184,32 @@ class Recipe {
       metadata: metadata ?? this.metadata,
     );
   }
+
+  @override
+  String toString() {
+    return '''
+Recipe(
+  id: $id,
+  ownerId: $ownerId,
+  bookIds: $bookIds,
+  title: $title,
+  description: $description,
+  instructions: $instructions,
+  prepTime: $prepTime,
+  cookTime: $cookTime,
+  totalTime: $totalTime,
+  difficulty: $difficulty,
+  servings: $servings,
+  tags: $tags,
+  categories: $categories,
+  ingredients: $ingredients,
+  imageUrls: $imageUrls,
+  createdBy: $createdBy,
+  createdAt: $createdAt,
+  updatedAt: $updatedAt,
+  nutrition: $nutrition,
+  videoUrl: $videoUrl,
+)
+''';
+  }
 }

@@ -29,15 +29,9 @@ class CreateRecipeScreen extends ConsumerWidget {
                 ImagePickerWidget(
                   maxImages: 5,
                   onImagesSelected: (images) {
-                    // vm.setImageUrls(images.firstOrNull);
+                    vm.setSelectedImages(images);
                   },
                 ),
-                if (state.errorMessage != null)
-                  Text(
-                    state.errorMessage!,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-
                 TextField(
                   focusNode: vm.titleFocus,
                   decoration: const InputDecoration(labelText: 'Title'),
@@ -51,7 +45,7 @@ class CreateRecipeScreen extends ConsumerWidget {
                   focusNode: vm.descriptionFocus,
                   decoration: const InputDecoration(labelText: 'Description'),
                   controller: vm.descriptionController,
-                  onChanged: vm.setDiscription,
+                  onChanged: vm.setDescription,
                 ),
                 const SizedBox(height: 16),
                 ListInput<Ingredient>(
@@ -135,20 +129,6 @@ class CreateRecipeScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
-
-                // ListInput<String>(
-                //   label: 'Images',
-                //   items: state.imageUrls,
-                //   onChanged: vm.setImageUrls,
-                //   itemBuilder: (item, onRemove) => ListTile(
-                //     title: Text(item),
-                //     trailing: IconButton(
-                //       icon: const Icon(Icons.delete),
-                //       onPressed: onRemove,
-                //     ),
-                //   ),
-                // ),
                 const SizedBox(height: 16),
                 Row(
                   children: [
@@ -251,20 +231,33 @@ class CreateRecipeScreen extends ConsumerWidget {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(
-                        AppColors.primaryColor,
+                        vm.canSubmit ? AppColors.primaryColor : Colors.grey,
                       ),
                       foregroundColor: const WidgetStatePropertyAll(
                         Colors.white,
                       ),
                     ),
-                    onPressed: () => vm.saveRecipe(ref),
-                    child: Text(
-                      state.editingRecipe != null
-                          ? 'Update Recipe'
-                          : 'Create Recipe',
-                    ),
+                    onPressed: state.canSubmit
+                        ? () => vm.submitRecipe(ref)
+                        : null,
+                    child: state.isSubmitting
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(),
+                          )
+                        : Text(
+                            state.editingRecipe != null
+                                ? 'Update Recipe'
+                                : 'Create Recipe',
+                          ),
                   ),
                 ),
+                if (state.errorMessage != null)
+                  Text(
+                    state.errorMessage!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
               ],
             ),
           );
