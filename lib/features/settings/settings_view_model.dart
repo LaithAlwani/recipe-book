@@ -43,12 +43,12 @@ class SettingsViewModel extends Notifier<SettingsState> {
   Future<void> setBackgroundColor(Color color) async {
     state = state.copyWith(backgroundColor: color);
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_bgColorKey, color.value);
+    await prefs.setInt(_bgColorKey, color.toARGB32());
   }
 
   Future<void> setFontColor(Color color) async {
     state = state.copyWith(fontColor: color);
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_fontColorKey, color.value);
+    await prefs.setInt(_fontColorKey, color.toARGB32());
   }
 }
