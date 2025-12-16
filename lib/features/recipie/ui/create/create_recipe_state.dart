@@ -15,7 +15,7 @@ class CreateRecipeState {
   final int prepTime;
   final int cookTime;
   final int totalTime;
-  final String difficulty;
+  final String? difficulty;
   final int servings;
   final List<String> tags;
   final List<String> categories;
@@ -43,8 +43,8 @@ class CreateRecipeState {
     this.prepTime = 0,
     this.cookTime = 0,
     this.totalTime = 0,
-    this.difficulty = 'Medium',
-    this.servings = 1,
+    this.difficulty,
+    this.servings = 0,
     this.tags = const [],
     this.categories = const [],
     this.nutrition,

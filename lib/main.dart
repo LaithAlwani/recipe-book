@@ -27,8 +27,8 @@ void main() async {
   ]);
   const bool useEmulator = true;
   if (kDebugMode && useEmulator) {
-    const emulatorHost = '192.168.86.29'; //192.168.2.137
-    // const emulatorHost = '192.168.2.137'; //192.168.2.137
+    const emulatorHost = '192.168.86.29'; 
+    // const emulatorHost = '192.168.2.137';
     try {
       FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
       await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);

@@ -126,7 +126,7 @@ class CreateRecipeNotifier extends Notifier<CreateRecipeState> {
         state.prepTime <= 0 ||
         state.cookTime < 0 ||
         state.totalTime <= 0 ||
-        state.difficulty.isEmpty ||
+        state.difficulty == null ||
         state.servings <= 0 ||
         state.tags.isEmpty ||
         state.categories.isEmpty) {
@@ -141,12 +141,18 @@ class CreateRecipeNotifier extends Notifier<CreateRecipeState> {
   bool get canSubmit =>
       state.title.isNotEmpty &&
       state.ingredients.isNotEmpty &&
+      state.instructions.isNotEmpty &&
       state.selectedImages.isNotEmpty &&
+      state.prepTime > 0 &&
+      state.cookTime > 0 &&
+      state.totalTime> 0 &&
+      state.servings > 0 &&
+      state.difficulty != null &&
       !state.isSubmitting;
 
   Future<void> submitRecipe(WidgetRef ref) async {
-    if (!_validate()) return;
-
+    // if (!_validate()) return;
+    
     setLoading(true);
 
     try {
@@ -162,7 +168,7 @@ class CreateRecipeNotifier extends Notifier<CreateRecipeState> {
         prepTime: state.prepTime,
         cookTime: state.cookTime,
         totalTime: state.totalTime,
-        difficulty: state.difficulty,
+        difficulty: state.difficulty ?? '',
         servings: state.servings,
         tags: state.tags,
         categories: state.categories,
@@ -174,7 +180,7 @@ class CreateRecipeNotifier extends Notifier<CreateRecipeState> {
         nutrition: state.nutrition,
         videoUrl: state.videoUrl,
       );
-      print(recipe);
+      print(state.selectedImages);
 
       // await _saveRecipeToFirestore(recipe);
     } catch (e) {
