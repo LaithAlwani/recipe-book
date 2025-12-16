@@ -15,7 +15,9 @@ class CreateRecipeScreen extends ConsumerWidget {
     final state = ref.watch(createRecipeProvider);
     final vm = ref.read(createRecipeProvider.notifier);
 
-    return state.isLoading
+    return Scaffold(
+
+    body:state.isLoading
         ? const Center(child: CircularProgressIndicator())
         : SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -260,6 +262,7 @@ class CreateRecipeScreen extends ConsumerWidget {
                   ),
               ],
             ),
-          );
+          ),
+    );
   }
 }

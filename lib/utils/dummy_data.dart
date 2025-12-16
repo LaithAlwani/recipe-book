@@ -3,8 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final dummyRecipes = [
   {
     "id": "r1",
-    "bookId": "0BQtvY1FcGNyxBkQiofa",
-    "ownerId": "wu4XAd0XfEcD9XFTjKH2u27ndGh9",
+    "ownerId": "DYRaecEEWDr1cGba8NxNtktn9i8B",
     "title": "Classic Spaghetti Bolognese",
     "description":
         "A hearty Italian pasta dish with rich tomato and beef sauce.",
@@ -47,8 +46,7 @@ final dummyRecipes = [
   },
   {
     "id": "r2",
-    "bookId": "0BQtvY1FcGNyxBkQiofa",
-    "ownerId": "wu4XAd0XfEcD9XFTjKH2u27ndGh9",
+    "ownerId": "DYRaecEEWDr1cGba8NxNtktn9i8B",
     "title": "Avocado Toast with Egg",
     "description": "Quick, creamy avocado toast topped with poached eggs.",
     "instructions": [
@@ -79,8 +77,7 @@ final dummyRecipes = [
   },
   {
     "id": "r3",
-    "bookId": "0BQtvY1FcGNyxBkQiofa",
-    "ownerId": "wu4XAd0XfEcD9XFTjKH2u27ndGh9",
+    "ownerId": "DYRaecEEWDr1cGba8NxNtktn9i8B",
     "title": "Chicken Caesar Salad",
     "description":
         "Crisp romaine lettuce, grilled chicken, and creamy Caesar dressing.",
@@ -127,8 +124,7 @@ final dummyRecipes = [
   },
   {
     "id": "r4",
-    "bookId": "0BQtvY1FcGNyxBkQiofa",
-    "ownerId": "wu4XAd0XfEcD9XFTjKH2u27ndGh9",
+    "ownerId": "DYRaecEEWDr1cGba8NxNtktn9i8B",
     "title": "Beef Tacos",
     "description": "Spicy beef tacos with fresh toppings and soft tortillas.",
     "instructions": [
@@ -172,8 +168,7 @@ final dummyRecipes = [
   },
   {
     "id": "r5",
-    "bookId": "0BQtvY1FcGNyxBkQiofa",
-    "ownerId": "wu4XAd0XfEcD9XFTjKH2u27ndGh9",
+    "ownerId": "DYRaecEEWDr1cGba8NxNtktn9i8B",
     "title": "Fluffy Pancakes",
     "description": "Soft, fluffy pancakes perfect for breakfast.",
     "instructions": [
@@ -213,7 +208,6 @@ final dummyRecipes = [
   },
   {
     "id": "r6",
-    "bookId": "0BQtvY1FcGNyxBkQiofa",
     "ownerId": "wu4XAd0XfEcD9XFTjKH2u27ndGh9",
     "title": "Grilled Salmon",
     "description": "Perfectly grilled salmon fillets with lemon and herbs.",
@@ -256,7 +250,6 @@ final dummyRecipes = [
   },
   {
     "id": "r7",
-    "bookId": "0BQtvY1FcGNyxBkQiofa",
     "ownerId": "wu4XAd0XfEcD9XFTjKH2u27ndGh9",
     "title": "Vegetable Stir-Fry",
     "description": "Quick and healthy stir-fried vegetables with soy sauce.",
@@ -291,7 +284,6 @@ final dummyRecipes = [
   {
     "id": "r8",
     "title": "Chocolate Chip Cookies",
-    "bookId": "0BQtvY1FcGNyxBkQiofa",
     "ownerId": "wu4XAd0XfEcD9XFTjKH2u27ndGh9",
     "description": "Classic chewy chocolate chip cookies with a golden crust.",
     "instructions": [
@@ -329,7 +321,6 @@ final dummyRecipes = [
   },
   {
     "id": "r9",
-    "bookId": "0BQtvY1FcGNyxBkQiofa",
     "ownerId": "wu4XAd0XfEcD9XFTjKH2u27ndGh9",
     "title": "Mango Smoothie",
     "description": "Refreshing mango smoothie, perfect for breakfast or snack.",
@@ -362,7 +353,6 @@ final dummyRecipes = [
   {
     "id": "r10",
     "title": "Mushroom Risotto",
-    "bookId": "0BQtvY1FcGNyxBkQiofa",
     "ownerId": "wu4XAd0XfEcD9XFTjKH2u27ndGh9",
     "description": "Creamy risotto with mushrooms, garlic, and parmesan.",
     "instructions": [
