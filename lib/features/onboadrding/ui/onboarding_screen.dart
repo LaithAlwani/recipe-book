@@ -84,10 +84,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
 
     try {
-      await authVM.createNewUser(user);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("✅ User Created Successfuly")),
-      );
+      final success = await authVM.createNewUser(user);
+      if (success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("✅ User Created Successfuly")),
+        );
+      }
     } catch (e) {
       // ❌ Error — show a message
       if (!mounted) return;

@@ -181,7 +181,7 @@ class AuthViewModel extends Notifier<AuthState> {
   //create a new User
   //-------------
 
-  Future<void> createNewUser(AppUser user) async {
+  Future<bool> createNewUser(AppUser user) async {
     state = state.copyWith(isLoading: true);
     final FirebaseFunctions functions = FirebaseFunctions.instance;
 
@@ -202,11 +202,13 @@ class AuthViewModel extends Notifier<AuthState> {
       });
 
       state = state.copyWith(appUser: user, isRegistering: false);
+      return true;
     } catch (err) {
       state = state.copyWith(
         status: AuthStatus.error,
         errorMessage: err.toString(),
       );
+      return false;
     } finally {
       state = state.copyWith(isLoading: false);
     }
