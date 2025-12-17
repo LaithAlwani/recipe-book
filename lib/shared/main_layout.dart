@@ -5,6 +5,7 @@ import 'package:recipe_book/features/home/ui/home_screen.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_provider.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_screen.dart';
 import 'package:recipe_book/features/recipie/create/ui/create_recipe_screen.dart';
+import 'package:recipe_book/features/recipie/recipe_provider.dart';
 import 'package:recipe_book/features/settings/settings_screen.dart';
 import 'package:recipe_book/theme.dart';
 
@@ -26,6 +27,9 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
 
   void _onSelectedItem(int index) {
     setState(() => _selectedIndex = index);
+    if(index ==0){
+      ref.read(recipeProvider.notifier).resetForm();
+    }
   }
 
   Color iconColor(int index) {

@@ -2,9 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:recipe_book/features/auth/auth_provider.dart';
-import 'package:recipe_book/features/recipie/create/update_recipe_payload.dart';
 import 'package:recipe_book/features/recipie/recipe_repo.dart';
 import 'recipe_state.dart';
 import 'package:recipe_book/features/ingredient/ingredient.dart';
@@ -175,6 +172,13 @@ class recipeNotifier extends Notifier<RecipeState> {
 
   void resetForm() {
     state = const RecipeState(); // editingRecipe = null
+    titleController.text = '';
+    descriptionController.text = '';
+    prepTimeController.text = '';
+    cookTimeController.text = '';
+    totalTimeController.text = '';
+    servingsController.text = '';
+    videoUrlController.text = '';
   }
 
   //check all mandetory fields
