@@ -18,4 +18,13 @@ class RecipeRepo {
 
     return snapshot.docs.map((doc) => doc.data()).toList();
   }
+
+  static Future<void> createRecpie(Map<String, dynamic> data)async{
+        print("Createing Recipe");
+    
+  }
+  static Future<void> updateRecipe(String recipeId, Map<String, dynamic> data)async{
+        print("Editing Recipe ${recipeId}");
+
+  }
 }

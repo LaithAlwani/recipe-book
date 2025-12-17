@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/recipie/create/update_recipe_payload.dart';
+import 'package:recipe_book/features/recipie/recipe_repo.dart';
 import 'recipe_state.dart';
 import 'package:recipe_book/features/ingredient/ingredient.dart';
 import 'package:recipe_book/features/recipie/recipe_model.dart';
@@ -194,12 +195,13 @@ class recipeNotifier extends Notifier<RecipeState> {
     setLoading(true);
     setError(null);
     try {
+    
       final recipeData = state.toCreatePayload().toFirestore();
 
-      if (state.editingRecipe != null) {
-        print("Editing Recipe ${state.editingRecipe?.id}");
+      if (state.editingRecipe == null) {
+        await RecipeRepo.createRecpie(recipeData);
       } else {
-        print("Createing Recipe");
+        await RecipeRepo.updateRecipe(state.editingRecipe!.id, recipeData );
       }
     } catch (e) {
       setError(e.toString());
