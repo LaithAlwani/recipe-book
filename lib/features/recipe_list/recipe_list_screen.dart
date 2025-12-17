@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_provider.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_state.dart';
-import 'package:recipe_book/features/recipie/ui/create/create_recipe_screen.dart';
+import 'package:recipe_book/features/recipie/create/ui/create_recipe_screen.dart';
 import 'package:recipe_book/features/recipie/ui/recipe_card.dart';
 import 'package:recipe_book/theme.dart';
 

@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_book/features/recipie/recipe.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_book/features/auth/auth_provider.dart';
+import 'package:recipe_book/features/recipie/recipe_model.dart';
+import 'package:recipe_book/features/recipie/recipe_viewmodel.dart';
+import 'package:recipe_book/features/recipie/recipe_provider.dart';
+import 'package:recipe_book/features/recipie/create/ui/create_recipe_screen.dart';
 import 'package:recipe_book/theme.dart';
 
-class RecipeScreen extends StatefulWidget {
+class RecipeScreen extends ConsumerStatefulWidget {
   const RecipeScreen({super.key, required this.recipe});
 
   final Recipe recipe;
 
   @override
-  State<RecipeScreen> createState() => _RecipeScreenState();
+  ConsumerState<RecipeScreen> createState() => _RecipeScreenState();
 }
 
-class _RecipeScreenState extends State<RecipeScreen> {
+class _RecipeScreenState extends ConsumerState<RecipeScreen> {
   int multiplier = 1;
   @override
   Widget build(BuildContext context) {
+  final appUser = ref.read(authNotifierProvider).appUser!;
+  final createRecipeVM = ref.read(recipeProvider.notifier);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -53,6 +60,30 @@ class _RecipeScreenState extends State<RecipeScreen> {
                     child: IconButton(
                       icon: const Icon(Icons.arrow_back, color: Colors.white),
                       onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+                ),
+                if(appUser.uid == widget.recipe.ownerId)
+                Positioned(
+                  top: 40,
+                  right: 10,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(25),
+                          blurRadius: 6,
+                          offset: const Offset(2, 2),
+                        ),
+                      ],
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.white),
+                      onPressed: () {
+                        createRecipeVM.openForEdit(widget.recipe);
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const CreateRecipeScreen()));},
                     ),
                   ),
                 ),

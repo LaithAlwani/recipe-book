@@ -11,11 +11,11 @@ class ImagePickerWidget extends ConsumerStatefulWidget {
     super.key,
     required this.onImagesSelected,
     this.maxImages = 1,
-    this.initialImages = const [],
+    this.initialImageUrls = const [],
   });
 
   final int maxImages;
-  final List<File> initialImages;
+  final List<String> initialImageUrls;
   final Function(List<File>) onImagesSelected;
 
   @override
@@ -24,12 +24,14 @@ class ImagePickerWidget extends ConsumerStatefulWidget {
 
 class _ImagePickerWidgetState extends ConsumerState<ImagePickerWidget> {
   final ImagePicker _picker = ImagePicker();
-  late List<File> _selectedImages;
+  late List<String> _existingUrls;
+  late List<File> _newImages;
 
   @override
   void initState() {
     super.initState();
-    _selectedImages = List.from(widget.initialImages);
+    _existingUrls = List.from(widget.initialImageUrls);
+    _newImages = [];
   }
 
   Future<File?> _processImage(XFile pickedFile) async {
@@ -56,23 +58,23 @@ class _ImagePickerWidgetState extends ConsumerState<ImagePickerWidget> {
     if (widget.maxImages > 1 && source == ImageSource.gallery) {
       final picked = await _picker.pickMultiImage();
       for (final xFile in picked) {
-        if (_selectedImages.length >= widget.maxImages) break;
+        if (_newImages.length + _existingUrls.length >= widget.maxImages) break;
         final file = await _processImage(xFile);
-        if (file != null) _selectedImages.add(file);
+        if (file != null) _newImages.add(file);
       }
     } else {
       final picked = await _picker.pickImage(source: source);
       if (picked == null) return;
       final file = await _processImage(picked);
       if (file != null) {
-        _selectedImages
+        _newImages
           ..clear()
           ..add(file);
       }
     }
 
     setState(() {});
-    widget.onImagesSelected(_selectedImages);
+    widget.onImagesSelected(_newImages);
   }
 
   void _showPicker() {
@@ -117,7 +119,7 @@ class _ImagePickerWidgetState extends ConsumerState<ImagePickerWidget> {
             spacing: 8,
             runSpacing: 8,
             children: [
-              if (_selectedImages.length < widget.maxImages)
+              if (_existingUrls.length + _newImages.length < widget.maxImages)
                 InkWell(
                   onTap: _showPicker,
                   child: Container(
@@ -130,48 +132,23 @@ class _ImagePickerWidgetState extends ConsumerState<ImagePickerWidget> {
                     child: const Icon(Icons.add_a_photo),
                   ),
                 ),
-              ..._selectedImages.map(
-                (file) => Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.file(
-                        file,
-                        width: 120,
-                        height: 120,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Positioned(
-                      top: 0,
-                      right: 5,
-                      child: Container(
-                        width: 32,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color.fromARGB(50, 0, 0, 0),
-                        ),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.close,
-                            size: 24,
-                            color: Colors.white,
-                          ),
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(
-                            minWidth: 16,
-                            minHeight: 16,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _selectedImages.remove(file);
-                            });
-                            widget.onImagesSelected(_selectedImages);
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+
+              // Existing images (URLs)
+              ..._existingUrls.map(
+                (url) => _imageTile(
+                  Image.network(url, fit: BoxFit.cover),
+                  onRemove: () {
+                    setState(() => _existingUrls.remove(url));
+                  },
+                ),
+              ),
+
+              ..._newImages.map(
+                (file) => _imageTile(
+                  Image.file(file, fit: BoxFit.cover),
+                  onRemove: () {
+                    setState(() => _newImages.remove(file));
+                  },
                 ),
               ),
             ],
@@ -181,3 +158,38 @@ class _ImagePickerWidgetState extends ConsumerState<ImagePickerWidget> {
     );
   }
 }
+
+Widget _imageTile(Widget image, {required VoidCallback onRemove}) {
+  return Stack(
+    children: [
+      ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: SizedBox(width: 120, height: 120, child: image),
+      ),
+      Positioned(
+        top: 0,
+        right: 5,
+        child: Container(
+          width: 32,
+          decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color.fromARGB(80, 0, 0, 0),
+                        ),
+          child: IconButton(
+            icon: const Icon(Icons.close, size: 24, color: Colors.white),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(
+              minWidth: 16,
+              minHeight: 16,
+            ),
+            onPressed: onRemove,
+          ),
+        ),
+      ),
+    ],
+  );
+}
+                     
+                     
+                        
+                          

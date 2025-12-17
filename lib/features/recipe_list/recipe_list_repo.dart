@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:recipe_book/features/recipie/recipe.dart';
+import 'package:recipe_book/features/recipie/recipe_model.dart';
 
 class RecipeListRepo {
   static final _firestore = FirebaseFirestore.instance;

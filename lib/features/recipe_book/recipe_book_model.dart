@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:recipe_book/features/recipie/recipe.dart';
+import 'package:recipe_book/features/recipie/recipe_model.dart';
 
 class RecipeBook {
   final String id;

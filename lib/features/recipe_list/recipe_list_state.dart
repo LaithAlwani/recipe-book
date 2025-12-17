@@ -1,4 +1,4 @@
-import 'package:recipe_book/features/recipie/recipe.dart';
+import 'package:recipe_book/features/recipie/recipe_model.dart';
 
 enum RecipeListStatus { initial, loading, loaded, error }
 

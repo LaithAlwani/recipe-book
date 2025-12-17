@@ -117,7 +117,7 @@ class Recipe {
       'servings': servings,
       'tags': tags,
       'categories': categories,
-      'ingredients': ingredients.map((e) => e.toMap()).toList(),
+      'ingredients': ingredients.map((e) => e.toFirestore()).toList(),
       'image_urls': imageUrls,
       'created_by': createdBy,
       'created_at': createdAt,

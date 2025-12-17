@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_provider.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_repo.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_state.dart';
-import 'package:recipe_book/features/recipie/recipe.dart';
+import 'package:recipe_book/features/recipie/recipe_model.dart';
 
 class RecipeListViewModel extends Notifier<RecipeListState> {
   late RecipeListQuery query;

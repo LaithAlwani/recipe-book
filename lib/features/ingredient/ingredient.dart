@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Ingredient {
   final String name;
   final double quantity;
@@ -23,7 +25,7 @@ class Ingredient {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toFirestore() {
     return {
       'name': name,
       'quantity': quantity,

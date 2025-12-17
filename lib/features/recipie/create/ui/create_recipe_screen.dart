@@ -4,7 +4,7 @@ import 'package:recipe_book/shared/chips_input.dart';
 import 'package:recipe_book/shared/image_picker_widget.dart';
 import 'package:recipe_book/shared/list_input.dart';
 import 'package:recipe_book/theme.dart';
-import 'create_recipe_provider.dart';
+import '../../recipe_provider.dart';
 import 'package:recipe_book/features/ingredient/ingredient.dart';
 
 class CreateRecipeScreen extends ConsumerWidget {
@@ -12,8 +12,8 @@ class CreateRecipeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(createRecipeProvider);
-    final vm = ref.read(createRecipeProvider.notifier);
+    final state = ref.watch(recipeProvider);
+    final vm = ref.read(recipeProvider.notifier);
 
     return Scaffold(
       body: state.isLoading
@@ -34,6 +34,7 @@ class CreateRecipeScreen extends ConsumerWidget {
                     onImagesSelected: (images) {
                       vm.setSelectedImages(images);
                     },
+                    initialImageUrls: state.imageUrls ,
                   ),
                   TextField(
                     focusNode: vm.titleFocus,
@@ -244,9 +245,8 @@ class CreateRecipeScreen extends ConsumerWidget {
                         ),
                       ),
                       onPressed: vm.canSubmit
-                          ? () => vm.submitRecipe(ref)
+                          ? () => vm.submitRecipe() 
                           : null,
-                      // onPressed:()=> vm.submitRecipe(ref),
                       child: state.isSubmitting
                           ? const SizedBox(
                               height: 24,
