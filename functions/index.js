@@ -36,7 +36,7 @@ const {initializeApp} = require("firebase-admin/app");
 initializeApp();
 
 const user = require("./user");
-const recipe = require("./recipe");
+// const recipe = require("./recipe");
 
 exports.createUser = user.createUser;
 exports.updateUser = user.updateUserProfile
