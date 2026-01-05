@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_book/features/recipie/recipe_repo.dart';
+import 'package:recipe_book/services/storage_service.dart';
 import 'recipe_state.dart';
 import 'package:recipe_book/features/ingredient/ingredient.dart';
 import 'package:recipe_book/features/recipie/recipe_model.dart';
@@ -199,20 +201,34 @@ class recipeNotifier extends Notifier<RecipeState> {
     setLoading(true);
     setError(null);
     try {
-    
-      final recipeData = state.toCreatePayload().toFirestore();
-
       if (state.editingRecipe == null) {
-        await RecipeRepo.createRecpie(recipeData);
+        final recipeId = FirebaseFirestore.instance
+            .collection('recipes')
+            .doc()
+            .id;
+        final List<String> uploadedUrls = [];
+
+        for (final file in state.selectedImages) {
+          final url = await StorageService.uploadRecipeImage(
+            file: file,
+            recipeId: recipeId,
+          );
+
+          uploadedUrls.add(url);
+        }
+        state = state.copyWith(
+          imageUrls: [...state.imageUrls, ...uploadedUrls],
+        );
+        final recipeData = state.toCreatePayload().toFirestore();
+        await RecipeRepo.createRecpie(recipeId, recipeData);
       } else {
-        await RecipeRepo.updateRecipe(state.editingRecipe!.id, recipeData );
+        final recipeData = state.toUpdatePayload(state.editingRecipe!).toJson();
+        await RecipeRepo.updateRecipe(state.editingRecipe!.id, recipeData);
       }
     } catch (e) {
       setError(e.toString());
-    }finally{
+    } finally {
       setLoading(false);
     }
-
-    
   }
 }
