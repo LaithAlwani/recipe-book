@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/auth/auth_state.dart';
+import 'package:recipe_book/features/recipe_list/recipe_list_provider.dart';
+import 'package:recipe_book/features/recipe_list/recipe_list_screen.dart';
 import 'package:recipe_book/features/settings/settings_provider.dart';
 import 'package:recipe_book/firebase_options.dart';
 import 'package:recipe_book/l10n/app_localizations.dart';
@@ -105,7 +107,10 @@ class MyApp extends ConsumerWidget {
         if (authState.isRegistering) {
           return const OnboardingScreen();
         }
-        return const MainLayout(); // Normal signed-in user
+        return RecipeListScreen(
+          title: "Recipes",
+          query: RecipeListQuery(ownerId: authState.appUser?.uid),
+        ); // Normal signed-in user
     }
   }
 }

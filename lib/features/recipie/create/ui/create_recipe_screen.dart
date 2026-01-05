@@ -16,6 +16,12 @@ class CreateRecipeScreen extends ConsumerWidget {
     final vm = ref.read(recipeProvider.notifier);
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          state.editingRecipe != null ? 'Edit Recipe' : 'Create Recipe',
+        ),
+        centerTitle: true,
+      ),
       body: state.isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -34,7 +40,7 @@ class CreateRecipeScreen extends ConsumerWidget {
                     onImagesSelected: (images) {
                       vm.setSelectedImages(images);
                     },
-                    initialImageUrls: state.imageUrls ,
+                    initialImageUrls: state.imageUrls,
                   ),
                   TextField(
                     focusNode: vm.titleFocus,
@@ -244,9 +250,7 @@ class CreateRecipeScreen extends ConsumerWidget {
                           Colors.white,
                         ),
                       ),
-                      onPressed: vm.canSubmit
-                          ? () => vm.submitRecipe() 
-                          : null,
+                      onPressed: vm.canSubmit ? () => vm.submitRecipe() : null,
                       child: state.isSubmitting
                           ? const SizedBox(
                               height: 24,
