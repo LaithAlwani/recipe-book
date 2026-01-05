@@ -42,9 +42,9 @@ class UpdateRecipePayload {
         'title': title,
         'description': description,
         'instructions': instructions,
-        'prepTime': prepTime,
-        'cookTime': cookTime,
-        'totalTime': totalTime,
+        'prep_time': prepTime,
+        'cook_time': cookTime,
+        'total_time': totalTime,
         'difficulty': difficulty,
         'servings': servings,
         'tags': tags,
@@ -53,6 +53,6 @@ class UpdateRecipePayload {
         'keepImageUrls': keepImageUrls,
         'removeImageUrls': removeImageUrls,
         'nutrition': nutrition,
-        'videoUrl': videoUrl,
+        'video_url': videoUrl,
       };
 }

@@ -4,6 +4,7 @@ import 'package:recipe_book/features/auth/auth_provider.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_provider.dart';
 import 'package:recipe_book/features/recipe_list/recipe_list_state.dart';
 import 'package:recipe_book/features/recipie/create/ui/create_recipe_screen.dart';
+import 'package:recipe_book/features/recipie/recipe_provider.dart';
 import 'package:recipe_book/features/recipie/ui/recipe_card.dart';
 import 'package:recipe_book/features/settings/settings_screen.dart';
 import 'package:recipe_book/theme.dart';
@@ -33,6 +34,8 @@ class RecipeListScreen extends ConsumerWidget {
         foregroundColor: Colors.white,
         onPressed: () {
           // Navigate to Create Recipe screen
+          final recipeVM = ref.read(recipeProvider.notifier);
+          recipeVM.resetForm();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (_) => const CreateRecipeScreen()),

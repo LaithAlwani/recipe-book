@@ -34,19 +34,19 @@ class CreateRecipePayload {
   });
 
   Map<String, dynamic> toFirestore() => {
-        'title': title,
-        'description': description,
-        'instructions': instructions,
-        'prepTime': prepTime,
-        'cookTime': cookTime,
-        'totalTime': totalTime,
-        'difficulty': difficulty,
-        'servings': servings,
-        'tags': tags,
-        'categories': categories,
-        'ingredients': ingredients.map((e) => e.toFirestore()).toList(),
-        'imageUrls': imageUrls,
-        'nutrition': nutrition,
-        'videoUrl': videoUrl,
-      };
+    'title': title,
+    'description': description,
+    'instructions': instructions,
+    'prep_time': prepTime,
+    'cook_time': cookTime,
+    'total_time': totalTime,
+    'difficulty': difficulty,
+    'servings': servings,
+    'tags': tags,
+    'categories': categories,
+    'ingredients': ingredients.map((e) => e.toFirestore()).toList(),
+    'image_urls': imageUrls,
+    'nutrition': nutrition,
+    'video_url': videoUrl,
+  };
 }

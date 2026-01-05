@@ -29,10 +29,6 @@ class CreateRecipeScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Visibility(
-                    visible: state.editingRecipe != null,
-                    child: const Text('Edit Recipe'),
-                  ),
                   const Text("Images*"),
                   const SizedBox(height: 8),
                   ImagePickerWidget(
